@@ -1,31 +1,46 @@
+import itertools as it
 import os
 import time
-import torch
+
 import numpy as np
 import pandas as pd
-import torch.nn as nn
-import seaborn as sns
 import pubchempy as pcp
 import scipy.sparse as sp
-from sklearn.metrics import roc_auc_score, average_precision_score
-import itertools as it
+import seaborn as sns
+import torch
+import torch.nn as nn
+from sklearn.metrics import average_precision_score, roc_auc_score
+
 
 def init_seeds(seed=0):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    #os.environ['PYTHONHASHSEED'] = str(seed)
+    # os.environ['PYTHONHASHSEED'] = str(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-    
-def distribute_compute(lr_list,wd_list,scale_list,layer_size,sigma_list,beta_list,workers:int,id:int):
+
+
+def distribute_compute(
+    lr_list,
+    wd_list,
+    scale_list,
+    layer_size,
+    sigma_list,
+    beta_list,
+    workers: int,
+    id: int,
+):
     all_list = []
-    for lr,wd,sc,la,sg,bt in it.product(lr_list,wd_list,scale_list,layer_size,sigma_list,beta_list):
-        all_list.append([lr,wd,sc,la,sg,bt])
-    list = np.array_split(all_list,workers)
+    for lr, wd, sc, la, sg, bt in it.product(
+        lr_list, wd_list, scale_list, layer_size, sigma_list, beta_list
+    ):
+        all_list.append([lr, wd, sc, la, sg, bt])
+    list = np.array_split(all_list, workers)
     return list[id]
-        
+
+
 def get_fingerprint(x):
     """
     :param x: drug cid
@@ -93,8 +108,6 @@ def common_data_index(data_for_index: np.ndarray, data_for_cmp: np.ndarray):
     return index
 
 
-
-
 def to_coo_matrix(adj_mat: np.ndarray or sp.coo.coo_matrix):
     """
     :param adj_mat: adj matrix, numpy array
@@ -105,7 +118,7 @@ def to_coo_matrix(adj_mat: np.ndarray or sp.coo.coo_matrix):
     return adj_mat
 
 
-def mse_loss(true_data: torch.Tensor, predict_data:  torch.Tensor, masked: torch.Tensor):
+def mse_loss(true_data: torch.Tensor, predict_data: torch.Tensor, masked: torch.Tensor):
     """
     :param true_data: true data
     :param predict_data: predict data
@@ -119,7 +132,9 @@ def mse_loss(true_data: torch.Tensor, predict_data:  torch.Tensor, masked: torch
     return loss
 
 
-def cross_entropy_loss(true_data: torch.Tensor, predict_data:  torch.Tensor, masked: torch.Tensor):
+def cross_entropy_loss(
+    true_data: torch.Tensor, predict_data: torch.Tensor, masked: torch.Tensor
+):
     """
     :param true_data: true data
     :param predict_data: predict data
@@ -144,7 +159,9 @@ def mask(positive: sp.coo.coo_matrix, negative: sp.coo.coo_matrix, dtype=int):
     row = np.hstack((positive.row, negative.row))
     col = np.hstack((positive.col, negative.col))
     data = [1] * row.shape[0]
-    masked = sp.coo_matrix((data, (row, col)), shape=positive.shape).toarray().astype(dtype)
+    masked = (
+        sp.coo_matrix((data, (row, col)), shape=positive.shape).toarray().astype(dtype)
+    )
     masked = torch.from_numpy(masked)
     return masked
 
@@ -174,6 +191,7 @@ def evaluate_all(true_data: torch.Tensor, predict_data: torch.Tensor):
     mcc = mcc_binary(true_data, predict_data, thresholds)
     return auc, ap, acc, f1, mcc
 
+
 def evaluate_auc(true_data: torch.Tensor, predict_data: torch.Tensor):
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
     auc = roc_auc(true_data, predict_data)
@@ -181,7 +199,6 @@ def evaluate_auc(true_data: torch.Tensor, predict_data: torch.Tensor):
     return auc, ap
 
 
-    
 def ap_score(true_data: torch.Tensor, predict_data: torch.Tensor):
     """
     area under the precision-recall curve
@@ -190,7 +207,10 @@ def ap_score(true_data: torch.Tensor, predict_data: torch.Tensor):
     :return: ap
     """
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
-    area = average_precision_score(y_true=true_data.detach().cpu().numpy(), y_score=predict_data.detach().cpu().numpy())
+    area = average_precision_score(
+        y_true=true_data.detach().cpu().numpy(),
+        y_score=predict_data.detach().cpu().numpy(),
+    )
     return area
 
 
@@ -201,7 +221,9 @@ def roc_auc(true_data: torch.Tensor, predict_data: torch.Tensor):
     :return: AUC score
     """
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
-    aucs = roc_auc_score(true_data.detach().cpu().numpy(), predict_data.detach().cpu().numpy())
+    aucs = roc_auc_score(
+        true_data.detach().cpu().numpy(), predict_data.detach().cpu().numpy()
+    )
     return aucs
 
 
@@ -214,21 +236,39 @@ def f1_score_binary(true_data: torch.Tensor, predict_data: torch.Tensor):
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
     with torch.no_grad():
         thresholds = torch.unique(predict_data)
-    size = torch.tensor([thresholds.size()[0], true_data.size()[0]], dtype=torch.int32, device=true_data.device)
-    ones = torch.ones([size[0].item(), size[1].item()], dtype=torch.float32, device=true_data.device)
-    zeros = torch.zeros([size[0].item(), size[1].item()], dtype=torch.float32, device=true_data.device)
-    predict_value = torch.where(predict_data.view([1, -1]).ge(thresholds.view([-1, 1])), ones, zeros)
-    tpn = torch.sum(torch.where(predict_value.eq(true_data.view([1, -1])), ones, zeros), dim=1)
+    size = torch.tensor(
+        [thresholds.size()[0], true_data.size()[0]],
+        dtype=torch.int32,
+        device=true_data.device,
+    )
+    ones = torch.ones(
+        [size[0].item(), size[1].item()], dtype=torch.float32, device=true_data.device
+    )
+    zeros = torch.zeros(
+        [size[0].item(), size[1].item()], dtype=torch.float32, device=true_data.device
+    )
+    predict_value = torch.where(
+        predict_data.view([1, -1]).ge(thresholds.view([-1, 1])), ones, zeros
+    )
+    tpn = torch.sum(
+        torch.where(predict_value.eq(true_data.view([1, -1])), ones, zeros), dim=1
+    )
     tp = torch.sum(torch.mul(predict_value, true_data.view([1, -1])), dim=1)
     two = torch.tensor(2, dtype=torch.float32, device=true_data.device)
     n = torch.tensor(size[1].item(), dtype=torch.float32, device=true_data.device)
-    scores = torch.div(torch.mul(two, tp), torch.add(n, torch.sub(torch.mul(two, tp), tpn)))
+    scores = torch.div(
+        torch.mul(two, tp), torch.add(n, torch.sub(torch.mul(two, tp), tpn))
+    )
     max_f1_score = torch.max(scores)
     threshold = thresholds[torch.argmax(scores)]
     return max_f1_score, threshold
 
 
-def accuracy_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold: float or torch.Tensor):
+def accuracy_binary(
+    true_data: torch.Tensor,
+    predict_data: torch.Tensor,
+    threshold: float or torch.Tensor,
+):
     """
     :param true_data: true data, 1D torch Tensor
     :param predict_data: predict data , 1D torch Tensor
@@ -245,7 +285,11 @@ def accuracy_binary(true_data: torch.Tensor, predict_data: torch.Tensor, thresho
     return score
 
 
-def precision_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold: float or torch.Tensor):
+def precision_binary(
+    true_data: torch.Tensor,
+    predict_data: torch.Tensor,
+    threshold: float or torch.Tensor,
+):
     """
     :param true_data: true data, 1D torch Tensor
     :param predict_data: predict data , 1D torch Tensor
@@ -254,7 +298,9 @@ def precision_binary(true_data: torch.Tensor, predict_data: torch.Tensor, thresh
     """
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
     ones = torch.ones(true_data.size()[0], dtype=torch.float32, device=true_data.device)
-    zeros = torch.zeros(true_data.size()[0], dtype=torch.float32, device=true_data.device)
+    zeros = torch.zeros(
+        true_data.size()[0], dtype=torch.float32, device=true_data.device
+    )
     predict_value = torch.where(predict_data.ge(threshold), ones, zeros)
     tp = torch.sum(torch.mul(true_data, predict_value))
     true_neg = torch.sub(ones, true_data)
@@ -263,7 +309,11 @@ def precision_binary(true_data: torch.Tensor, predict_data: torch.Tensor, thresh
     return score
 
 
-def recall_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold: float or torch.Tensor):
+def recall_binary(
+    true_data: torch.Tensor,
+    predict_data: torch.Tensor,
+    threshold: float or torch.Tensor,
+):
     """
     :param true_data: true data, 1D torch Tensor
     :param predict_data: predict data , 1D torch Tensor
@@ -272,7 +322,9 @@ def recall_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold
     """
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
     ones = torch.ones(true_data.size()[0], dtype=torch.float32, device=true_data.device)
-    zeros = torch.zeros(true_data.size()[0], dtype=torch.float32, device=true_data.device)
+    zeros = torch.zeros(
+        true_data.size()[0], dtype=torch.float32, device=true_data.device
+    )
     predict_value = torch.where(predict_data.ge(threshold), ones, zeros)
     tp = torch.sum(torch.mul(true_data, predict_value))
     predict_neg = torch.sub(ones, predict_value)
@@ -281,7 +333,11 @@ def recall_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold
     return score
 
 
-def mcc_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold: float or torch.Tensor):
+def mcc_binary(
+    true_data: torch.Tensor,
+    predict_data: torch.Tensor,
+    threshold: float or torch.Tensor,
+):
     """
     :param true_data: true data, 1D torch Tensor
     :param predict_data: predict data , 1D torch Tensor
@@ -290,7 +346,9 @@ def mcc_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold: f
     """
     assert torch.all(true_data.ge(0)) and torch.all(true_data.le(1)), "Out of range!"
     ones = torch.ones(true_data.size()[0], dtype=torch.float32, device=true_data.device)
-    zeros = torch.zeros(true_data.size()[0], dtype=torch.float32, device=true_data.device)
+    zeros = torch.zeros(
+        true_data.size()[0], dtype=torch.float32, device=true_data.device
+    )
     predict_value = torch.where(predict_data.ge(threshold), ones, zeros)
     predict_neg = torch.sub(ones, predict_value)
     true_neg = torch.sub(ones, true_data)
@@ -299,8 +357,12 @@ def mcc_binary(true_data: torch.Tensor, predict_data: torch.Tensor, threshold: f
     fp = torch.sum(torch.mul(true_neg, predict_value))
     fn = torch.sum(torch.mul(true_data, predict_neg))
     delta = torch.tensor(0.00001, dtype=torch.float32, device=true_data.device)
-    score = torch.div((tp * tn - fp * fn), torch.add(delta, torch.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))))
+    score = torch.div(
+        (tp * tn - fp * fn),
+        torch.add(delta, torch.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))),
+    )
     return score
+
 
 def torch_corr(tensor: torch.Tensor, dim=0):
     """
@@ -310,7 +372,7 @@ def torch_corr(tensor: torch.Tensor, dim=0):
         1 : Calculate col correlation
     :return: correlation coefficient
     """
-    mean = torch.mean(tensor, dim=1-dim)
+    mean = torch.mean(tensor, dim=1 - dim)
     if dim:
         tensor_mean = torch.sub(tensor, mean)
         tensor_cov = torch.mm(torch.t(tensor_mean), tensor_mean)
@@ -336,8 +398,12 @@ def torch_corr_x_y(tensor1: torch.Tensor, tensor2: torch.Tensor):
     mean1 = torch.mean(tensor1, dim=1).view([-1, 1])
     mean2 = torch.mean(tensor2, dim=0).view([1, -1])
     lxy = torch.mm(torch.sub(tensor1, mean1), torch.sub(tensor2, mean2))
-    lxx = torch.diag(torch.mm(torch.sub(tensor1, mean1), torch.t(torch.sub(tensor1, mean1))))
-    lyy = torch.diag(torch.mm(torch.t(torch.sub(tensor2, mean2)), torch.sub(tensor2, mean2)))
+    lxx = torch.diag(
+        torch.mm(torch.sub(tensor1, mean1), torch.t(torch.sub(tensor1, mean1)))
+    )
+    lyy = torch.diag(
+        torch.mm(torch.t(torch.sub(tensor2, mean2)), torch.sub(tensor2, mean2))
+    )
     std_x_y = torch.mm(torch.sqrt(lxx).view([-1, 1]), torch.sqrt(lyy).view([1, -1]))
     corr_x_y = torch.div(lxy, std_x_y)
     return corr_x_y
@@ -387,7 +453,7 @@ def torch_dist(tensor: torch.Tensor, p=0 or int):
     else:
         tensor_sub = torch.pow(tensor_sub, p)
         dist = torch.sum(tensor_sub, dim=2)
-        dist = torch.pow(dist, 1/p)
+        dist = torch.pow(dist, 1 / p)
     return dist
 
 
@@ -399,8 +465,8 @@ def torch_z_normalized(tensor: torch.Tensor, dim=0):
         1 : normalize col data
     :return: Gaussian normalized tensor
     """
-    mean = torch.mean(tensor, dim=1-dim)
-    std = torch.std(tensor, dim=1-dim)
+    mean = torch.mean(tensor, dim=1 - dim)
+    std = torch.std(tensor, dim=1 - dim)
     if dim:
         tensor_sub_mean = torch.sub(tensor, mean)
         tensor_normalized = torch.div(tensor_sub_mean, std)
@@ -421,7 +487,7 @@ def exp_similarity(tensor: torch.Tensor, sigma: torch.Tensor, normalize=True):
     if normalize:
         tensor = torch_z_normalized(tensor, dim=1)
     tensor_dist = torch_euclidean_dist(tensor, dim=0)
-    exp_dist = torch.exp(-tensor_dist/(2*torch.pow(sigma, 2)))
+    exp_dist = torch.exp(-tensor_dist / (2 * torch.pow(sigma, 2)))
     return exp_dist
 
 
@@ -432,7 +498,9 @@ def jaccard_coef(tensor: torch.Tensor):
     """
     assert torch.all(tensor.le(1)) and torch.all(tensor.ge(0)), "Value must be 0 or 1"
     size = tensor.size()
-    tensor_3d = torch.flatten(tensor).repeat([size[0]]).view([size[0], size[0], size[1]])
+    tensor_3d = (
+        torch.flatten(tensor).repeat([size[0]]).view([size[0], size[0], size[1]])
+    )
     ones = torch.ones(tensor_3d.size(), dtype=torch.float32, device=tensor.device)
     zeros = torch.zeros(tensor_3d.size(), dtype=torch.float32, device=tensor.device)
     tensor_3d = torch.add(tensor_3d, tensor.view([size[0], 1, size[1]]))
@@ -457,8 +525,8 @@ def full_kernel(exp_dist: torch.Tensor):
     one = torch.diag(torch.diag(ones))
     mask_diag = torch.mul(torch.sub(ones, one), exp_dist)
     mask_diag_sum = torch.sum(mask_diag, dim=1).view([n, -1])
-    mask_diag = torch.div(mask_diag, 2*mask_diag_sum)
-    mask_diag = torch.add(mask_diag, 0.5*one)
+    mask_diag = torch.div(mask_diag, 2 * mask_diag_sum)
+    mask_diag = torch.add(mask_diag, 0.5 * one)
     return mask_diag
 
 
@@ -470,7 +538,7 @@ def sparse_kernel(exp_dist: torch.Tensor, k: int):
     """
     n = exp_dist.shape[0]
     maxk = torch.topk(exp_dist, k, dim=1)
-    mink_1 = torch.topk(exp_dist, n-k, dim=1, largest=False)
+    mink_1 = torch.topk(exp_dist, n - k, dim=1, largest=False)
     index = torch.arange(n, device=exp_dist.device).view([n, -1])
     exp_dist[index, mink_1.indices] = 0
     knn_sum = torch.sum(maxk.values, dim=1).view([n, -1])
@@ -512,7 +580,9 @@ def translate_result(tensor: torch.Tensor or np.ndarray):
     return arr
 
 
-def calculate_train_test_index(response: np.ndarray, pos_train_index: np.ndarray, pos_test_index: np.ndarray):
+def calculate_train_test_index(
+    response: np.ndarray, pos_train_index: np.ndarray, pos_test_index: np.ndarray
+):
     """
     :param response: response vector, np.ndarray
     :param pos_train_index: positive train index in response
@@ -543,7 +613,7 @@ def dir_path(k=1):
                 break
         p -= 1
     p += 1
-    dir_name = dir_name[0: p]
+    dir_name = dir_name[0:p]
     return dir_name
 
 
@@ -561,7 +631,7 @@ def extract_row_data(data: pd.DataFrame, row: int):
 
 def transfer_data(data: pd.DataFrame, label: str):
     lenght = data.shape[0]
-    target_label = np.array([label]*lenght)
+    target_label = np.array([label] * lenght)
     data["label"] = target_label
     return data
 
@@ -627,7 +697,18 @@ def gather_color_code(*string):
     :param string: colors, "blue", "orange", "green", "red", "purple", "brown", "pink", "grey", "yellow", "cyan"
     :return: colors code, list
     """
-    color_str = ["blue", "orange", "green", "red", "purple", "brown", "pink", "grey", "yellow", "cyan"]
+    color_str = [
+        "blue",
+        "orange",
+        "green",
+        "red",
+        "purple",
+        "brown",
+        "pink",
+        "grey",
+        "yellow",
+        "cyan",
+    ]
     palette = sns.color_palette()
     color_map = dict(zip(color_str, palette))
     colors = [color_map[color] for color in string]

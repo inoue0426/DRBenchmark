@@ -2,20 +2,21 @@ from myutils import *
 
 
 def load_data(args):
-    if args.data == 'gdsc':
+    if args.data == "gdsc":
         return _load_gdsc(args)
-    elif args.data == 'ccle':
+    elif args.data == "ccle":
         return _load_ccle(args)
-    elif args.data == 'pdx':
+    elif args.data == "pdx":
         return _load_pdx(args)
-    elif args.data == 'tcga':
+    elif args.data == "tcga":
         return _load_tcga(args)
     else:
         raise NotImplementedError
 
+
 def _load_gdsc(args):
     args.alpha = 0.25
-    args.layer_size = [1024,1024]
+    args.layer_size = [1024, 1024]
     data_dir = dir_path(k=1) + "NIHGCN/Data/GDSC/"
     # 加载细胞系-药物矩阵
     res = pd.read_csv(data_dir + "cell_drug_binary.csv", index_col=0, header=0)
@@ -35,10 +36,11 @@ def _load_gdsc(args):
     null_mask = np.array(null_mask, dtype=np.float32)
     return res, drug_feature, exprs, null_mask, pos_num, args
 
+
 def _load_ccle(args):
     args.alpha = 0.45
-    args.layer_size = [512,512]
-    data_dir = dir_path(k=1) + 'NIHGCN/Data/CCLE/'
+    args.layer_size = [512, 512]
+    data_dir = dir_path(k=1) + "NIHGCN/Data/CCLE/"
 
     # 加载细胞系-药物矩阵
     res = pd.read_csv(data_dir + "cell_drug_binary.csv", index_col=0, header=0)
@@ -60,12 +62,14 @@ def _load_ccle(args):
 
 def _load_pdx(args):
     args.alpha = 0.15
-    args.layer_size = [1024,1024]
+    args.layer_size = [1024, 1024]
     pdx_data_dir = dir_path(k=1) + "NIHGCN/Data/PDX/"
     gdsc_data_dir = dir_path(k=1) + "NIHGCN/Data/GDSC/"
 
     # 加载GDSC细胞系-药物矩阵
-    gdsc_res = pd.read_csv(gdsc_data_dir + "cell_drug_binary.csv", index_col=0, header=0)
+    gdsc_res = pd.read_csv(
+        gdsc_data_dir + "cell_drug_binary.csv", index_col=0, header=0
+    )
     gdsc_res = np.array(gdsc_res, dtype=np.float32)
     # 加载PDX病人-药物矩阵
     pdx_res = pd.read_csv(pdx_data_dir + "pdx_response.csv", index_col=0, header=0)
@@ -75,7 +79,9 @@ def _load_pdx(args):
     train_row = gdsc_res.shape[0]
 
     # 加载药物-指纹特征矩阵
-    drug_feature = pd.read_csv(gdsc_data_dir + "drug_feature.csv", index_col=0, header=0)
+    drug_feature = pd.read_csv(
+        gdsc_data_dir + "drug_feature.csv", index_col=0, header=0
+    )
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     # 加载GDSC细胞系-基因特征矩阵
@@ -96,7 +102,9 @@ def _load_pdx(args):
     gdsc_null_mask = pd.read_csv(gdsc_data_dir + "null_mask.csv", index_col=0, header=0)
     gdsc_null_mask = np.array(gdsc_null_mask, dtype=np.float32)
     # 加载PDX null_mask
-    pdx_null_mask = pd.read_csv(pdx_data_dir + "pdx_null_mask.csv", index_col=0, header=0)
+    pdx_null_mask = pd.read_csv(
+        pdx_data_dir + "pdx_null_mask.csv", index_col=0, header=0
+    )
     pdx_null_mask = np.array(pdx_null_mask, dtype=np.float32)
     # 合并GDSC-PDX null_mask
     null_mask = np.concatenate((gdsc_null_mask, pdx_null_mask), axis=0)
@@ -105,22 +113,28 @@ def _load_pdx(args):
 
 def _load_tcga(args):
     args.alpha = 0.1
-    args.layer_size = [1024,1024]
+    args.layer_size = [1024, 1024]
     tcga_data_dir = dir_path(k=1) + "NIHGCN/Data/TCGA/"
     gdsc_data_dir = dir_path(k=1) + "NIHGCN/Data/GDSC/"
 
     # 加载GDSC细胞系-药物矩阵
-    gdsc_res = pd.read_csv(gdsc_data_dir + "cell_drug_binary.csv", index_col=0, header=0)
+    gdsc_res = pd.read_csv(
+        gdsc_data_dir + "cell_drug_binary.csv", index_col=0, header=0
+    )
     gdsc_res = np.array(gdsc_res, dtype=np.float32)
     # 加载TCGA病人-药物矩阵
-    tcga_res = pd.read_csv(tcga_data_dir + "patient_drug_binary.csv", index_col=0, header=0)
+    tcga_res = pd.read_csv(
+        tcga_data_dir + "patient_drug_binary.csv", index_col=0, header=0
+    )
     tcga_res = np.array(tcga_res, dtype=np.float32)
     # 合并GDSC-TCGA反应矩阵
     res = np.concatenate((gdsc_res, tcga_res), axis=0)
     train_row = gdsc_res.shape[0]
 
     # 加载药物-指纹特征矩阵
-    drug_feature = pd.read_csv(gdsc_data_dir + "drug_feature.csv", index_col=0, header=0)
+    drug_feature = pd.read_csv(
+        gdsc_data_dir + "drug_feature.csv", index_col=0, header=0
+    )
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     # 加载GDSC细胞系-基因特征矩阵
@@ -141,10 +155,10 @@ def _load_tcga(args):
     gdsc_null_mask = pd.read_csv(gdsc_data_dir + "null_mask.csv", index_col=0, header=0)
     gdsc_null_mask = np.array(gdsc_null_mask, dtype=np.float32)
     # 加载TCGA null_mask
-    tcga_null_mask = pd.read_csv(tcga_data_dir + "tcga_null_mask.csv", index_col=0, header=0)
+    tcga_null_mask = pd.read_csv(
+        tcga_data_dir + "tcga_null_mask.csv", index_col=0, header=0
+    )
     tcga_null_mask = np.array(tcga_null_mask, dtype=np.float32)
     # 合并GDSC-TCGA null_mask
     null_mask = np.concatenate((gdsc_null_mask, tcga_null_mask), axis=0)
     return res, drug_feature, exprs, null_mask, train_row, args
-
-
