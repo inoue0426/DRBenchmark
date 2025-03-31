@@ -32,33 +32,32 @@ true_datas = pd.DataFrame()
 predict_datas = pd.DataFrame()
 k = 5
 n_kfolds = 5
-for n_kfold in range(n_kfolds):
-    kfold = KFold(n_splits=k, shuffle=True, random_state=n_kfold)
-    for train_index, test_index in kfold.split(np.arange(pos_num)):
-        sampler = RandomSampler(res, train_index, test_index, null_mask)
-        model = nihgcn(
-            adj_mat=sampler.train_data,
-            cell_exprs=exprs,
-            drug_finger=drug_finger,
-            layer_size=args.layer_size,
-            alpha=args.alpha,
-            gamma=args.gamma,
-            device=args.device,
-        ).to(args.device)
-        opt = Optimizer(
-            model,
-            sampler.train_data,
-            sampler.test_data,
-            sampler.test_mask,
-            sampler.train_mask,
-            roc_auc,
-            lr=args.lr,
-            wd=args.wd,
-            epochs=args.epochs,
-            device=args.device,
-        ).to(args.device)
-        true_data, predict_data = opt()
-        true_datas = true_datas.append(translate_result(true_data))
-        predict_datas = predict_datas.append(translate_result(predict_data))
-pd.DataFrame(true_datas).to_csv("./result_data/true_data.csv")
-pd.DataFrame(predict_datas).to_csv("./result_data/predict_data.csv")
+kfold = KFold(n_splits=k, shuffle=True, random_state=42)
+
+res = pd.DataFrame()
+for train_index, test_index in kfold.split(np.arange(pos_num)):
+    sampler = RandomSampler(res, train_index, test_index, null_mask)
+    model = nihgcn(
+        adj_mat=sampler.train_data,
+        cell_exprs=exprs,
+        drug_finger=drug_finger,
+        layer_size=args.layer_size,
+        alpha=args.alpha,
+        gamma=args.gamma,
+        device=args.device,
+    ).to(args.device)
+    opt = Optimizer(
+        model,
+        sampler.train_data,
+        sampler.test_data,
+        sampler.test_mask,
+        sampler.train_mask,
+        roc_auc,
+        lr=args.lr,
+        wd=args.wd,
+        epochs=args.epochs,
+        device=args.device,
+    ).to(args.device)
+    true_data, predict_data = opt()
+    true_datas = pd.concat([true_datas, pd.DataFrame(true_data)], ignore_index=True)
+    predict_datas = pd.concat([predict_datas, pd.DataFrame(predict_data)], ignore_index=True)

@@ -8,7 +8,7 @@ from myutils import *
 class ConstructAdjMatrix(nn.Module, ABC):
     def __init__(self, original_adj_mat, device="cpu"):
         super(ConstructAdjMatrix, self).__init__()
-        self.adj = original_adj_mat.to(device)
+        self.adj = original_adj_mat.float().to(device)
         self.device = device
 
     def forward(self):
@@ -29,8 +29,8 @@ class LoadFeature(nn.Module, ABC):
     def __init__(self, cell_exprs, drug_finger, device="cpu"):
         super(LoadFeature, self).__init__()
         cell_exprs = torch.from_numpy(cell_exprs).to(device)
-        self.cell_feat = torch_z_normalized(cell_exprs, dim=1).to(device)
-        self.drug_feat = torch.from_numpy(drug_finger).to(device)
+        self.cell_feat = torch_z_normalized(cell_exprs, dim=1).float().to(device)
+        self.drug_feat = torch.from_numpy(drug_finger).float().to(device)
 
     def forward(self):
         cell_feat = self.cell_feat
