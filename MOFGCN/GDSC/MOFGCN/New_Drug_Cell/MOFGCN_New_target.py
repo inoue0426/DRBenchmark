@@ -1,6 +1,6 @@
 from MOFGCN.model import GModel
-from MOFGCN.optimizer import Optimizer
 from MOFGCN.New_Drug_Cell.sampler import Sampler
+from MOFGCN.optimizer import Optimizer
 
 
 def mofgcn_new_target(

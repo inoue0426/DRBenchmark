@@ -1,7 +1,9 @@
-import torch
 from abc import ABC
+
+import torch
 import torch.nn as nn
 import torch.optim as optim
+
 from MOFGCN.model import EarlyStop
 from MOFGCN.myutils import cross_entropy_loss
 

@@ -1,5 +1,6 @@
-import torch
 from abc import ABC
+
+import torch
 import torch.nn as nn
 import torch.optim as optim
 from model import EarlyStop

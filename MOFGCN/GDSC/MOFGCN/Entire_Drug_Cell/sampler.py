@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.sparse as sp
-from MOFGCN.myutils import to_coo_matrix, to_tensor, mask
+
+from MOFGCN.myutils import mask, to_coo_matrix, to_tensor
 
 
 class Sampler(object):

@@ -1,16 +1,12 @@
-import torch
-import numpy as np
 from abc import ABC
+
+import numpy as np
+import torch
 import torch.nn as nn
 import torch.nn.functional as fun
-from myutils import (
-    exp_similarity,
-    full_kernel,
-    sparse_kernel,
-    jaccard_coef,
-    torch_corr_x_y,
-    scale_sigmoid_activation_function,
-)
+from myutils import (exp_similarity, full_kernel, jaccard_coef,
+                     scale_sigmoid_activation_function, sparse_kernel,
+                     torch_corr_x_y)
 
 
 class ConstructAdjMatrix(nn.Module, ABC):

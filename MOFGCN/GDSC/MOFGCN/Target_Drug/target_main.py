@@ -3,12 +3,12 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 from import_path import *
-from MOFGCN.model import GModel
-from MOFGCN.optimizer import Optimizer
 from sklearn.model_selection import KFold
-from MOFGCN.Target_Drug.sampler import Sampler
-from MOFGCN.myutils import roc_auc, translate_result, common_data_index
 
+from MOFGCN.model import GModel
+from MOFGCN.myutils import common_data_index, roc_auc, translate_result
+from MOFGCN.optimizer import Optimizer
+from MOFGCN.Target_Drug.sampler import Sampler
 
 data_dir = dir_path(k=2) + "processed_data/"
 target_drug_cids = np.array([11626560, 16038120, 49806720, 73265211])
