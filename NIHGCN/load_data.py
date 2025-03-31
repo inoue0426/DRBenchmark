@@ -61,6 +61,9 @@ def _load_data(PATH, is_ctrp=False):
     drugAct = drugAct.loc[sorted(SMILES.drugs), cells]
     exprs = np.array(exprs, dtype=np.float32)
 
+    if is_ctrp:
+        drugAct = drugAct.apply(lambda x: (x - np.nanmean(x)) / np.nanstd(x))
+
     # Convert drug activity to binary response matrix
     res = (drugAct > 0).astype(int)
     res = np.array(res, dtype=np.float32).T
