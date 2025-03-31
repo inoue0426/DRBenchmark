@@ -1,11 +1,7 @@
 import torch
 import torch.utils.data as data
-from torch.nn.utils.rnn import (
-    pack_padded_sequence,
-    pack_sequence,
-    pad_packed_sequence,
-    pad_sequence,
-)
+from torch.nn.utils.rnn import (pack_padded_sequence, pack_sequence,
+                                pad_packed_sequence, pad_sequence)
 from torch_geometric import data as DATA
 from torch_geometric.data import Batch, InMemoryDataset
 

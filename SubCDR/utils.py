@@ -4,15 +4,11 @@ from typing import List, Optional, Union
 import numpy as np
 import torch
 from scipy.stats import pearsonr
-from sklearn.metrics import (
-    accuracy_score,
-    mean_squared_error,
-    precision_recall_curve,
-    r2_score,
-    roc_auc_score,
-)
+from sklearn.metrics import (accuracy_score, mean_squared_error,
+                             precision_recall_curve, r2_score, roc_auc_score)
 from torch import Tensor
-from torch_geometric.nn import global_add_pool, global_max_pool, global_mean_pool
+from torch_geometric.nn import (global_add_pool, global_max_pool,
+                                global_mean_pool)
 
 
 def uniform(size, tensor):

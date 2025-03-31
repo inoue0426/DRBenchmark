@@ -60,4 +60,6 @@ for train_index, test_index in kfold.split(np.arange(pos_num)):
     ).to(args.device)
     true_data, predict_data = opt()
     true_datas = pd.concat([true_datas, pd.DataFrame(true_data)], ignore_index=True)
-    predict_datas = pd.concat([predict_datas, pd.DataFrame(predict_data)], ignore_index=True)
+    predict_datas = pd.concat(
+        [predict_datas, pd.DataFrame(predict_data)], ignore_index=True
+    )

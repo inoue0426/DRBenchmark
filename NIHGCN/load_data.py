@@ -1,11 +1,12 @@
-from myutils import *
 import glob
 import re
 
 import numpy as np
 import pandas as pd
+from myutils import *
 from rdkit import Chem
 from rdkit.Chem import AllChem
+
 
 def load_data(args):
     """Load data based on the specified dataset."""
@@ -27,6 +28,7 @@ def load_data(args):
     else:
         raise NotImplementedError
 
+
 def _get_base_data(PATH):
     """Load and prepare base data common to all datasets."""
     # Load original drug response data
@@ -41,6 +43,7 @@ def _get_base_data(PATH):
     ).T.dropna()
 
     return drugAct, exprs
+
 
 def _load_data(PATH, is_ctrp=False):
     data_dir = dir_path(k=1) + PATH
@@ -71,6 +74,7 @@ def _load_data(PATH, is_ctrp=False):
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
     return res, drug_feature, exprs, null_mask, pos_num
+
 
 def _load_nci(PATH):
     data_dir = dir_path(k=1) + PATH
