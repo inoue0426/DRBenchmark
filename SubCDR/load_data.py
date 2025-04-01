@@ -91,9 +91,7 @@ def _load_data(PATH, is_ctrp=False):
 
     drugAct, exprs = _get_base_data(data_dir)
 
-    cells = sorted(
-        set(drugAct.columns) & set(exprs.index)
-    )
+    cells = sorted(set(drugAct.columns) & set(exprs.index))
 
     SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
     exprs = exprs.loc[cells]
@@ -106,7 +104,6 @@ def _load_data(PATH, is_ctrp=False):
     res = (drugAct > 0).astype(int).T
 
     pos_num = sp.coo_matrix(res).data.shape[0]
-
 
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
