@@ -12,9 +12,9 @@ from utils import *
 torch.manual_seed(2022)
 
 
-class SubEncoder(nn.Module):
+class SubEncoder(torch.nn.Module):
     def __init__(self, in_drug, in_cline, out):
-        super(SubEncoder, self).__init__()
+        super().__init__()
         # ---drug_layer
         self.dlayer = nn.GRU(in_drug, out, 1, batch_first=True)
         # self.batchd = nn.BatchNorm1d(19)
@@ -57,7 +57,7 @@ class SubEncoder(nn.Module):
 
 class GloEncoder(nn.Module):
     def __init__(self, in_channels, out_channels):
-        super(GloEncoder, self).__init__()
+        super().__init__()
         self.fc1 = nn.Linear(in_channels, in_channels // 2)
         self.fc2 = nn.Linear(in_channels // 2, out_channels)
         self.batch = nn.BatchNorm1d(out_channels)
@@ -72,7 +72,7 @@ class GloEncoder(nn.Module):
 
 class GraphEncoder(nn.Module):
     def __init__(self, in_channels, out_channels):
-        super(GraphEncoder, self).__init__()
+        super().__init__()
         self.conv = SGConv(in_channels, out_channels, K=2)
         self.prelu = nn.PReLU(out_channels)
         self.batch = nn.BatchNorm1d(out_channels)
@@ -87,7 +87,7 @@ class GraphEncoder(nn.Module):
 
 class Decoder(torch.nn.Module):
     def __init__(self, in_channels):
-        super(Decoder, self).__init__()
+        super().__init__()
         self.fc1 = nn.Linear(in_channels, in_channels // 2)
         self.batch1 = nn.BatchNorm1d(in_channels // 2)
         self.fc2 = nn.Linear(in_channels // 2, in_channels // 4)
@@ -116,7 +116,7 @@ class Decoder(torch.nn.Module):
 
 class SubCDR(nn.Module):
     def __init__(self, SubEncoder, GraphEncoder, GloEncoder, Decoder):
-        super(SubCDR, self).__init__()
+        super().__init__()
         self.SubEncoder = SubEncoder
         self.GraphEncoder = GraphEncoder
         self.Decoder = Decoder
@@ -165,7 +165,7 @@ class SubCDR(nn.Module):
     def forward(self, drug_sub, cline_sub, embed_glo):
         interaction_maps = self.SubEncoder(drug_sub, cline_sub)
         graphs = self.interaction_graph(interaction_maps)
-        batch_graphs = graphs.__iter__().next()
+        batch_graphs = next(iter(graphs))
         embed_sub = self.GraphEncoder(
             batch_graphs.x,
             batch_graphs.edge_index,
