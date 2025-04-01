@@ -7,13 +7,6 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.utils.data as Data
-from sklearn.model_selection import KFold
-from torch_dataset import *
-
-import numpy as np
-import pandas as pd
-import torch
-import torch.utils.data as Data
 from data_process import data_process
 from MF import *
 from models_classify import *
@@ -21,15 +14,23 @@ from sklearn.model_selection import KFold
 from torch_dataset import *
 from utils import *
 
+
 # ---Binarization of the IC50 values
 def getBinary(Tensors, thresh=0.5):
     ones = torch.ones_like(Tensors)
     zeros = torch.zeros_like(Tensors)
     return torch.where(Tensors < thresh, ones, zeros)
 
+
 # ---data batchsize
 def PairFeatures(
-    pairs, drug_subfeat, cline_subfeat, drug_glofeat, cline_glofeat, drug_compo_elem, cline_compos_elem
+    pairs,
+    drug_subfeat,
+    cline_subfeat,
+    drug_glofeat,
+    cline_glofeat,
+    drug_compo_elem,
+    cline_compos_elem,
 ):
     drug_subs = []
     cline_subs = []
@@ -58,7 +59,14 @@ def PairFeatures(
 
 
 def BatchGenerate(
-    pairs, drug_subfeat, cline_subfeat, drug_glofeat, cline_glofeat, drug_compo_elem, cline_compos_elem, bs
+    pairs,
+    drug_subfeat,
+    cline_subfeat,
+    drug_glofeat,
+    cline_glofeat,
+    drug_compo_elem,
+    cline_compos_elem,
+    bs,
 ):
     drug_subs, cline_subs, drug_glos, cline_glos, drug_compos, cline_compos, label = (
         PairFeatures(
@@ -68,7 +76,7 @@ def BatchGenerate(
             drug_glofeat,
             cline_glofeat,
             drug_compo_elem,
-            cline_compos_elem
+            cline_compos_elem,
         )
     )
     ds_loader = Data.DataLoader(
@@ -85,7 +93,15 @@ def BatchGenerate(
     return ds_loader, cs_loader, glo_loader, drug_compos, cline_compos, label
 
 
-def train(model, optimizer, myloss, drug_loader_train, cline_loader_train, glo_loader_train, label_train):
+def train(
+    model,
+    optimizer,
+    myloss,
+    drug_loader_train,
+    cline_loader_train,
+    glo_loader_train,
+    label_train,
+):
     loss_train = 0
     Y_true, Y_pred = [], []
     for batch, (drug, cline, glo_feat, label) in enumerate(
@@ -105,7 +121,9 @@ def train(model, optimizer, myloss, drug_loader_train, cline_loader_train, glo_l
     print("train-AUC:" + str(round(auc, 4)) + " train-AUPR:" + str(round(aupr, 4)))
 
 
-def test(model, myloss, drug_loader_test, cline_loader_test, glo_loader_test, label_test):
+def test(
+    model, myloss, drug_loader_test, cline_loader_test, glo_loader_test, label_test
+):
     loss_test = 0
     Y_true, Y_pred = [], []
     all_maps = []

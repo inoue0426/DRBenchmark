@@ -3,12 +3,13 @@ import pandas as pd
 from molFrags import *
 from tqdm import tqdm
 
+
 def data_process(args):
     if args.data == "nci":
         return _data_process()
 
 
-def _data_process(PATH = "../nci_data/"):
+def _data_process(PATH="../nci_data/"):
     # --------data_load
     Drug_file = "%s/drug_smiles.csv" % PATH
     Cell_line_file = "%s/cell line_GEP.csv" % PATH
@@ -25,7 +26,7 @@ def _data_process(PATH = "../nci_data/"):
     drug_fragments = {}
     SMARTS = []
     max_len = 0
-    for tup in tqdm(zip(drug['NSC'], drug["SMILES"])):
+    for tup in tqdm(zip(drug["NSC"], drug["SMILES"])):
         # ---smiles to frags
         sub_smi, sm = BRICS_GetMolFrags(tup[1])
         max_len = len(sub_smi) if len(sub_smi) > max_len else max_len
@@ -65,6 +66,5 @@ def _data_process(PATH = "../nci_data/"):
             )
         cline_subfeat[str(index)] = np.array(sub_gexpr)
     print("Cell line processing complete.")
-
 
     return drug_subfeat, cline_subfeat, drug_dim, drug_fragments, gene_types

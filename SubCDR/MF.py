@@ -10,10 +10,10 @@ def _my_svd(M, k, algorithm):
     if algorithm == "randomized":
         (U, S, V) = randomized_svd(
             M,
-            n_components=min(k, min(M.shape)-1),  # より安全な次元計算
+            n_components=min(k, min(M.shape) - 1),  # より安全な次元計算
             n_oversamples=10,  # サンプリング数削減
             power_iteration_normalizer="QR",  # 数値安定性向上
-            n_iter=2  # 反復回数削減
+            n_iter=2,  # 反復回数削減
         )
     elif algorithm == "arpack":
         (U, S, V) = svds(M, k=min(k, min(M.shape) - 1))
@@ -85,7 +85,7 @@ def svt_solve(
             #     (U, S, V) = _my_svd(Y, sk, algorithm)
             # shrink_S = np.maximum(S - tau, 0)
             # r_previous = np.count_nonzero(shrink_S)
-            sk = min(r_previous +5, min(Y.shape)-1)
+            sk = min(r_previous + 5, min(Y.shape) - 1)
             if sk < 1:  # 次元数が0になるのを防止
                 sk = 1
 

@@ -79,7 +79,7 @@ def prepare_drug_data(is_nsc=True, is_gdsc=True, is_1=True):
         drug_response = drug_response.loc[
             sorted(list(set(nsc_class.keys()) & set(drug_response.index)))
         ].fillna(0)
-        k = list(convert[convert['MECHANISM'] != 'Other']['NSC'])
+        k = list(convert[convert["MECHANISM"] != "Other"]["NSC"])
         tmp = pd.read_csv("../data/drugSynonym.csv")
         tmp = tmp[
             (~tmp.nci60.isna() & ~tmp.ctrp.isna())
@@ -89,7 +89,9 @@ def prepare_drug_data(is_nsc=True, is_gdsc=True, is_1=True):
         tmp = [int(i) for i in set(tmp["nci60"].str.split("|").explode())]
 
         # Select drugs not classified as 'Other' in MOA and included in other datasets
-        drug_response = drug_response[drug_response.index.isin(sorted((set(k) | set(tmp))))]
+        drug_response = drug_response[
+            drug_response.index.isin(sorted((set(k) | set(tmp))))
+        ]
 
         return drug_response, nsc_sm
     else:
@@ -254,7 +256,9 @@ def train_df_model(
                 best_val_acc = val_acc
                 best_val_out = val_out.clone()
 
-        print(f"Epoch {epoch+1} Loss: {train_loss.item():.3f} Val Loss: {val_loss.item():.3f}")
+        print(
+            f"Epoch {epoch+1} Loss: {train_loss.item():.3f} Val Loss: {val_loss.item():.3f}"
+        )
         print(f"Accuracy: {val_acc:.3f}")
 
     # Return true labels and best predictions

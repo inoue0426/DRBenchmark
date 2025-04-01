@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from myutils import *
 
+
 def load_data(args):
     """Load data based on the specified dataset."""
     if args.data == "gdsc1":
@@ -25,6 +26,7 @@ def load_data(args):
     else:
         raise NotImplementedError
 
+
 def _get_base_data(PATH):
     """Load and prepare base data common to all datasets."""
     # Load original drug response data
@@ -39,13 +41,13 @@ def _get_base_data(PATH):
     ).T.dropna()
     return drugAct, exprs
 
+
 def _load_nci(data_dir):
     # 加载细胞系-药物矩阵
 
     drugAct, exprs = _get_base_data(data_dir)
     drugAct.columns = exprs.index
-    cells = sorted(
-        set(drugAct.columns) & set(exprs.index))
+    cells = sorted(set(drugAct.columns) & set(exprs.index))
 
     # Load mechanism of action (moa) data
     moa = pd.read_csv("../data/nsc_cid_smiles_class_name.csv", index_col=0)
@@ -81,6 +83,7 @@ def _load_nci(data_dir):
     null_mask = (drugAct.isna()).astype(int).T
 
     return res, exprs, moa[moa.NSC.isin(drugAct.index)], pos_num, null_mask
+
 
 def _load_data(PATH, is_ctrp=False):
     data_dir = dir_path(k=1) + PATH
