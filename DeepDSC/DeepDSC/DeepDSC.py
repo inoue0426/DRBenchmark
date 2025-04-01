@@ -10,6 +10,7 @@ from rdkit.Chem import AllChem
 from sklearn.metrics import (accuracy_score, average_precision_score, f1_score,
                              precision_score, recall_score, roc_auc_score)
 from torch.utils.data import DataLoader, Dataset
+from tqdm import tqdm
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -30,9 +31,7 @@ def prepare_data(
     return torch.tensor(normalized_gene_exp.values).t().to(device), gene_exp
 
 
-def prepare_train_val_test_data(
-    train_data, val_data, test_data, compressed_features, mfp
-):
+def prepare_train_val_test_data(train_data, val_data, compressed_features, mfp):
     def get_data(X):
         return pd.concat(
             [
@@ -44,13 +43,11 @@ def prepare_train_val_test_data(
 
     train_data = get_data(train_data)
     val_data = get_data(val_data)
-    test_data = get_data(test_data)
 
     train_tensor = torch.tensor(train_data.values).to(device)
     val_tensor = torch.tensor(val_data.values).to(device)
-    test_tensor = torch.tensor(test_data.values).to(device)
 
-    return (train_tensor, val_tensor, test_tensor)
+    return (train_tensor, val_tensor)
 
 
 def calculate_morgan_fingerprints(drug_response, nsc_sm):
@@ -82,12 +79,18 @@ def prepare_drug_data(is_nsc=True, is_gdsc=True, is_1=True):
         drug_response = drug_response.loc[
             sorted(list(set(nsc_class.keys()) & set(drug_response.index)))
         ].fillna(0)
-        drug_response = drug_response.loc[
-            [nsc_class[i] != "Other" for i in drug_response.index]
+        k = list(convert[convert['MECHANISM'] != 'Other']['NSC'])
+        tmp = pd.read_csv("../data/drugSynonym.csv")
+        tmp = tmp[
+            (~tmp.nci60.isna() & ~tmp.ctrp.isna())
+            | (~tmp.nci60.isna() & ~tmp.gdsc1.isna())
+            | (~tmp.nci60.isna() & ~tmp.gdsc2.isna())
         ]
-        drug_response = drug_response.apply(
-            lambda x: (x - np.nanmean(x)) / np.nanstd(x)
-        ).T
+        tmp = [int(i) for i in set(tmp["nci60"].str.split("|").explode())]
+
+        # Select drugs not classified as 'Other' in MOA and included in other datasets
+        drug_response = drug_response[drug_response.index.isin(sorted((set(k) | set(tmp))))]
+
         return drug_response, nsc_sm
     else:
         if is_gdsc:
@@ -116,11 +119,15 @@ def prepare_drug_data(is_nsc=True, is_gdsc=True, is_1=True):
             )
 
             drug_response = pd.read_csv("../ctrp_data/drugAct.csv", index_col=0)
+            drug_response = drug_response.apply(
+                lambda x: (x - np.nanmean(x)) / np.nanstd(x)
+            )
 
         drug_response = drug_response.loc[
             sorted(set(convert.keys()) & set(drug_response.index))
         ]
         drug_response = drug_response.fillna(0).T
+
         return drug_response, convert
 
 
@@ -205,7 +212,7 @@ def train_autoencoder(autoencoder, dataloader, num_epochs=800):
     optimizer = torch.optim.Adamax(autoencoder.parameters(), lr=0.0001)
     criterion = nn.MSELoss()
     l1_lambda = 0.1
-    for epoch in range(num_epochs):
+    for epoch in tqdm(range(num_epochs)):
         for data in dataloader:
             optimizer.zero_grad()
             train_out = autoencoder(data)
@@ -215,8 +222,6 @@ def train_autoencoder(autoencoder, dataloader, num_epochs=800):
             train_loss.backward()
             torch.nn.utils.clip_grad_norm_(autoencoder.parameters(), 1)
             optimizer.step()
-        # if (epoch + 1) % 10 == 0:
-        #     print(f"Epoch {epoch+1} \t\t Training Loss: {train_loss.item()}")
 
 
 def train_df_model(
@@ -232,6 +237,10 @@ def train_df_model(
         train_loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 5)
         optimizer.step()
+        # Track best performance
+        if epoch == 0:
+            best_val_acc = 0
+            best_val_out = None
 
         with torch.no_grad():
             model.eval()
@@ -240,29 +249,13 @@ def train_df_model(
             val_out = val_out.squeeze()
             val_acc = torch.sum((val_out >= 0.5) == val_labels) / len(val_labels)
 
-        # print(f"Epoch {epoch+1} Loss: {train_loss.item()} Val Loss: {val_loss.item()}")
-        # print(f"Accuracy: {val_acc}")
+            # Save best prediction
+            if val_acc > best_val_acc:
+                best_val_acc = val_acc
+                best_val_out = val_out.clone()
 
+        print(f"Epoch {epoch+1} Loss: {train_loss.item():.3f} Val Loss: {val_loss.item():.3f}")
+        print(f"Accuracy: {val_acc:.3f}")
 
-def evaluate_model(model, test_data, test_labels):
-    model.eval()
-    val_out = model(test_data)
-    return val_out.squeeze().detach().cpu().numpy()
-
-
-def print_binary_classification_metrics(y_true, y_prob):
-    y_true = y_true.detach().cpu().numpy()
-
-    # Calculate standard metrics using 0.5 threshold
-    y_pred = (y_prob >= 0.5).astype(int)
-
-    metrics_data = {
-        "Accuracy": [accuracy_score(y_true, y_pred)],
-        "Precision": [precision_score(y_true, y_pred)],
-        "Recall": [recall_score(y_true, y_pred)],
-        "F1 Score": [f1_score(y_true, y_pred)],
-        "AUROC": [roc_auc_score(y_true, y_prob)],
-        "AUPR": [average_precision_score(y_true, y_prob)],
-    }
-
-    return pd.DataFrame(metrics_data)
+    # Return true labels and best predictions
+    return val_labels, best_val_out
