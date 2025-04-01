@@ -82,41 +82,32 @@ def _load_nci(data_dir):
     pos_num = sp.coo_matrix(res).data.shape[0]
     null_mask = (drugAct.isna()).astype(int).T
 
-    return res, exprs, moa[moa.NSC.isin(drugAct.index)], pos_num, null_mask
+    return res, exprs, null_mask, pos_num
 
 
 def _load_data(PATH, is_ctrp=False):
     data_dir = dir_path(k=1) + PATH
     # 加载细胞系-药物矩阵
 
-    drugAct, exprs, mut, cna = _get_base_data(data_dir)
+    drugAct, exprs = _get_base_data(data_dir)
 
     cells = sorted(
-        set(drugAct.columns) & set(exprs.index) & set(mut.index) & set(cna.index)
+        set(drugAct.columns) & set(exprs.index)
     )
 
     SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
     exprs = exprs.loc[cells]
     drugAct = drugAct.loc[sorted(SMILES.drugs), cells]
-    exprs = np.array(exprs, dtype=np.float32)
-    mut = mut.loc[cells]
-    mut = np.array(mut, dtype=np.float32)
-    cna = cna.loc[cells]
-    cna = np.array(cna, dtype=np.float32)
 
     if is_ctrp:
         drugAct = drugAct.apply(lambda x: (x - np.nanmean(x)) / np.nanstd(x))
 
     # Convert drug activity to binary response matrix
-    res = (drugAct > 0).astype(int)
-    res = np.array(res, dtype=np.float32).T
+    res = (drugAct > 0).astype(int).T
 
     pos_num = sp.coo_matrix(res).data.shape[0]
 
-    # 加载药物-指纹特征矩阵
-    drug_feature = pd.read_csv(data_dir + "drug_feature.csv", index_col=0, header=0)
-    drug_feature = np.array(drug_feature, dtype=np.float32)
 
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
-    return res, drug_feature, exprs, mut, cna, null_mask, pos_num
+    return res, exprs, null_mask, pos_num

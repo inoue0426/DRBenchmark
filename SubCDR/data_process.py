@@ -7,6 +7,14 @@ from tqdm import tqdm
 def data_process(args):
     if args.data == "nci":
         return _data_process()
+    elif args.data == 'gdsc1':
+        return _data_process(PATH = "../gdsc1_data/")
+    elif args.data == 'gdsc2':
+        return _data_process(PATH = "../gdsc2_data/")
+    elif args.data == 'ctrp':
+        return _data_process(PATH = "../ctrp_data/")
+    else:
+        raise NotImplementedError
 
 
 def _data_process(PATH="../nci_data/"):
