@@ -16,6 +16,7 @@ class NodeRepresentation(nn.Module):
         gcn_layer,
         dim_gexp,
         dim_methy,
+        dim_mut,
         output,
         units_list=[256, 256, 256],
         use_relu=True,
@@ -25,7 +26,7 @@ class NodeRepresentation(nn.Module):
         use_gexpr=True,
         use_methylation=True,
     ):
-        super(NodeRepresentation, self).__init__()
+        super().__init__()
         torch.manual_seed(0)
         # -------drug layers
         self.use_relu = use_relu
@@ -57,9 +58,10 @@ class NodeRepresentation(nn.Module):
         self.cov1 = nn.Conv2d(1, 50, (1, 700), stride=(1, 5))
         self.cov2 = nn.Conv2d(50, 30, (1, 5), stride=(1, 2))
         self.fla_mut = nn.Flatten()
-        self.fc_mut = nn.Linear(2010, output)
+        self.fc_mut = nn.Linear(dim_mut, output)
         # ------Concatenate_three omics
-        self.fcat = nn.Linear(300, output)
+        concat_dim = (use_mutation + use_gexpr + use_methylation) * output
+        self.fcat = nn.Linear(concat_dim, output)
         self.batchc = nn.BatchNorm1d(100)
         self.reset_para()
 
@@ -122,7 +124,13 @@ class NodeRepresentation(nn.Module):
             x_methylation = F.relu(self.fc_methy2(x_methylation))
 
         # ------Concatenate representations of three omics
-        if self.use_gexpr == False:
+        if self.use_gexpr == False and self.use_mutation == False:
+            x_cell = x_methylation
+        elif self.use_gexpr == False and self.use_methylation == False:
+            x_cell = x_mutation
+        elif self.use_mutation == False and self.use_methylation == False:
+            x_cell = x_gexpr
+        elif self.use_gexpr == False:
             x_cell = torch.cat((x_mutation, x_methylation), 1)
         elif self.use_mutation == False:
             x_cell = torch.cat((x_gexpr, x_methylation), 1)
@@ -130,6 +138,7 @@ class NodeRepresentation(nn.Module):
             x_cell = torch.cat((x_mutation, x_gexpr), 1)
         else:
             x_cell = torch.cat((x_mutation, x_gexpr, x_methylation), 1)
+
         x_cell = F.relu(self.fcat(x_cell))
 
         # combine representations of cell line and drug
@@ -140,7 +149,7 @@ class NodeRepresentation(nn.Module):
 
 class Encoder(nn.Module):
     def __init__(self, in_channels, hidden_channels):
-        super(Encoder, self).__init__()
+        super().__init__()
         self.conv1 = GCNConv(in_channels, hidden_channels, cached=True)
         self.prelu1 = nn.PReLU(hidden_channels)
         # self.conv2 = GCNConv(hidden_channels, hidden_channels, cached=True)
@@ -156,7 +165,7 @@ class Encoder(nn.Module):
 
 class Summary(nn.Module):
     def __init__(self, ino, inn):
-        super(Summary, self).__init__()
+        super().__init__()
         self.fc1 = nn.Linear(ino + inn, 1)
 
     def forward(self, xo, xn):
@@ -169,7 +178,7 @@ class Summary(nn.Module):
 
 class GraphCDR(nn.Module):
     def __init__(self, hidden_channels, encoder, summary, feat, index):
-        super(GraphCDR, self).__init__()
+        super().__init__()
         self.hidden_channels = hidden_channels
         self.encoder = encoder
         self.summary = summary
@@ -214,9 +223,14 @@ class GraphCDR(nn.Module):
         # ---graph-level embedding (summary)
         summary_pos = self.summary(feature, pos_z)
         summary_neg = self.summary(feature, neg_z)
+
         # ---embedding at layer l
         cellpos = pos_z[: self.index,]
         drugpos = pos_z[self.index :,]
+
+        print(len(cellpos))
+        print(len(drugpos))
+
         # ---embedding at layer 0
         cellfea = self.fc(feature[: self.index,])
         drugfea = self.fd(feature[self.index :,])
