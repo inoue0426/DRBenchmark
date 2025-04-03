@@ -1,0 +1,3027 @@
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:54: UserWarning: An issue occurred while importing 'pyg-lib'. Disabling its usage. Stacktrace: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/libpyg.so)
+  warnings.warn(f"An issue occurred while importing 'pyg-lib'. "
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:72: UserWarning: An issue occurred while importing 'torch-scatter'. Disabling its usage. Stacktrace: /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_scatter/_scatter_cuda.so: undefined symbol: _ZN2at23SavedTensorDefaultHooks11set_tracingEb
+  warnings.warn(f"An issue occurred while importing 'torch-scatter'. "
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:99: UserWarning: An issue occurred while importing 'torch-spline-conv'. Disabling its usage. Stacktrace: /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_spline_conv/_basis_cuda.so: undefined symbol: _ZN2at23SavedTensorDefaultHooks11set_tracingEb
+  warnings.warn(
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:110: UserWarning: An issue occurred while importing 'torch-sparse'. Disabling its usage. Stacktrace: /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_sparse/_spmm_cuda.so: undefined symbol: _ZN2at23SavedTensorDefaultHooks11set_tracingEb
+  warnings.warn(f"An issue occurred while importing 'torch-sparse'. "
+Loading data files...
+Processing drug data...
+0it [00:00, ?it/s]5it [00:00, 47.73it/s]33it [00:00, 172.34it/s]58it [00:00, 205.77it/s]79it [00:00, 197.55it/s]100it [00:00, 200.47it/s]127it [00:00, 219.70it/s]150it [00:00, 213.79it/s]172it [00:00, 204.99it/s]193it [00:00, 203.39it/s]218it [00:01, 216.84it/s]240it [00:01, 209.40it/s]
+Drug processing complete.
+Processing cell line data...
+Cell line processing complete.
+load gdsc2
+
+Starting 5-fold cross validation...
+Train set size: 178648, Validation set size: 11466
+
+Epoch 1/100
+train-loss= 0.00012248537866978813
+train-AUC:0.7787 train-AUPR:0.9389
+test-loss= 6.742115505656999e-05
+Test AUC: 0.7092, Test AUPR: 0.6529
+
+Epoch 2/100
+train-loss= 0.0001120786538537695
+train-AUC:0.8955 train-AUPR:0.9787
+test-loss= 5.5516434655687726e-05
+Test AUC: 0.8499, Test AUPR: 0.8138
+
+Epoch 3/100
+train-loss= 0.0001058010187174031
+train-AUC:0.9164 train-AUPR:0.9823
+test-loss= 3.958547664275037e-05
+Test AUC: 0.9150, Test AUPR: 0.8929
+
+Epoch 4/100
+train-loss= 0.00010014228190135541
+train-AUC:0.9287 train-AUPR:0.9845
+test-loss= 3.642604059102584e-05
+Test AUC: 0.9230, Test AUPR: 0.9019
+
+Epoch 5/100
+train-loss= 9.443041361412292e-05
+train-AUC:0.9382 train-AUPR:0.9868
+test-loss= 3.4511720928329874e-05
+Test AUC: 0.9327, Test AUPR: 0.9226
+
+Epoch 6/100
+train-loss= 8.900875313161047e-05
+train-AUC:0.9454 train-AUPR:0.9888
+test-loss= 3.364889353082252e-05
+Test AUC: 0.9374, Test AUPR: 0.9285
+
+Epoch 7/100
+train-loss= 8.411215489216345e-05
+train-AUC:0.95 train-AUPR:0.9899
+test-loss= 3.270484661735749e-05
+Test AUC: 0.9417, Test AUPR: 0.9341
+
+Epoch 8/100
+train-loss= 7.947028937088242e-05
+train-AUC:0.9536 train-AUPR:0.9908
+test-loss= 3.1721429759953295e-05
+Test AUC: 0.9444, Test AUPR: 0.9354
+
+Epoch 9/100
+train-loss= 7.49671781096711e-05
+train-AUC:0.9569 train-AUPR:0.9915
+test-loss= 3.082179522069362e-05
+Test AUC: 0.9469, Test AUPR: 0.9371
+
+Epoch 10/100
+train-loss= 7.076365285588947e-05
+train-AUC:0.9595 train-AUPR:0.992
+test-loss= 2.998728340840269e-05
+Test AUC: 0.9488, Test AUPR: 0.9363
+
+Epoch 11/100
+train-loss= 6.702176965968286e-05
+train-AUC:0.9615 train-AUPR:0.9924
+test-loss= 2.924751210291723e-05
+Test AUC: 0.9508, Test AUPR: 0.9404
+
+Epoch 12/100
+train-loss= 6.370163116408742e-05
+train-AUC:0.9633 train-AUPR:0.9928
+test-loss= 2.8897000818836445e-05
+Test AUC: 0.9518, Test AUPR: 0.9422
+
+Epoch 13/100
+train-loss= 6.074322534629231e-05
+train-AUC:0.9647 train-AUPR:0.9931
+test-loss= 2.880016016581702e-05
+Test AUC: 0.9516, Test AUPR: 0.9391
+
+Epoch 14/100
+train-loss= 5.810135292930026e-05
+train-AUC:0.9658 train-AUPR:0.9933
+test-loss= 2.8701939342451535e-05
+Test AUC: 0.9527, Test AUPR: 0.9405
+
+Epoch 15/100
+train-loss= 5.571318060556051e-05
+train-AUC:0.9666 train-AUPR:0.9934
+test-loss= 2.8724315776555466e-05
+Test AUC: 0.9527, Test AUPR: 0.9382
+
+Epoch 16/100
+train-loss= 5.350530108849909e-05
+train-AUC:0.9673 train-AUPR:0.9935
+test-loss= 2.864957344421807e-05
+Test AUC: 0.9533, Test AUPR: 0.9390
+
+Epoch 17/100
+train-loss= 5.144561867753752e-05
+train-AUC:0.968 train-AUPR:0.9937
+test-loss= 2.870847630746157e-05
+Test AUC: 0.9534, Test AUPR: 0.9383
+
+Epoch 18/100
+train-loss= 4.956476980242512e-05
+train-AUC:0.9686 train-AUPR:0.9938
+test-loss= 2.854620102457033e-05
+Test AUC: 0.9542, Test AUPR: 0.9402
+
+Epoch 19/100
+train-loss= 4.781551178995011e-05
+train-AUC:0.9694 train-AUPR:0.9939
+test-loss= 2.8691290457502783e-05
+Test AUC: 0.9542, Test AUPR: 0.9396
+
+Epoch 20/100
+train-loss= 4.61701256676819e-05
+train-AUC:0.97 train-AUPR:0.9941
+test-loss= 2.8807913552149e-05
+Test AUC: 0.9544, Test AUPR: 0.9395
+
+Epoch 21/100
+train-loss= 4.4686071423547705e-05
+train-AUC:0.9707 train-AUPR:0.9943
+test-loss= 2.885741254286514e-05
+Test AUC: 0.9546, Test AUPR: 0.9401
+
+Epoch 22/100
+train-loss= 4.3317616702535405e-05
+train-AUC:0.9713 train-AUPR:0.9944
+test-loss= 2.8976814172539478e-05
+Test AUC: 0.9552, Test AUPR: 0.9416
+
+Epoch 23/100
+train-loss= 4.205145740881646e-05
+train-AUC:0.9719 train-AUPR:0.9945
+test-loss= 2.9305445467970374e-05
+Test AUC: 0.9549, Test AUPR: 0.9402
+
+Epoch 24/100
+train-loss= 4.086322859907208e-05
+train-AUC:0.9724 train-AUPR:0.9946
+test-loss= 2.9427578847237373e-05
+Test AUC: 0.9549, Test AUPR: 0.9393
+
+Epoch 25/100
+train-loss= 3.9744314694953375e-05
+train-AUC:0.9729 train-AUPR:0.9948
+test-loss= 2.9471627334722482e-05
+Test AUC: 0.9555, Test AUPR: 0.9403
+
+Epoch 26/100
+train-loss= 3.8726356224651585e-05
+train-AUC:0.9733 train-AUPR:0.9949
+test-loss= 2.9556041256245696e-05
+Test AUC: 0.9557, Test AUPR: 0.9397
+
+Epoch 27/100
+train-loss= 3.774528598559591e-05
+train-AUC:0.9738 train-AUPR:0.995
+test-loss= 2.9749415857763206e-05
+Test AUC: 0.9559, Test AUPR: 0.9403
+
+Epoch 28/100
+train-loss= 3.685152118020572e-05
+train-AUC:0.9742 train-AUPR:0.9951
+test-loss= 2.983950641212217e-05
+Test AUC: 0.9563, Test AUPR: 0.9416
+
+Epoch 29/100
+train-loss= 3.598835184989339e-05
+train-AUC:0.9746 train-AUPR:0.9952
+test-loss= 2.9845819846718346e-05
+Test AUC: 0.9565, Test AUPR: 0.9419
+
+Epoch 30/100
+train-loss= 3.5207976516759765e-05
+train-AUC:0.975 train-AUPR:0.9953
+test-loss= 2.995227230753384e-05
+Test AUC: 0.9568, Test AUPR: 0.9427
+
+Epoch 31/100
+train-loss= 3.443276314044425e-05
+train-AUC:0.9754 train-AUPR:0.9955
+test-loss= 3.0335858295293623e-05
+Test AUC: 0.9567, Test AUPR: 0.9427
+
+Epoch 32/100
+train-loss= 3.3714303763585055e-05
+train-AUC:0.9758 train-AUPR:0.9956
+test-loss= 3.041741570606295e-05
+Test AUC: 0.9569, Test AUPR: 0.9434
+
+Epoch 33/100
+train-loss= 3.3046648865193226e-05
+train-AUC:0.9762 train-AUPR:0.9957
+test-loss= 3.0704327389018276e-05
+Test AUC: 0.9569, Test AUPR: 0.9435
+
+Epoch 34/100
+train-loss= 3.243127348072706e-05
+train-AUC:0.9765 train-AUPR:0.9958
+test-loss= 3.097813655085408e-05
+Test AUC: 0.9571, Test AUPR: 0.9440
+
+Epoch 35/100
+train-loss= 3.180121338592738e-05
+train-AUC:0.9769 train-AUPR:0.9959
+test-loss= 3.110366447338275e-05
+Test AUC: 0.9570, Test AUPR: 0.9439
+
+Epoch 36/100
+train-loss= 3.123043788890844e-05
+train-AUC:0.9772 train-AUPR:0.996
+test-loss= 3.107748542305231e-05
+Test AUC: 0.9574, Test AUPR: 0.9450
+
+Epoch 37/100
+train-loss= 3.067557290640164e-05
+train-AUC:0.9775 train-AUPR:0.996
+test-loss= 3.0995400376538635e-05
+Test AUC: 0.9576, Test AUPR: 0.9452
+
+Epoch 38/100
+train-loss= 3.0150234907442464e-05
+train-AUC:0.9778 train-AUPR:0.9961
+test-loss= 3.182528043071907e-05
+Test AUC: 0.9573, Test AUPR: 0.9456
+
+Epoch 39/100
+train-loss= 2.9644812472902984e-05
+train-AUC:0.9782 train-AUPR:0.9961
+test-loss= 3.194768932421711e-05
+Test AUC: 0.9575, Test AUPR: 0.9455
+
+Epoch 40/100
+train-loss= 2.9176730856264034e-05
+train-AUC:0.9784 train-AUPR:0.9962
+test-loss= 3.150164737930977e-05
+Test AUC: 0.9578, Test AUPR: 0.9465
+
+Epoch 41/100
+train-loss= 2.8726452468856845e-05
+train-AUC:0.9786 train-AUPR:0.9962
+test-loss= 3.1925011383973554e-05
+Test AUC: 0.9575, Test AUPR: 0.9457
+
+Epoch 42/100
+train-loss= 2.8315299472050374e-05
+train-AUC:0.9789 train-AUPR:0.9963
+test-loss= 3.164995461052549e-05
+Test AUC: 0.9582, Test AUPR: 0.9475
+
+Epoch 43/100
+train-loss= 2.788559701186107e-05
+train-AUC:0.9791 train-AUPR:0.9964
+test-loss= 3.211168267226606e-05
+Test AUC: 0.9582, Test AUPR: 0.9474
+
+Epoch 44/100
+train-loss= 2.748847215777841e-05
+train-AUC:0.9794 train-AUPR:0.9964
+test-loss= 3.2135252134974205e-05
+Test AUC: 0.9584, Test AUPR: 0.9480
+
+Epoch 45/100
+train-loss= 2.7137358876147147e-05
+train-AUC:0.9796 train-AUPR:0.9965
+test-loss= 3.225988853503829e-05
+Test AUC: 0.9587, Test AUPR: 0.9490
+
+Epoch 46/100
+train-loss= 2.678532148696995e-05
+train-AUC:0.9798 train-AUPR:0.9965
+test-loss= 3.221618833912827e-05
+Test AUC: 0.9592, Test AUPR: 0.9506
+
+Epoch 47/100
+train-loss= 2.6466134957471058e-05
+train-AUC:0.98 train-AUPR:0.9966
+test-loss= 3.2908693358845345e-05
+Test AUC: 0.9585, Test AUPR: 0.9489
+
+Epoch 48/100
+train-loss= 2.61463723100175e-05
+train-AUC:0.9802 train-AUPR:0.9966
+test-loss= 3.2793632377905306e-05
+Test AUC: 0.9587, Test AUPR: 0.9495
+
+Epoch 49/100
+train-loss= 2.5815173133118047e-05
+train-AUC:0.9804 train-AUPR:0.9967
+test-loss= 3.2753651624114317e-05
+Test AUC: 0.9591, Test AUPR: 0.9501
+
+Epoch 50/100
+train-loss= 2.554454558165831e-05
+train-AUC:0.9806 train-AUPR:0.9967
+test-loss= 3.331785538465632e-05
+Test AUC: 0.9589, Test AUPR: 0.9502
+
+Epoch 51/100
+train-loss= 2.5276171287825252e-05
+train-AUC:0.9808 train-AUPR:0.9967
+test-loss= 3.321860008332901e-05
+Test AUC: 0.9593, Test AUPR: 0.9509
+
+Epoch 52/100
+train-loss= 2.498176125021736e-05
+train-AUC:0.981 train-AUPR:0.9968
+test-loss= 3.356090572186837e-05
+Test AUC: 0.9593, Test AUPR: 0.9503
+
+Epoch 53/100
+train-loss= 2.4730676709124248e-05
+train-AUC:0.9812 train-AUPR:0.9968
+test-loss= 3.400192343084554e-05
+Test AUC: 0.9593, Test AUPR: 0.9509
+
+Epoch 54/100
+train-loss= 2.4470451227160523e-05
+train-AUC:0.9814 train-AUPR:0.9969
+test-loss= 3.3117733283669206e-05
+Test AUC: 0.9596, Test AUPR: 0.9514
+
+Epoch 55/100
+train-loss= 2.423488320996729e-05
+train-AUC:0.9815 train-AUPR:0.9969
+test-loss= 3.4265608744286083e-05
+Test AUC: 0.9594, Test AUPR: 0.9513
+
+Epoch 56/100
+train-loss= 2.398036740142069e-05
+train-AUC:0.9818 train-AUPR:0.997
+test-loss= 3.388395395533443e-05
+Test AUC: 0.9597, Test AUPR: 0.9516
+
+Epoch 57/100
+train-loss= 2.3729966703248e-05
+train-AUC:0.982 train-AUPR:0.997
+test-loss= 3.398659340315998e-05
+Test AUC: 0.9598, Test AUPR: 0.9512
+
+Epoch 58/100
+train-loss= 2.3520318739138546e-05
+train-AUC:0.9821 train-AUPR:0.997
+test-loss= 3.3867633635931647e-05
+Test AUC: 0.9596, Test AUPR: 0.9507
+
+Epoch 59/100
+train-loss= 2.3345870355921616e-05
+train-AUC:0.9823 train-AUPR:0.9971
+test-loss= 3.411171585191467e-05
+Test AUC: 0.9600, Test AUPR: 0.9519
+
+Epoch 60/100
+train-loss= 2.3111031890732225e-05
+train-AUC:0.9825 train-AUPR:0.9971
+test-loss= 3.4235822017043545e-05
+Test AUC: 0.9600, Test AUPR: 0.9519
+
+Epoch 61/100
+train-loss= 2.291668992182458e-05
+train-AUC:0.9826 train-AUPR:0.9971
+test-loss= 3.420822380850416e-05
+Test AUC: 0.9601, Test AUPR: 0.9520
+
+Epoch 62/100
+train-loss= 2.2739928475483143e-05
+train-AUC:0.9828 train-AUPR:0.9972
+test-loss= 3.446394000277144e-05
+Test AUC: 0.9602, Test AUPR: 0.9522
+
+Epoch 63/100
+train-loss= 2.256518435950115e-05
+train-AUC:0.9829 train-AUPR:0.9972
+test-loss= 3.4697911366313495e-05
+Test AUC: 0.9601, Test AUPR: 0.9524
+
+Epoch 64/100
+train-loss= 2.238440105598883e-05
+train-AUC:0.9831 train-AUPR:0.9972
+test-loss= 3.489747464126595e-05
+Test AUC: 0.9602, Test AUPR: 0.9522
+
+Epoch 65/100
+train-loss= 2.2225347333586248e-05
+train-AUC:0.9832 train-AUPR:0.9972
+test-loss= 3.4959371772378855e-05
+Test AUC: 0.9605, Test AUPR: 0.9532
+
+Epoch 66/100
+train-loss= 2.206278197748588e-05
+train-AUC:0.9834 train-AUPR:0.9973
+test-loss= 3.5186418891472905e-05
+Test AUC: 0.9606, Test AUPR: 0.9535
+
+Epoch 67/100
+train-loss= 2.1905854353042696e-05
+train-AUC:0.9835 train-AUPR:0.9973
+test-loss= 3.5250418767990624e-05
+Test AUC: 0.9606, Test AUPR: 0.9536
+
+Epoch 68/100
+train-loss= 2.1755236667379424e-05
+train-AUC:0.9836 train-AUPR:0.9973
+test-loss= 3.5021128547185384e-05
+Test AUC: 0.9608, Test AUPR: 0.9538
+
+Epoch 69/100
+train-loss= 2.1631504388954896e-05
+train-AUC:0.9837 train-AUPR:0.9973
+test-loss= 3.4902795184954035e-05
+Test AUC: 0.9609, Test AUPR: 0.9542
+
+Epoch 70/100
+train-loss= 2.1453394065893617e-05
+train-AUC:0.9839 train-AUPR:0.9974
+test-loss= 3.510078854862774e-05
+Test AUC: 0.9609, Test AUPR: 0.9544
+
+Epoch 71/100
+train-loss= 2.1303517192683567e-05
+train-AUC:0.984 train-AUPR:0.9974
+test-loss= 3.552282176757179e-05
+Test AUC: 0.9610, Test AUPR: 0.9544
+
+Epoch 72/100
+train-loss= 2.1175712343360567e-05
+train-AUC:0.9842 train-AUPR:0.9974
+test-loss= 3.502324428854449e-05
+Test AUC: 0.9612, Test AUPR: 0.9551
+
+Epoch 73/100
+train-loss= 2.1043865409763164e-05
+train-AUC:0.9843 train-AUPR:0.9974
+test-loss= 3.4784285077744286e-05
+Test AUC: 0.9613, Test AUPR: 0.9549
+
+Epoch 74/100
+train-loss= 2.091361687610283e-05
+train-AUC:0.9844 train-AUPR:0.9974
+test-loss= 3.536806594383523e-05
+Test AUC: 0.9613, Test AUPR: 0.9552
+
+Epoch 75/100
+train-loss= 2.080644542399493e-05
+train-AUC:0.9845 train-AUPR:0.9975
+test-loss= 3.5114533069889394e-05
+Test AUC: 0.9614, Test AUPR: 0.9556
+
+Epoch 76/100
+train-loss= 2.068193825983146e-05
+train-AUC:0.9846 train-AUPR:0.9975
+test-loss= 3.536637646977697e-05
+Test AUC: 0.9615, Test AUPR: 0.9560
+
+Epoch 77/100
+train-loss= 2.0558581037782086e-05
+train-AUC:0.9847 train-AUPR:0.9975
+test-loss= 3.5175868775776784e-05
+Test AUC: 0.9615, Test AUPR: 0.9561
+
+Epoch 78/100
+train-loss= 2.04405670240805e-05
+train-AUC:0.9848 train-AUPR:0.9975
+test-loss= 3.5414043030937615e-05
+Test AUC: 0.9616, Test AUPR: 0.9561
+
+Epoch 79/100
+train-loss= 2.0329601300995335e-05
+train-AUC:0.9849 train-AUPR:0.9975
+test-loss= 3.532813717386141e-05
+Test AUC: 0.9614, Test AUPR: 0.9556
+
+Epoch 80/100
+train-loss= 2.0259854452872447e-05
+train-AUC:0.9851 train-AUPR:0.9976
+test-loss= 3.499986196757819e-05
+Test AUC: 0.9616, Test AUPR: 0.9566
+
+Epoch 81/100
+train-loss= 2.0109061271020287e-05
+train-AUC:0.9852 train-AUPR:0.9976
+test-loss= 3.6603048087705105e-05
+Test AUC: 0.9615, Test AUPR: 0.9564
+
+Epoch 82/100
+train-loss= 2.0009622869967326e-05
+train-AUC:0.9853 train-AUPR:0.9976
+test-loss= 3.561060683963895e-05
+Test AUC: 0.9616, Test AUPR: 0.9563
+
+Epoch 83/100
+train-loss= 1.9908664475069284e-05
+train-AUC:0.9854 train-AUPR:0.9976
+test-loss= 3.5738237507572436e-05
+Test AUC: 0.9617, Test AUPR: 0.9563
+
+Epoch 84/100
+train-loss= 1.9835880141578324e-05
+train-AUC:0.9855 train-AUPR:0.9976
+test-loss= 3.6097450882648685e-05
+Test AUC: 0.9616, Test AUPR: 0.9562
+
+Epoch 85/100
+train-loss= 1.9727975050340513e-05
+train-AUC:0.9856 train-AUPR:0.9977
+test-loss= 3.601328388425706e-05
+Test AUC: 0.9620, Test AUPR: 0.9574
+
+Epoch 86/100
+train-loss= 1.9614972645605115e-05
+train-AUC:0.9857 train-AUPR:0.9977
+test-loss= 3.615161802014734e-05
+Test AUC: 0.9619, Test AUPR: 0.9569
+
+Epoch 87/100
+train-loss= 1.9499785838805738e-05
+train-AUC:0.9858 train-AUPR:0.9977
+test-loss= 3.644317965554917e-05
+Test AUC: 0.9620, Test AUPR: 0.9571
+
+Epoch 88/100
+train-loss= 1.9425797596454385e-05
+train-AUC:0.9859 train-AUPR:0.9977
+test-loss= 3.593004999538377e-05
+Test AUC: 0.9623, Test AUPR: 0.9577
+
+Epoch 89/100
+train-loss= 1.9320279220021112e-05
+train-AUC:0.986 train-AUPR:0.9977
+test-loss= 3.692511122783566e-05
+Test AUC: 0.9621, Test AUPR: 0.9575
+
+Epoch 90/100
+train-loss= 1.9259545569226402e-05
+train-AUC:0.9861 train-AUPR:0.9977
+test-loss= 3.6406297137261936e-05
+Test AUC: 0.9624, Test AUPR: 0.9580
+
+Epoch 91/100
+train-loss= 1.91781050780634e-05
+train-AUC:0.9862 train-AUPR:0.9978
+test-loss= 3.641711756880737e-05
+Test AUC: 0.9622, Test AUPR: 0.9576
+
+Epoch 92/100
+train-loss= 1.9084364714629864e-05
+train-AUC:0.9863 train-AUPR:0.9978
+test-loss= 3.672825630975813e-05
+Test AUC: 0.9621, Test AUPR: 0.9575
+
+Epoch 93/100
+train-loss= 1.899963771534598e-05
+train-AUC:0.9864 train-AUPR:0.9978
+test-loss= 3.693557037185171e-05
+Test AUC: 0.9623, Test AUPR: 0.9578
+
+Epoch 94/100
+train-loss= 1.893195565829141e-05
+train-AUC:0.9865 train-AUPR:0.9978
+test-loss= 3.707503255657473e-05
+Test AUC: 0.9624, Test AUPR: 0.9582
+
+Epoch 95/100
+train-loss= 1.8839011909093588e-05
+train-AUC:0.9866 train-AUPR:0.9978
+test-loss= 3.7176676514301337e-05
+Test AUC: 0.9621, Test AUPR: 0.9573
+
+Epoch 96/100
+train-loss= 1.8740474260580437e-05
+train-AUC:0.9867 train-AUPR:0.9978
+test-loss= 3.724420869119625e-05
+Test AUC: 0.9623, Test AUPR: 0.9582
+
+Epoch 97/100
+train-loss= 1.866085049695641e-05
+train-AUC:0.9868 train-AUPR:0.9979
+test-loss= 3.736666177093889e-05
+Test AUC: 0.9621, Test AUPR: 0.9572
+
+Epoch 98/100
+train-loss= 1.859859668549515e-05
+train-AUC:0.9869 train-AUPR:0.9979
+test-loss= 3.7510844086261605e-05
+Test AUC: 0.9621, Test AUPR: 0.9573
+
+Epoch 99/100
+train-loss= 1.851107922173834e-05
+train-AUC:0.987 train-AUPR:0.9979
+test-loss= 3.699666695218009e-05
+Test AUC: 0.9624, Test AUPR: 0.9577
+
+Epoch 100/100
+train-loss= 1.8437328157815262e-05
+train-AUC:0.987 train-AUPR:0.9979
+test-loss= 3.69637871878155e-05
+Test AUC: 0.9625, Test AUPR: 0.9578
+Best AUC: 0.9625, Best AUPR: 0.9578
+Train set size: 178648, Validation set size: 11466
+
+Epoch 1/100
+train-loss= 0.00014408133311105326
+train-AUC:0.7405 train-AUPR:0.924
+test-loss= 5.939942826032015e-05
+Test AUC: 0.7153, Test AUPR: 0.6104
+
+Epoch 2/100
+train-loss= 0.0001300277644593612
+train-AUC:0.9035 train-AUPR:0.9787
+test-loss= 5.056440424756939e-05
+Test AUC: 0.8758, Test AUPR: 0.8635
+
+Epoch 3/100
+train-loss= 0.00012255852788354443
+train-AUC:0.9273 train-AUPR:0.9837
+test-loss= 4.05799790491676e-05
+Test AUC: 0.9245, Test AUPR: 0.8958
+
+Epoch 4/100
+train-loss= 0.00011544051256455693
+train-AUC:0.9371 train-AUPR:0.9854
+test-loss= 3.7905624789050504e-05
+Test AUC: 0.9317, Test AUPR: 0.8927
+
+Epoch 5/100
+train-loss= 0.00010822308799656873
+train-AUC:0.9433 train-AUPR:0.9866
+test-loss= 3.597379697672925e-05
+Test AUC: 0.9375, Test AUPR: 0.9025
+
+Epoch 6/100
+train-loss= 0.00010125305817064343
+train-AUC:0.9476 train-AUPR:0.988
+test-loss= 3.4326468798246306e-05
+Test AUC: 0.9428, Test AUPR: 0.9154
+
+Epoch 7/100
+train-loss= 9.496978113208304e-05
+train-AUC:0.9522 train-AUPR:0.9895
+test-loss= 3.344155347682035e-05
+Test AUC: 0.9461, Test AUPR: 0.9221
+
+Epoch 8/100
+train-loss= 8.93956444892949e-05
+train-AUC:0.9557 train-AUPR:0.9905
+test-loss= 3.2749620279092223e-05
+Test AUC: 0.9493, Test AUPR: 0.9308
+
+Epoch 9/100
+train-loss= 8.463903231966923e-05
+train-AUC:0.9581 train-AUPR:0.9913
+test-loss= 3.2070282760266125e-05
+Test AUC: 0.9510, Test AUPR: 0.9333
+
+Epoch 10/100
+train-loss= 8.046977603319676e-05
+train-AUC:0.9597 train-AUPR:0.9916
+test-loss= 3.1837662975970686e-05
+Test AUC: 0.9509, Test AUPR: 0.9319
+
+Epoch 11/100
+train-loss= 7.673917013534072e-05
+train-AUC:0.9612 train-AUPR:0.9919
+test-loss= 3.138349596043854e-05
+Test AUC: 0.9515, Test AUPR: 0.9316
+
+Epoch 12/100
+train-loss= 7.334366003033467e-05
+train-AUC:0.9621 train-AUPR:0.9921
+test-loss= 3.0834351911732776e-05
+Test AUC: 0.9526, Test AUPR: 0.9333
+
+Epoch 13/100
+train-loss= 7.019679466068363e-05
+train-AUC:0.963 train-AUPR:0.9923
+test-loss= 3.0476162617854916e-05
+Test AUC: 0.9539, Test AUPR: 0.9362
+
+Epoch 14/100
+train-loss= 6.727155512026563e-05
+train-AUC:0.964 train-AUPR:0.9925
+test-loss= 3.0291287370445882e-05
+Test AUC: 0.9548, Test AUPR: 0.9373
+
+Epoch 15/100
+train-loss= 6.455427205763845e-05
+train-AUC:0.965 train-AUPR:0.9928
+test-loss= 3.0264492311881888e-05
+Test AUC: 0.9552, Test AUPR: 0.9373
+
+Epoch 16/100
+train-loss= 6.200457851339361e-05
+train-AUC:0.9656 train-AUPR:0.9929
+test-loss= 3.0300452117414224e-05
+Test AUC: 0.9551, Test AUPR: 0.9355
+
+Epoch 17/100
+train-loss= 5.961458183003253e-05
+train-AUC:0.9663 train-AUPR:0.9931
+test-loss= 3.0161985422790145e-05
+Test AUC: 0.9547, Test AUPR: 0.9342
+
+Epoch 18/100
+train-loss= 5.7382389751594646e-05
+train-AUC:0.967 train-AUPR:0.9932
+test-loss= 3.025702483654438e-05
+Test AUC: 0.9540, Test AUPR: 0.9317
+
+Epoch 19/100
+train-loss= 5.5320236798038696e-05
+train-AUC:0.9677 train-AUPR:0.9934
+test-loss= 3.0196572855549e-05
+Test AUC: 0.9540, Test AUPR: 0.9309
+
+Epoch 20/100
+train-loss= 5.3385326338622545e-05
+train-AUC:0.9684 train-AUPR:0.9936
+test-loss= 3.0069617977238815e-05
+Test AUC: 0.9544, Test AUPR: 0.9317
+
+Epoch 21/100
+train-loss= 5.157637601668844e-05
+train-AUC:0.9689 train-AUPR:0.9937
+test-loss= 3.0224007315064276e-05
+Test AUC: 0.9544, Test AUPR: 0.9315
+
+Epoch 22/100
+train-loss= 4.989445432376661e-05
+train-AUC:0.9694 train-AUPR:0.9939
+test-loss= 3.018282573509649e-05
+Test AUC: 0.9558, Test AUPR: 0.9348
+
+Epoch 23/100
+train-loss= 4.831072725270546e-05
+train-AUC:0.9699 train-AUPR:0.994
+test-loss= 3.0303300830595536e-05
+Test AUC: 0.9555, Test AUPR: 0.9335
+
+Epoch 24/100
+train-loss= 4.6822529496841684e-05
+train-AUC:0.9706 train-AUPR:0.9942
+test-loss= 3.0034856398692414e-05
+Test AUC: 0.9569, Test AUPR: 0.9378
+
+Epoch 25/100
+train-loss= 4.5449573682273884e-05
+train-AUC:0.9711 train-AUPR:0.9943
+test-loss= 3.0212667045347067e-05
+Test AUC: 0.9577, Test AUPR: 0.9409
+
+Epoch 26/100
+train-loss= 4.4185948490130266e-05
+train-AUC:0.9716 train-AUPR:0.9945
+test-loss= 3.0224436181555986e-05
+Test AUC: 0.9578, Test AUPR: 0.9408
+
+Epoch 27/100
+train-loss= 4.300246525080908e-05
+train-AUC:0.9722 train-AUPR:0.9946
+test-loss= 3.026962051544642e-05
+Test AUC: 0.9584, Test AUPR: 0.9419
+
+Epoch 28/100
+train-loss= 4.189284930827182e-05
+train-AUC:0.9726 train-AUPR:0.9948
+test-loss= 3.0020072201087215e-05
+Test AUC: 0.9591, Test AUPR: 0.9434
+
+Epoch 29/100
+train-loss= 4.0859578378436165e-05
+train-AUC:0.973 train-AUPR:0.9949
+test-loss= 3.009347335094144e-05
+Test AUC: 0.9592, Test AUPR: 0.9436
+
+Epoch 30/100
+train-loss= 3.9891989399612655e-05
+train-AUC:0.9733 train-AUPR:0.995
+test-loss= 2.9990836502306753e-05
+Test AUC: 0.9595, Test AUPR: 0.9444
+
+Epoch 31/100
+train-loss= 3.8929632192393425e-05
+train-AUC:0.9737 train-AUPR:0.9951
+test-loss= 2.9916894720753886e-05
+Test AUC: 0.9599, Test AUPR: 0.9455
+
+Epoch 32/100
+train-loss= 3.803932934960763e-05
+train-AUC:0.9741 train-AUPR:0.9952
+test-loss= 2.955829735391119e-05
+Test AUC: 0.9606, Test AUPR: 0.9478
+
+Epoch 33/100
+train-loss= 3.7215874456514796e-05
+train-AUC:0.9743 train-AUPR:0.9952
+test-loss= 3.0017935666201234e-05
+Test AUC: 0.9604, Test AUPR: 0.9472
+
+Epoch 34/100
+train-loss= 3.6405129774809044e-05
+train-AUC:0.9747 train-AUPR:0.9953
+test-loss= 2.9860869161791146e-05
+Test AUC: 0.9609, Test AUPR: 0.9480
+
+Epoch 35/100
+train-loss= 3.5666499596677505e-05
+train-AUC:0.975 train-AUPR:0.9954
+test-loss= 3.0128016597455696e-05
+Test AUC: 0.9610, Test AUPR: 0.9480
+
+Epoch 36/100
+train-loss= 3.4961259903981874e-05
+train-AUC:0.9753 train-AUPR:0.9955
+test-loss= 2.969604667185822e-05
+Test AUC: 0.9613, Test AUPR: 0.9487
+
+Epoch 37/100
+train-loss= 3.43200915009831e-05
+train-AUC:0.9756 train-AUPR:0.9955
+test-loss= 2.9767178728092657e-05
+Test AUC: 0.9613, Test AUPR: 0.9487
+
+Epoch 38/100
+train-loss= 3.369240269000177e-05
+train-AUC:0.9759 train-AUPR:0.9956
+test-loss= 2.9858067234045294e-05
+Test AUC: 0.9611, Test AUPR: 0.9483
+
+Epoch 39/100
+train-loss= 3.310036946640755e-05
+train-AUC:0.9761 train-AUPR:0.9956
+test-loss= 2.9928068642256127e-05
+Test AUC: 0.9614, Test AUPR: 0.9495
+
+Epoch 40/100
+train-loss= 3.2537481121778604e-05
+train-AUC:0.9764 train-AUPR:0.9957
+test-loss= 2.987796663926073e-05
+Test AUC: 0.9616, Test AUPR: 0.9499
+
+Epoch 41/100
+train-loss= 3.1977496471696926e-05
+train-AUC:0.9766 train-AUPR:0.9957
+test-loss= 2.996834830299589e-05
+Test AUC: 0.9615, Test AUPR: 0.9501
+
+Epoch 42/100
+train-loss= 3.1450837747141364e-05
+train-AUC:0.9768 train-AUPR:0.9958
+test-loss= 3.0359869620447777e-05
+Test AUC: 0.9618, Test AUPR: 0.9511
+
+Epoch 43/100
+train-loss= 3.095333974959094e-05
+train-AUC:0.9771 train-AUPR:0.9958
+test-loss= 3.062428790571052e-05
+Test AUC: 0.9618, Test AUPR: 0.9515
+
+Epoch 44/100
+train-loss= 3.0454875438662084e-05
+train-AUC:0.9773 train-AUPR:0.9959
+test-loss= 3.077548283797044e-05
+Test AUC: 0.9617, Test AUPR: 0.9513
+
+Epoch 45/100
+train-loss= 3.000510664914748e-05
+train-AUC:0.9775 train-AUPR:0.9959
+test-loss= 3.084774294303762e-05
+Test AUC: 0.9621, Test AUPR: 0.9525
+
+Epoch 46/100
+train-loss= 2.959422436188522e-05
+train-AUC:0.9778 train-AUPR:0.9959
+test-loss= 3.0914206852489546e-05
+Test AUC: 0.9618, Test AUPR: 0.9521
+
+Epoch 47/100
+train-loss= 2.9184346673529294e-05
+train-AUC:0.978 train-AUPR:0.9959
+test-loss= 3.093054016784663e-05
+Test AUC: 0.9621, Test AUPR: 0.9524
+
+Epoch 48/100
+train-loss= 2.8799038368206476e-05
+train-AUC:0.9782 train-AUPR:0.996
+test-loss= 3.068187297918858e-05
+Test AUC: 0.9624, Test AUPR: 0.9540
+
+Epoch 49/100
+train-loss= 2.8446880825863838e-05
+train-AUC:0.9784 train-AUPR:0.996
+test-loss= 3.107919569063744e-05
+Test AUC: 0.9622, Test AUPR: 0.9526
+
+Epoch 50/100
+train-loss= 2.8075814069633303e-05
+train-AUC:0.9786 train-AUPR:0.9961
+test-loss= 3.082577718108939e-05
+Test AUC: 0.9625, Test AUPR: 0.9544
+
+Epoch 51/100
+train-loss= 2.7736607712294516e-05
+train-AUC:0.9787 train-AUPR:0.9961
+test-loss= 3.093824157036143e-05
+Test AUC: 0.9627, Test AUPR: 0.9543
+
+Epoch 52/100
+train-loss= 2.741500902771656e-05
+train-AUC:0.979 train-AUPR:0.9962
+test-loss= 3.1075491843663565e-05
+Test AUC: 0.9630, Test AUPR: 0.9549
+
+Epoch 53/100
+train-loss= 2.713064251855529e-05
+train-AUC:0.9791 train-AUPR:0.9962
+test-loss= 3.1542602829672835e-05
+Test AUC: 0.9625, Test AUPR: 0.9538
+
+Epoch 54/100
+train-loss= 2.682716072928243e-05
+train-AUC:0.9793 train-AUPR:0.9963
+test-loss= 3.197346030158271e-05
+Test AUC: 0.9621, Test AUPR: 0.9531
+
+Epoch 55/100
+train-loss= 2.6522546347328596e-05
+train-AUC:0.9795 train-AUPR:0.9963
+test-loss= 3.161120847239246e-05
+Test AUC: 0.9625, Test AUPR: 0.9543
+
+Epoch 56/100
+train-loss= 2.6259830304193815e-05
+train-AUC:0.9797 train-AUPR:0.9963
+test-loss= 3.181979353881602e-05
+Test AUC: 0.9627, Test AUPR: 0.9546
+
+Epoch 57/100
+train-loss= 2.596799649058302e-05
+train-AUC:0.9799 train-AUPR:0.9964
+test-loss= 3.2160965930140917e-05
+Test AUC: 0.9632, Test AUPR: 0.9558
+
+Epoch 58/100
+train-loss= 2.5700348120386777e-05
+train-AUC:0.98 train-AUPR:0.9964
+test-loss= 3.274697690198876e-05
+Test AUC: 0.9629, Test AUPR: 0.9550
+
+Epoch 59/100
+train-loss= 2.546561387691222e-05
+train-AUC:0.9802 train-AUPR:0.9965
+test-loss= 3.19497686769042e-05
+Test AUC: 0.9630, Test AUPR: 0.9551
+
+Epoch 60/100
+train-loss= 2.5192413688117042e-05
+train-AUC:0.9804 train-AUPR:0.9965
+test-loss= 3.252040803401274e-05
+Test AUC: 0.9628, Test AUPR: 0.9548
+
+Epoch 61/100
+train-loss= 2.4959053719931487e-05
+train-AUC:0.9806 train-AUPR:0.9965
+test-loss= 3.21334015110827e-05
+Test AUC: 0.9632, Test AUPR: 0.9555
+
+Epoch 62/100
+train-loss= 2.475831844321314e-05
+train-AUC:0.9807 train-AUPR:0.9966
+test-loss= 3.212767029523891e-05
+Test AUC: 0.9633, Test AUPR: 0.9559
+
+Epoch 63/100
+train-loss= 2.4534660686741833e-05
+train-AUC:0.9809 train-AUPR:0.9966
+test-loss= 3.1987787041596755e-05
+Test AUC: 0.9633, Test AUPR: 0.9554
+
+Epoch 64/100
+train-loss= 2.4324665567148476e-05
+train-AUC:0.981 train-AUPR:0.9966
+test-loss= 3.25285357038284e-05
+Test AUC: 0.9633, Test AUPR: 0.9560
+
+Epoch 65/100
+train-loss= 2.4114139037755027e-05
+train-AUC:0.9812 train-AUPR:0.9966
+test-loss= 3.267585524251776e-05
+Test AUC: 0.9635, Test AUPR: 0.9560
+
+Epoch 66/100
+train-loss= 2.391379733459526e-05
+train-AUC:0.9813 train-AUPR:0.9967
+test-loss= 3.276050309121827e-05
+Test AUC: 0.9635, Test AUPR: 0.9564
+
+Epoch 67/100
+train-loss= 2.373809407855814e-05
+train-AUC:0.9815 train-AUPR:0.9967
+test-loss= 3.247065172340158e-05
+Test AUC: 0.9633, Test AUPR: 0.9559
+
+Epoch 68/100
+train-loss= 2.357445810395377e-05
+train-AUC:0.9816 train-AUPR:0.9968
+test-loss= 3.271648059564175e-05
+Test AUC: 0.9634, Test AUPR: 0.9561
+
+Epoch 69/100
+train-loss= 2.338461113961789e-05
+train-AUC:0.9818 train-AUPR:0.9968
+test-loss= 3.293864123592114e-05
+Test AUC: 0.9631, Test AUPR: 0.9559
+
+Epoch 70/100
+train-loss= 2.3221090647177735e-05
+train-AUC:0.9819 train-AUPR:0.9968
+test-loss= 3.295508371729429e-05
+Test AUC: 0.9634, Test AUPR: 0.9558
+
+Epoch 71/100
+train-loss= 2.3069657955211424e-05
+train-AUC:0.982 train-AUPR:0.9968
+test-loss= 3.270502596152675e-05
+Test AUC: 0.9633, Test AUPR: 0.9555
+
+Epoch 72/100
+train-loss= 2.2888034163416167e-05
+train-AUC:0.9822 train-AUPR:0.9969
+test-loss= 3.287134038701266e-05
+Test AUC: 0.9635, Test AUPR: 0.9560
+
+Epoch 73/100
+train-loss= 2.274225384169123e-05
+train-AUC:0.9823 train-AUPR:0.9969
+test-loss= 3.307330531431871e-05
+Test AUC: 0.9633, Test AUPR: 0.9558
+
+Epoch 74/100
+train-loss= 2.2600161609076433e-05
+train-AUC:0.9824 train-AUPR:0.9969
+test-loss= 3.2882943175006616e-05
+Test AUC: 0.9638, Test AUPR: 0.9570
+
+Epoch 75/100
+train-loss= 2.2468645732690855e-05
+train-AUC:0.9825 train-AUPR:0.997
+test-loss= 3.261884978860123e-05
+Test AUC: 0.9638, Test AUPR: 0.9571
+
+Epoch 76/100
+train-loss= 2.2300923924880962e-05
+train-AUC:0.9827 train-AUPR:0.997
+test-loss= 3.31076692166637e-05
+Test AUC: 0.9634, Test AUPR: 0.9557
+
+Epoch 77/100
+train-loss= 2.2183424096662452e-05
+train-AUC:0.9828 train-AUPR:0.997
+test-loss= 3.373750514558279e-05
+Test AUC: 0.9634, Test AUPR: 0.9562
+
+Epoch 78/100
+train-loss= 2.2051453506648687e-05
+train-AUC:0.9829 train-AUPR:0.997
+test-loss= 3.328410229216316e-05
+Test AUC: 0.9637, Test AUPR: 0.9570
+
+Epoch 79/100
+train-loss= 2.1913446356542783e-05
+train-AUC:0.9831 train-AUPR:0.9971
+test-loss= 3.3466752632197004e-05
+Test AUC: 0.9637, Test AUPR: 0.9570
+
+Epoch 80/100
+train-loss= 2.17984479745964e-05
+train-AUC:0.9832 train-AUPR:0.9971
+test-loss= 3.3967346394850116e-05
+Test AUC: 0.9635, Test AUPR: 0.9568
+
+Epoch 81/100
+train-loss= 2.166796376390104e-05
+train-AUC:0.9833 train-AUPR:0.9971
+test-loss= 3.331841680988183e-05
+Test AUC: 0.9638, Test AUPR: 0.9577
+
+Epoch 82/100
+train-loss= 2.1541684580353176e-05
+train-AUC:0.9834 train-AUPR:0.9971
+test-loss= 3.388969036955994e-05
+Test AUC: 0.9636, Test AUPR: 0.9570
+
+Epoch 83/100
+train-loss= 2.145022158024907e-05
+train-AUC:0.9835 train-AUPR:0.9972
+test-loss= 3.3764128657550106e-05
+Test AUC: 0.9638, Test AUPR: 0.9578
+
+Epoch 84/100
+train-loss= 2.1337267094981595e-05
+train-AUC:0.9836 train-AUPR:0.9972
+test-loss= 3.39312462330114e-05
+Test AUC: 0.9635, Test AUPR: 0.9567
+
+Epoch 85/100
+train-loss= 2.1226071116559252e-05
+train-AUC:0.9838 train-AUPR:0.9972
+test-loss= 3.464050043862298e-05
+Test AUC: 0.9636, Test AUPR: 0.9571
+
+Epoch 86/100
+train-loss= 2.111738284021425e-05
+train-AUC:0.9839 train-AUPR:0.9972
+test-loss= 3.443612606139077e-05
+Test AUC: 0.9633, Test AUPR: 0.9569
+
+Epoch 87/100
+train-loss= 2.10142694872421e-05
+train-AUC:0.984 train-AUPR:0.9972
+test-loss= 3.4467804999578566e-05
+Test AUC: 0.9635, Test AUPR: 0.9572
+
+Epoch 88/100
+train-loss= 2.093096781061775e-05
+train-AUC:0.9841 train-AUPR:0.9973
+test-loss= 3.3582858487862306e-05
+Test AUC: 0.9637, Test AUPR: 0.9580
+
+Epoch 89/100
+train-loss= 2.0849097462225942e-05
+train-AUC:0.9841 train-AUPR:0.9973
+test-loss= 3.454570274961862e-05
+Test AUC: 0.9639, Test AUPR: 0.9579
+
+Epoch 90/100
+train-loss= 2.0746549884277175e-05
+train-AUC:0.9843 train-AUPR:0.9973
+test-loss= 3.4531285037924516e-05
+Test AUC: 0.9640, Test AUPR: 0.9585
+
+Epoch 91/100
+train-loss= 2.0657230623503163e-05
+train-AUC:0.9844 train-AUPR:0.9973
+test-loss= 3.464195338631308e-05
+Test AUC: 0.9639, Test AUPR: 0.9579
+
+Epoch 92/100
+train-loss= 2.0557542031947083e-05
+train-AUC:0.9845 train-AUPR:0.9974
+test-loss= 3.459184618493597e-05
+Test AUC: 0.9640, Test AUPR: 0.9579
+
+Epoch 93/100
+train-loss= 2.046506250520137e-05
+train-AUC:0.9846 train-AUPR:0.9974
+test-loss= 3.4881895091257936e-05
+Test AUC: 0.9638, Test AUPR: 0.9570
+
+Epoch 94/100
+train-loss= 2.0371218920981836e-05
+train-AUC:0.9847 train-AUPR:0.9974
+test-loss= 3.506766705951328e-05
+Test AUC: 0.9637, Test AUPR: 0.9574
+
+Epoch 95/100
+train-loss= 2.0272668427215316e-05
+train-AUC:0.9848 train-AUPR:0.9974
+test-loss= 3.504491894111653e-05
+Test AUC: 0.9639, Test AUPR: 0.9576
+
+Epoch 96/100
+train-loss= 2.016609778263999e-05
+train-AUC:0.9849 train-AUPR:0.9974
+test-loss= 3.527975063683287e-05
+Test AUC: 0.9635, Test AUPR: 0.9562
+
+Epoch 97/100
+train-loss= 2.011303650158966e-05
+train-AUC:0.985 train-AUPR:0.9975
+test-loss= 3.547414412116705e-05
+Test AUC: 0.9635, Test AUPR: 0.9570
+
+Epoch 98/100
+train-loss= 2.0020054800506883e-05
+train-AUC:0.9851 train-AUPR:0.9975
+test-loss= 3.515256962891796e-05
+Test AUC: 0.9635, Test AUPR: 0.9569
+
+Epoch 99/100
+train-loss= 1.991211042281234e-05
+train-AUC:0.9852 train-AUPR:0.9975
+test-loss= 3.550011263703792e-05
+Test AUC: 0.9634, Test AUPR: 0.9567
+
+Epoch 100/100
+train-loss= 1.9867477463008222e-05
+train-AUC:0.9853 train-AUPR:0.9975
+test-loss= 3.552633587361297e-05
+Test AUC: 0.9637, Test AUPR: 0.9569
+Best AUC: 0.9640, Best AUPR: 0.9585
+Train set size: 178650, Validation set size: 11464
+
+Epoch 1/100
+train-loss= 0.00012593103596185255
+train-AUC:0.7205 train-AUPR:0.9178
+test-loss= 6.001553415669816e-05
+Test AUC: 0.6982, Test AUPR: 0.6100
+
+Epoch 2/100
+train-loss= 0.00011180619548890492
+train-AUC:0.9015 train-AUPR:0.98
+test-loss= 5.275822151647276e-05
+Test AUC: 0.8472, Test AUPR: 0.8286
+
+Epoch 3/100
+train-loss= 0.00010466858598654123
+train-AUC:0.9246 train-AUPR:0.9838
+test-loss= 3.8182312221021316e-05
+Test AUC: 0.9312, Test AUPR: 0.9153
+
+Epoch 4/100
+train-loss= 9.84822604424674e-05
+train-AUC:0.9362 train-AUPR:0.9861
+test-loss= 3.572944382729434e-05
+Test AUC: 0.9387, Test AUPR: 0.9236
+
+Epoch 5/100
+train-loss= 9.318960487025144e-05
+train-AUC:0.9436 train-AUPR:0.9881
+test-loss= 3.4656453635920537e-05
+Test AUC: 0.9435, Test AUPR: 0.9287
+
+Epoch 6/100
+train-loss= 8.862834900258937e-05
+train-AUC:0.9491 train-AUPR:0.9895
+test-loss= 3.373142480018334e-05
+Test AUC: 0.9471, Test AUPR: 0.9332
+
+Epoch 7/100
+train-loss= 8.459978666820681e-05
+train-AUC:0.9528 train-AUPR:0.9904
+test-loss= 3.279140381570138e-05
+Test AUC: 0.9502, Test AUPR: 0.9391
+
+Epoch 8/100
+train-loss= 8.094692093432533e-05
+train-AUC:0.9554 train-AUPR:0.9911
+test-loss= 3.220587552883204e-05
+Test AUC: 0.9509, Test AUPR: 0.9385
+
+Epoch 9/100
+train-loss= 7.755532756493668e-05
+train-AUC:0.9578 train-AUPR:0.9917
+test-loss= 3.159570781317776e-05
+Test AUC: 0.9523, Test AUPR: 0.9395
+
+Epoch 10/100
+train-loss= 7.43571982275629e-05
+train-AUC:0.9599 train-AUPR:0.9921
+test-loss= 3.114379084534522e-05
+Test AUC: 0.9532, Test AUPR: 0.9401
+
+Epoch 11/100
+train-loss= 7.127915665177848e-05
+train-AUC:0.9617 train-AUPR:0.9924
+test-loss= 3.073604183436605e-05
+Test AUC: 0.9540, Test AUPR: 0.9404
+
+Epoch 12/100
+train-loss= 6.826593216613932e-05
+train-AUC:0.9633 train-AUPR:0.9928
+test-loss= 3.0575888146908236e-05
+Test AUC: 0.9533, Test AUPR: 0.9377
+
+Epoch 13/100
+train-loss= 6.540573330576801e-05
+train-AUC:0.9645 train-AUPR:0.993
+test-loss= 3.040673449084381e-05
+Test AUC: 0.9525, Test AUPR: 0.9328
+
+Epoch 14/100
+train-loss= 6.269036122073054e-05
+train-AUC:0.9653 train-AUPR:0.9931
+test-loss= 3.012702056185316e-05
+Test AUC: 0.9532, Test AUPR: 0.9332
+
+Epoch 15/100
+train-loss= 6.013578772044402e-05
+train-AUC:0.966 train-AUPR:0.9932
+test-loss= 3.0032718464451408e-05
+Test AUC: 0.9528, Test AUPR: 0.9303
+
+Epoch 16/100
+train-loss= 5.773220497988667e-05
+train-AUC:0.9668 train-AUPR:0.9932
+test-loss= 3.0031465435893237e-05
+Test AUC: 0.9533, Test AUPR: 0.9308
+
+Epoch 17/100
+train-loss= 5.550627127235556e-05
+train-AUC:0.9674 train-AUPR:0.9933
+test-loss= 3.00318163878753e-05
+Test AUC: 0.9535, Test AUPR: 0.9313
+
+Epoch 18/100
+train-loss= 5.3411333576958286e-05
+train-AUC:0.9681 train-AUPR:0.9934
+test-loss= 2.986002149319033e-05
+Test AUC: 0.9545, Test AUPR: 0.9336
+
+Epoch 19/100
+train-loss= 5.143872553181855e-05
+train-AUC:0.9688 train-AUPR:0.9935
+test-loss= 2.9984432671008538e-05
+Test AUC: 0.9533, Test AUPR: 0.9295
+
+Epoch 20/100
+train-loss= 4.956791639795098e-05
+train-AUC:0.9695 train-AUPR:0.9937
+test-loss= 3.000461111015485e-05
+Test AUC: 0.9542, Test AUPR: 0.9319
+
+Epoch 21/100
+train-loss= 4.780034924834641e-05
+train-AUC:0.9703 train-AUPR:0.9939
+test-loss= 3.059502672832992e-05
+Test AUC: 0.9533, Test AUPR: 0.9287
+
+Epoch 22/100
+train-loss= 4.6169662839252674e-05
+train-AUC:0.971 train-AUPR:0.9941
+test-loss= 3.057692280534424e-05
+Test AUC: 0.9537, Test AUPR: 0.9290
+
+Epoch 23/100
+train-loss= 4.465434169555758e-05
+train-AUC:0.9715 train-AUPR:0.9942
+test-loss= 3.0759753190131766e-05
+Test AUC: 0.9538, Test AUPR: 0.9283
+
+Epoch 24/100
+train-loss= 4.326408345793397e-05
+train-AUC:0.9721 train-AUPR:0.9944
+test-loss= 3.098743263858228e-05
+Test AUC: 0.9542, Test AUPR: 0.9286
+
+Epoch 25/100
+train-loss= 4.195981230216636e-05
+train-AUC:0.9726 train-AUPR:0.9945
+test-loss= 3.114742774773709e-05
+Test AUC: 0.9554, Test AUPR: 0.9317
+
+Epoch 26/100
+train-loss= 4.074758269557958e-05
+train-AUC:0.9731 train-AUPR:0.9947
+test-loss= 3.1514721093939805e-05
+Test AUC: 0.9561, Test AUPR: 0.9325
+
+Epoch 27/100
+train-loss= 3.961830046742095e-05
+train-AUC:0.9736 train-AUPR:0.9948
+test-loss= 3.182299211569292e-05
+Test AUC: 0.9562, Test AUPR: 0.9330
+
+Epoch 28/100
+train-loss= 3.8545355471849375e-05
+train-AUC:0.974 train-AUPR:0.9949
+test-loss= 3.182921046488616e-05
+Test AUC: 0.9568, Test AUPR: 0.9348
+
+Epoch 29/100
+train-loss= 3.754474687669713e-05
+train-AUC:0.9744 train-AUPR:0.9951
+test-loss= 3.228530246148306e-05
+Test AUC: 0.9572, Test AUPR: 0.9351
+
+Epoch 30/100
+train-loss= 3.6598792471139665e-05
+train-AUC:0.9749 train-AUPR:0.9952
+test-loss= 3.287859328626671e-05
+Test AUC: 0.9571, Test AUPR: 0.9352
+
+Epoch 31/100
+train-loss= 3.572769210747634e-05
+train-AUC:0.9753 train-AUPR:0.9953
+test-loss= 3.2996536549037764e-05
+Test AUC: 0.9570, Test AUPR: 0.9340
+
+Epoch 32/100
+train-loss= 3.4908271706674804e-05
+train-AUC:0.9756 train-AUPR:0.9953
+test-loss= 3.322675844962499e-05
+Test AUC: 0.9569, Test AUPR: 0.9350
+
+Epoch 33/100
+train-loss= 3.410333850421794e-05
+train-AUC:0.976 train-AUPR:0.9955
+test-loss= 3.390061745091243e-05
+Test AUC: 0.9574, Test AUPR: 0.9356
+
+Epoch 34/100
+train-loss= 3.335474712188725e-05
+train-AUC:0.9763 train-AUPR:0.9955
+test-loss= 3.397646727299075e-05
+Test AUC: 0.9571, Test AUPR: 0.9349
+
+Epoch 35/100
+train-loss= 3.265567772401136e-05
+train-AUC:0.9766 train-AUPR:0.9956
+test-loss= 3.423289878752709e-05
+Test AUC: 0.9575, Test AUPR: 0.9361
+
+Epoch 36/100
+train-loss= 3.200969849852597e-05
+train-AUC:0.9769 train-AUPR:0.9957
+test-loss= 3.4220854635431646e-05
+Test AUC: 0.9571, Test AUPR: 0.9347
+
+Epoch 37/100
+train-loss= 3.134989017803663e-05
+train-AUC:0.9772 train-AUPR:0.9958
+test-loss= 3.4869788247059876e-05
+Test AUC: 0.9580, Test AUPR: 0.9380
+
+Epoch 38/100
+train-loss= 3.074589143972453e-05
+train-AUC:0.9776 train-AUPR:0.9958
+test-loss= 3.5219409211232624e-05
+Test AUC: 0.9584, Test AUPR: 0.9385
+
+Epoch 39/100
+train-loss= 3.0177747739519085e-05
+train-AUC:0.9779 train-AUPR:0.9959
+test-loss= 3.5310391562848517e-05
+Test AUC: 0.9578, Test AUPR: 0.9370
+
+Epoch 40/100
+train-loss= 2.964668628584261e-05
+train-AUC:0.9781 train-AUPR:0.996
+test-loss= 3.557779097673532e-05
+Test AUC: 0.9589, Test AUPR: 0.9397
+
+Epoch 41/100
+train-loss= 2.9091822343682695e-05
+train-AUC:0.9785 train-AUPR:0.9961
+test-loss= 3.6148496091740164e-05
+Test AUC: 0.9589, Test AUPR: 0.9395
+
+Epoch 42/100
+train-loss= 2.8613939393377426e-05
+train-AUC:0.9788 train-AUPR:0.9961
+test-loss= 3.645693609037353e-05
+Test AUC: 0.9587, Test AUPR: 0.9392
+
+Epoch 43/100
+train-loss= 2.8168611122118536e-05
+train-AUC:0.979 train-AUPR:0.9962
+test-loss= 3.596845512529894e-05
+Test AUC: 0.9598, Test AUPR: 0.9419
+
+Epoch 44/100
+train-loss= 2.7709540668869767e-05
+train-AUC:0.9793 train-AUPR:0.9963
+test-loss= 3.6345387952608906e-05
+Test AUC: 0.9595, Test AUPR: 0.9410
+
+Epoch 45/100
+train-loss= 2.7321141589565367e-05
+train-AUC:0.9796 train-AUPR:0.9963
+test-loss= 3.7338935613465826e-05
+Test AUC: 0.9589, Test AUPR: 0.9397
+
+Epoch 46/100
+train-loss= 2.6918321372479778e-05
+train-AUC:0.9798 train-AUPR:0.9964
+test-loss= 3.757064711024357e-05
+Test AUC: 0.9595, Test AUPR: 0.9414
+
+Epoch 47/100
+train-loss= 2.652669141448048e-05
+train-AUC:0.98 train-AUPR:0.9964
+test-loss= 3.784613141793932e-05
+Test AUC: 0.9596, Test AUPR: 0.9417
+
+Epoch 48/100
+train-loss= 2.6194537608456017e-05
+train-AUC:0.9803 train-AUPR:0.9965
+test-loss= 3.8185985518433545e-05
+Test AUC: 0.9594, Test AUPR: 0.9408
+
+Epoch 49/100
+train-loss= 2.586587779734804e-05
+train-AUC:0.9805 train-AUPR:0.9965
+test-loss= 3.852740200515901e-05
+Test AUC: 0.9601, Test AUPR: 0.9428
+
+Epoch 50/100
+train-loss= 2.5509096246255468e-05
+train-AUC:0.9807 train-AUPR:0.9966
+test-loss= 3.833744079602489e-05
+Test AUC: 0.9597, Test AUPR: 0.9417
+
+Epoch 51/100
+train-loss= 2.5197718362330456e-05
+train-AUC:0.981 train-AUPR:0.9966
+test-loss= 3.838261221558251e-05
+Test AUC: 0.9599, Test AUPR: 0.9422
+
+Epoch 52/100
+train-loss= 2.4876498997528414e-05
+train-AUC:0.9812 train-AUPR:0.9967
+test-loss= 3.9413852119312696e-05
+Test AUC: 0.9599, Test AUPR: 0.9430
+
+Epoch 53/100
+train-loss= 2.4578929397861664e-05
+train-AUC:0.9814 train-AUPR:0.9967
+test-loss= 3.9219372728365084e-05
+Test AUC: 0.9603, Test AUPR: 0.9434
+
+Epoch 54/100
+train-loss= 2.4303877984246318e-05
+train-AUC:0.9816 train-AUPR:0.9968
+test-loss= 3.971724620833733e-05
+Test AUC: 0.9593, Test AUPR: 0.9410
+
+Epoch 55/100
+train-loss= 2.4024509696309185e-05
+train-AUC:0.9818 train-AUPR:0.9968
+test-loss= 3.99232550218067e-05
+Test AUC: 0.9598, Test AUPR: 0.9425
+
+Epoch 56/100
+train-loss= 2.3773529267331114e-05
+train-AUC:0.982 train-AUPR:0.9969
+test-loss= 3.922546369498706e-05
+Test AUC: 0.9603, Test AUPR: 0.9443
+
+Epoch 57/100
+train-loss= 2.350378938993085e-05
+train-AUC:0.9822 train-AUPR:0.9969
+test-loss= 3.954551370511584e-05
+Test AUC: 0.9602, Test AUPR: 0.9440
+
+Epoch 58/100
+train-loss= 2.3267140474901323e-05
+train-AUC:0.9825 train-AUPR:0.997
+test-loss= 4.012963558441263e-05
+Test AUC: 0.9606, Test AUPR: 0.9445
+
+Epoch 59/100
+train-loss= 2.302626330846503e-05
+train-AUC:0.9826 train-AUPR:0.997
+test-loss= 3.994994037066484e-05
+Test AUC: 0.9605, Test AUPR: 0.9446
+
+Epoch 60/100
+train-loss= 2.2809573691864825e-05
+train-AUC:0.9828 train-AUPR:0.997
+test-loss= 3.977446437963471e-05
+Test AUC: 0.9605, Test AUPR: 0.9442
+
+Epoch 61/100
+train-loss= 2.259064218659645e-05
+train-AUC:0.983 train-AUPR:0.9971
+test-loss= 4.091204793321778e-05
+Test AUC: 0.9600, Test AUPR: 0.9432
+
+Epoch 62/100
+train-loss= 2.2363441308406165e-05
+train-AUC:0.9832 train-AUPR:0.9971
+test-loss= 4.054961072258906e-05
+Test AUC: 0.9599, Test AUPR: 0.9437
+
+Epoch 63/100
+train-loss= 2.2185725464128226e-05
+train-AUC:0.9833 train-AUPR:0.9971
+test-loss= 4.099251992288205e-05
+Test AUC: 0.9604, Test AUPR: 0.9447
+
+Epoch 64/100
+train-loss= 2.1993932714323485e-05
+train-AUC:0.9835 train-AUPR:0.9972
+test-loss= 4.062083837708142e-05
+Test AUC: 0.9596, Test AUPR: 0.9430
+
+Epoch 65/100
+train-loss= 2.1815674581215425e-05
+train-AUC:0.9836 train-AUPR:0.9972
+test-loss= 4.075044624387844e-05
+Test AUC: 0.9601, Test AUPR: 0.9444
+
+Epoch 66/100
+train-loss= 2.166760491617514e-05
+train-AUC:0.9838 train-AUPR:0.9972
+test-loss= 4.0815676518944036e-05
+Test AUC: 0.9596, Test AUPR: 0.9432
+
+Epoch 67/100
+train-loss= 2.1500009475153366e-05
+train-AUC:0.9839 train-AUPR:0.9973
+test-loss= 4.107990176712643e-05
+Test AUC: 0.9603, Test AUPR: 0.9451
+
+Epoch 68/100
+train-loss= 2.1313813272858414e-05
+train-AUC:0.9841 train-AUPR:0.9973
+test-loss= 4.10417233907669e-05
+Test AUC: 0.9601, Test AUPR: 0.9449
+
+Epoch 69/100
+train-loss= 2.1141599431079273e-05
+train-AUC:0.9843 train-AUPR:0.9973
+test-loss= 4.0690880593767716e-05
+Test AUC: 0.9603, Test AUPR: 0.9452
+
+Epoch 70/100
+train-loss= 2.100596958737463e-05
+train-AUC:0.9844 train-AUPR:0.9974
+test-loss= 4.1335335018247136e-05
+Test AUC: 0.9604, Test AUPR: 0.9456
+
+Epoch 71/100
+train-loss= 2.083788745015601e-05
+train-AUC:0.9846 train-AUPR:0.9974
+test-loss= 4.1539594271094834e-05
+Test AUC: 0.9607, Test AUPR: 0.9468
+
+Epoch 72/100
+train-loss= 2.0710079986242364e-05
+train-AUC:0.9847 train-AUPR:0.9974
+test-loss= 4.142550888048213e-05
+Test AUC: 0.9609, Test AUPR: 0.9470
+
+Epoch 73/100
+train-loss= 2.0568907978219077e-05
+train-AUC:0.9849 train-AUPR:0.9975
+test-loss= 4.168143606402203e-05
+Test AUC: 0.9606, Test AUPR: 0.9464
+
+Epoch 74/100
+train-loss= 2.0459312669309353e-05
+train-AUC:0.985 train-AUPR:0.9975
+test-loss= 4.160077430032303e-05
+Test AUC: 0.9603, Test AUPR: 0.9461
+
+Epoch 75/100
+train-loss= 2.0307983724536465e-05
+train-AUC:0.9851 train-AUPR:0.9975
+test-loss= 4.1847158189595206e-05
+Test AUC: 0.9608, Test AUPR: 0.9470
+
+Epoch 76/100
+train-loss= 2.0179359595247785e-05
+train-AUC:0.9852 train-AUPR:0.9975
+test-loss= 4.206188101079692e-05
+Test AUC: 0.9600, Test AUPR: 0.9458
+
+Epoch 77/100
+train-loss= 2.005987868167558e-05
+train-AUC:0.9853 train-AUPR:0.9976
+test-loss= 4.244562750584748e-05
+Test AUC: 0.9607, Test AUPR: 0.9475
+
+Epoch 78/100
+train-loss= 1.9941162552581327e-05
+train-AUC:0.9855 train-AUPR:0.9976
+test-loss= 4.241483211933277e-05
+Test AUC: 0.9608, Test AUPR: 0.9474
+
+Epoch 79/100
+train-loss= 1.9826898129754395e-05
+train-AUC:0.9856 train-AUPR:0.9976
+test-loss= 4.3305857607474795e-05
+Test AUC: 0.9605, Test AUPR: 0.9468
+
+Epoch 80/100
+train-loss= 1.972199758327611e-05
+train-AUC:0.9857 train-AUPR:0.9976
+test-loss= 4.2575456342410974e-05
+Test AUC: 0.9607, Test AUPR: 0.9471
+
+Epoch 81/100
+train-loss= 1.959634722196652e-05
+train-AUC:0.9858 train-AUPR:0.9976
+test-loss= 4.3574863601546144e-05
+Test AUC: 0.9603, Test AUPR: 0.9463
+
+Epoch 82/100
+train-loss= 1.949871613169931e-05
+train-AUC:0.9859 train-AUPR:0.9977
+test-loss= 4.382690951612889e-05
+Test AUC: 0.9601, Test AUPR: 0.9460
+
+Epoch 83/100
+train-loss= 1.9411590631155618e-05
+train-AUC:0.986 train-AUPR:0.9977
+test-loss= 4.40349954454032e-05
+Test AUC: 0.9599, Test AUPR: 0.9453
+
+Epoch 84/100
+train-loss= 1.9306459623393376e-05
+train-AUC:0.9861 train-AUPR:0.9977
+test-loss= 4.356498235351791e-05
+Test AUC: 0.9603, Test AUPR: 0.9465
+
+Epoch 85/100
+train-loss= 1.9186484548447013e-05
+train-AUC:0.9862 train-AUPR:0.9977
+test-loss= 4.4186773078889174e-05
+Test AUC: 0.9606, Test AUPR: 0.9468
+
+Epoch 86/100
+train-loss= 1.9067123828400027e-05
+train-AUC:0.9864 train-AUPR:0.9977
+test-loss= 4.40101844400937e-05
+Test AUC: 0.9606, Test AUPR: 0.9471
+
+Epoch 87/100
+train-loss= 1.8972271577403754e-05
+train-AUC:0.9865 train-AUPR:0.9978
+test-loss= 4.3551799557214007e-05
+Test AUC: 0.9609, Test AUPR: 0.9479
+
+Epoch 88/100
+train-loss= 1.886623553158087e-05
+train-AUC:0.9866 train-AUPR:0.9978
+test-loss= 4.464396732467417e-05
+Test AUC: 0.9607, Test AUPR: 0.9474
+
+Epoch 89/100
+train-loss= 1.877445459632756e-05
+train-AUC:0.9867 train-AUPR:0.9978
+test-loss= 4.504936105790707e-05
+Test AUC: 0.9607, Test AUPR: 0.9477
+
+Epoch 90/100
+train-loss= 1.871225186132297e-05
+train-AUC:0.9868 train-AUPR:0.9978
+test-loss= 4.43191053729247e-05
+Test AUC: 0.9605, Test AUPR: 0.9474
+
+Epoch 91/100
+train-loss= 1.8624892354578722e-05
+train-AUC:0.9869 train-AUPR:0.9978
+test-loss= 4.466404177804802e-05
+Test AUC: 0.9609, Test AUPR: 0.9484
+
+Epoch 92/100
+train-loss= 1.8539065044199156e-05
+train-AUC:0.987 train-AUPR:0.9979
+test-loss= 4.487020397053178e-05
+Test AUC: 0.9611, Test AUPR: 0.9488
+
+Epoch 93/100
+train-loss= 1.8487899094244494e-05
+train-AUC:0.987 train-AUPR:0.9979
+test-loss= 4.491122115847953e-05
+Test AUC: 0.9610, Test AUPR: 0.9482
+
+Epoch 94/100
+train-loss= 1.8381549093925482e-05
+train-AUC:0.9871 train-AUPR:0.9979
+test-loss= 4.55995029864075e-05
+Test AUC: 0.9610, Test AUPR: 0.9485
+
+Epoch 95/100
+train-loss= 1.8284014884143725e-05
+train-AUC:0.9872 train-AUPR:0.9979
+test-loss= 4.488748640591501e-05
+Test AUC: 0.9607, Test AUPR: 0.9482
+
+Epoch 96/100
+train-loss= 1.82198350448886e-05
+train-AUC:0.9873 train-AUPR:0.9979
+test-loss= 4.4640052260340965e-05
+Test AUC: 0.9611, Test AUPR: 0.9489
+
+Epoch 97/100
+train-loss= 1.8112375861017635e-05
+train-AUC:0.9874 train-AUPR:0.9979
+test-loss= 4.5707876958467705e-05
+Test AUC: 0.9607, Test AUPR: 0.9482
+
+Epoch 98/100
+train-loss= 1.802993315359874e-05
+train-AUC:0.9875 train-AUPR:0.998
+test-loss= 4.590389013955914e-05
+Test AUC: 0.9602, Test AUPR: 0.9473
+
+Epoch 99/100
+train-loss= 1.7952841518641253e-05
+train-AUC:0.9876 train-AUPR:0.998
+test-loss= 4.6160417840935014e-05
+Test AUC: 0.9610, Test AUPR: 0.9486
+
+Epoch 100/100
+train-loss= 1.788485056040102e-05
+train-AUC:0.9877 train-AUPR:0.998
+test-loss= 4.5441184647833645e-05
+Test AUC: 0.9609, Test AUPR: 0.9486
+Best AUC: 0.9611, Best AUPR: 0.9489
+Train set size: 178650, Validation set size: 11464
+
+Epoch 1/100
+train-loss= 0.00014284972079554894
+train-AUC:0.562 train-AUPR:0.8615
+test-loss= 6.02720774559399e-05
+Test AUC: 0.6417, Test AUPR: 0.5609
+
+Epoch 2/100
+train-loss= 0.00012196495190675673
+train-AUC:0.8902 train-AUPR:0.9734
+test-loss= 5.164008330234014e-05
+Test AUC: 0.8427, Test AUPR: 0.7827
+
+Epoch 3/100
+train-loss= 0.0001133615597602936
+train-AUC:0.9209 train-AUPR:0.9829
+test-loss= 3.6268526868893395e-05
+Test AUC: 0.9199, Test AUPR: 0.8975
+
+Epoch 4/100
+train-loss= 0.00010678367190357019
+train-AUC:0.9312 train-AUPR:0.9848
+test-loss= 3.349628697220296e-05
+Test AUC: 0.9302, Test AUPR: 0.9122
+
+Epoch 5/100
+train-loss= 0.00010105535041842179
+train-AUC:0.938 train-AUPR:0.9864
+test-loss= 3.2227091226058664e-05
+Test AUC: 0.9356, Test AUPR: 0.9202
+
+Epoch 6/100
+train-loss= 9.600075693181206e-05
+train-AUC:0.943 train-AUPR:0.9876
+test-loss= 3.144297611022944e-05
+Test AUC: 0.9394, Test AUPR: 0.9253
+
+Epoch 7/100
+train-loss= 9.152070451043014e-05
+train-AUC:0.9466 train-AUPR:0.9885
+test-loss= 3.087866871987534e-05
+Test AUC: 0.9422, Test AUPR: 0.9283
+
+Epoch 8/100
+train-loss= 8.741833567786144e-05
+train-AUC:0.9498 train-AUPR:0.9893
+test-loss= 3.0253784417773324e-05
+Test AUC: 0.9441, Test AUPR: 0.9295
+
+Epoch 9/100
+train-loss= 8.356333596346728e-05
+train-AUC:0.9529 train-AUPR:0.9901
+test-loss= 2.96417865525237e-05
+Test AUC: 0.9466, Test AUPR: 0.9334
+
+Epoch 10/100
+train-loss= 8.001225070729163e-05
+train-AUC:0.9557 train-AUPR:0.9908
+test-loss= 2.9319272079587564e-05
+Test AUC: 0.9481, Test AUPR: 0.9360
+
+Epoch 11/100
+train-loss= 7.666918566138211e-05
+train-AUC:0.9578 train-AUPR:0.9914
+test-loss= 2.882659528859412e-05
+Test AUC: 0.9502, Test AUPR: 0.9409
+
+Epoch 12/100
+train-loss= 7.341577897978003e-05
+train-AUC:0.9594 train-AUPR:0.9919
+test-loss= 2.8397999729880568e-05
+Test AUC: 0.9517, Test AUPR: 0.9429
+
+Epoch 13/100
+train-loss= 7.039447375248702e-05
+train-AUC:0.9609 train-AUPR:0.9922
+test-loss= 2.8199706660727895e-05
+Test AUC: 0.9526, Test AUPR: 0.9430
+
+Epoch 14/100
+train-loss= 6.754925062167287e-05
+train-AUC:0.9624 train-AUPR:0.9926
+test-loss= 2.7925215417159162e-05
+Test AUC: 0.9541, Test AUPR: 0.9447
+
+Epoch 15/100
+train-loss= 6.4849276987071e-05
+train-AUC:0.9635 train-AUPR:0.9927
+test-loss= 2.781558321725216e-05
+Test AUC: 0.9546, Test AUPR: 0.9440
+
+Epoch 16/100
+train-loss= 6.211915788215447e-05
+train-AUC:0.9645 train-AUPR:0.9928
+test-loss= 2.7642587286895253e-05
+Test AUC: 0.9554, Test AUPR: 0.9450
+
+Epoch 17/100
+train-loss= 5.938797229950481e-05
+train-AUC:0.9653 train-AUPR:0.9929
+test-loss= 2.751598200927809e-05
+Test AUC: 0.9559, Test AUPR: 0.9462
+
+Epoch 18/100
+train-loss= 5.70357061053003e-05
+train-AUC:0.9662 train-AUPR:0.9931
+test-loss= 2.7277160485308236e-05
+Test AUC: 0.9567, Test AUPR: 0.9475
+
+Epoch 19/100
+train-loss= 5.4882412493278955e-05
+train-AUC:0.9671 train-AUPR:0.9933
+test-loss= 2.73504574566726e-05
+Test AUC: 0.9570, Test AUPR: 0.9491
+
+Epoch 20/100
+train-loss= 5.290256939847163e-05
+train-AUC:0.9678 train-AUPR:0.9935
+test-loss= 2.718750395229124e-05
+Test AUC: 0.9573, Test AUPR: 0.9490
+
+Epoch 21/100
+train-loss= 5.104082632625333e-05
+train-AUC:0.9687 train-AUPR:0.9937
+test-loss= 2.72941127658639e-05
+Test AUC: 0.9572, Test AUPR: 0.9482
+
+Epoch 22/100
+train-loss= 4.931817076768723e-05
+train-AUC:0.9694 train-AUPR:0.9939
+test-loss= 2.737045652036141e-05
+Test AUC: 0.9570, Test AUPR: 0.9468
+
+Epoch 23/100
+train-loss= 4.766662273292211e-05
+train-AUC:0.97 train-AUPR:0.994
+test-loss= 2.7480673640238515e-05
+Test AUC: 0.9566, Test AUPR: 0.9454
+
+Epoch 24/100
+train-loss= 4.614665474572704e-05
+train-AUC:0.9706 train-AUPR:0.9942
+test-loss= 2.7601460913886412e-05
+Test AUC: 0.9571, Test AUPR: 0.9466
+
+Epoch 25/100
+train-loss= 4.473061578933712e-05
+train-AUC:0.9711 train-AUPR:0.9943
+test-loss= 2.7749201299756535e-05
+Test AUC: 0.9573, Test AUPR: 0.9468
+
+Epoch 26/100
+train-loss= 4.338275358652221e-05
+train-AUC:0.9718 train-AUPR:0.9945
+test-loss= 2.780583975037244e-05
+Test AUC: 0.9575, Test AUPR: 0.9473
+
+Epoch 27/100
+train-loss= 4.2139453995371276e-05
+train-AUC:0.9723 train-AUPR:0.9946
+test-loss= 2.7982774141861357e-05
+Test AUC: 0.9574, Test AUPR: 0.9467
+
+Epoch 28/100
+train-loss= 4.098295623302593e-05
+train-AUC:0.9728 train-AUPR:0.9947
+test-loss= 2.8220438824112567e-05
+Test AUC: 0.9574, Test AUPR: 0.9468
+
+Epoch 29/100
+train-loss= 3.987028606792741e-05
+train-AUC:0.9733 train-AUPR:0.9949
+test-loss= 2.8411148730808427e-05
+Test AUC: 0.9575, Test AUPR: 0.9471
+
+Epoch 30/100
+train-loss= 3.885338762178162e-05
+train-AUC:0.9737 train-AUPR:0.995
+test-loss= 2.8568562393161858e-05
+Test AUC: 0.9576, Test AUPR: 0.9474
+
+Epoch 31/100
+train-loss= 3.788184041974259e-05
+train-AUC:0.9742 train-AUPR:0.9951
+test-loss= 2.883979628240821e-05
+Test AUC: 0.9574, Test AUPR: 0.9461
+
+Epoch 32/100
+train-loss= 3.697320105747252e-05
+train-AUC:0.9746 train-AUPR:0.9952
+test-loss= 2.9003412696089017e-05
+Test AUC: 0.9572, Test AUPR: 0.9447
+
+Epoch 33/100
+train-loss= 3.611884145819437e-05
+train-AUC:0.975 train-AUPR:0.9954
+test-loss= 2.924964580599112e-05
+Test AUC: 0.9569, Test AUPR: 0.9439
+
+Epoch 34/100
+train-loss= 3.5309077076574287e-05
+train-AUC:0.9754 train-AUPR:0.9955
+test-loss= 2.9405283911279757e-05
+Test AUC: 0.9569, Test AUPR: 0.9431
+
+Epoch 35/100
+train-loss= 3.452305454451131e-05
+train-AUC:0.9758 train-AUPR:0.9955
+test-loss= 2.971814590488708e-05
+Test AUC: 0.9569, Test AUPR: 0.9423
+
+Epoch 36/100
+train-loss= 3.380923011941533e-05
+train-AUC:0.9761 train-AUPR:0.9956
+test-loss= 2.9338746015125444e-05
+Test AUC: 0.9572, Test AUPR: 0.9437
+
+Epoch 37/100
+train-loss= 3.3158934353247364e-05
+train-AUC:0.9763 train-AUPR:0.9957
+test-loss= 2.9515615415506568e-05
+Test AUC: 0.9570, Test AUPR: 0.9429
+
+Epoch 38/100
+train-loss= 3.2509909168598937e-05
+train-AUC:0.9767 train-AUPR:0.9957
+test-loss= 2.9551196747198857e-05
+Test AUC: 0.9571, Test AUPR: 0.9428
+
+Epoch 39/100
+train-loss= 3.1920042636512606e-05
+train-AUC:0.977 train-AUPR:0.9958
+test-loss= 2.908278243656518e-05
+Test AUC: 0.9578, Test AUPR: 0.9447
+
+Epoch 40/100
+train-loss= 3.130047837793076e-05
+train-AUC:0.9773 train-AUPR:0.9959
+test-loss= 2.9327962690521103e-05
+Test AUC: 0.9576, Test AUPR: 0.9449
+
+Epoch 41/100
+train-loss= 3.074221965681429e-05
+train-AUC:0.9776 train-AUPR:0.9959
+test-loss= 2.969234183545056e-05
+Test AUC: 0.9578, Test AUPR: 0.9457
+
+Epoch 42/100
+train-loss= 3.0253518204911897e-05
+train-AUC:0.9779 train-AUPR:0.996
+test-loss= 2.9242876332203823e-05
+Test AUC: 0.9586, Test AUPR: 0.9479
+
+Epoch 43/100
+train-loss= 2.9736732755960487e-05
+train-AUC:0.9782 train-AUPR:0.9961
+test-loss= 2.9353324820424655e-05
+Test AUC: 0.9584, Test AUPR: 0.9473
+
+Epoch 44/100
+train-loss= 2.930572111000042e-05
+train-AUC:0.9785 train-AUPR:0.9961
+test-loss= 2.9262261879835107e-05
+Test AUC: 0.9588, Test AUPR: 0.9485
+
+Epoch 45/100
+train-loss= 2.886258626631452e-05
+train-AUC:0.9787 train-AUPR:0.9962
+test-loss= 2.931418717531416e-05
+Test AUC: 0.9588, Test AUPR: 0.9483
+
+Epoch 46/100
+train-loss= 2.841007107284401e-05
+train-AUC:0.979 train-AUPR:0.9962
+test-loss= 2.947874725988006e-05
+Test AUC: 0.9590, Test AUPR: 0.9490
+
+Epoch 47/100
+train-loss= 2.7975005376849427e-05
+train-AUC:0.9793 train-AUPR:0.9963
+test-loss= 2.9579704446719398e-05
+Test AUC: 0.9588, Test AUPR: 0.9483
+
+Epoch 48/100
+train-loss= 2.7561906319588063e-05
+train-AUC:0.9796 train-AUPR:0.9964
+test-loss= 2.9872767549249898e-05
+Test AUC: 0.9587, Test AUPR: 0.9480
+
+Epoch 49/100
+train-loss= 2.718664691156611e-05
+train-AUC:0.9798 train-AUPR:0.9964
+test-loss= 3.012780825407956e-05
+Test AUC: 0.9584, Test AUPR: 0.9469
+
+Epoch 50/100
+train-loss= 2.68263447578301e-05
+train-AUC:0.98 train-AUPR:0.9965
+test-loss= 2.9764905707119066e-05
+Test AUC: 0.9584, Test AUPR: 0.9469
+
+Epoch 51/100
+train-loss= 2.6511542067419672e-05
+train-AUC:0.9802 train-AUPR:0.9965
+test-loss= 3.0052395172245587e-05
+Test AUC: 0.9584, Test AUPR: 0.9468
+
+Epoch 52/100
+train-loss= 2.6178032685287052e-05
+train-AUC:0.9804 train-AUPR:0.9966
+test-loss= 2.998448466389477e-05
+Test AUC: 0.9586, Test AUPR: 0.9478
+
+Epoch 53/100
+train-loss= 2.587693610212698e-05
+train-AUC:0.9806 train-AUPR:0.9966
+test-loss= 3.0354395851919224e-05
+Test AUC: 0.9585, Test AUPR: 0.9471
+
+Epoch 54/100
+train-loss= 2.5560506712045786e-05
+train-AUC:0.9808 train-AUPR:0.9967
+test-loss= 2.9939825374266525e-05
+Test AUC: 0.9588, Test AUPR: 0.9479
+
+Epoch 55/100
+train-loss= 2.5283778511173345e-05
+train-AUC:0.981 train-AUPR:0.9967
+test-loss= 3.030364819531331e-05
+Test AUC: 0.9587, Test AUPR: 0.9475
+
+Epoch 56/100
+train-loss= 2.4978289192476227e-05
+train-AUC:0.9812 train-AUPR:0.9968
+test-loss= 3.0344933146625156e-05
+Test AUC: 0.9590, Test AUPR: 0.9484
+
+Epoch 57/100
+train-loss= 2.4739553072257034e-05
+train-AUC:0.9814 train-AUPR:0.9968
+test-loss= 3.032292455788351e-05
+Test AUC: 0.9592, Test AUPR: 0.9488
+
+Epoch 58/100
+train-loss= 2.4471019008664766e-05
+train-AUC:0.9816 train-AUPR:0.9969
+test-loss= 3.0788050318463064e-05
+Test AUC: 0.9592, Test AUPR: 0.9485
+
+Epoch 59/100
+train-loss= 2.4219731339679656e-05
+train-AUC:0.9818 train-AUPR:0.9969
+test-loss= 3.094223782222586e-05
+Test AUC: 0.9593, Test AUPR: 0.9492
+
+Epoch 60/100
+train-loss= 2.3982060821390674e-05
+train-AUC:0.982 train-AUPR:0.9969
+test-loss= 3.054741164311944e-05
+Test AUC: 0.9591, Test AUPR: 0.9484
+
+Epoch 61/100
+train-loss= 2.375466388845991e-05
+train-AUC:0.9821 train-AUPR:0.997
+test-loss= 3.0616694763666756e-05
+Test AUC: 0.9595, Test AUPR: 0.9497
+
+Epoch 62/100
+train-loss= 2.352434556890595e-05
+train-AUC:0.9823 train-AUPR:0.997
+test-loss= 3.0537135249155844e-05
+Test AUC: 0.9596, Test AUPR: 0.9499
+
+Epoch 63/100
+train-loss= 2.331626476141841e-05
+train-AUC:0.9825 train-AUPR:0.997
+test-loss= 3.0546844920659515e-05
+Test AUC: 0.9598, Test AUPR: 0.9503
+
+Epoch 64/100
+train-loss= 2.3110275079381254e-05
+train-AUC:0.9827 train-AUPR:0.9971
+test-loss= 3.0598915796220014e-05
+Test AUC: 0.9600, Test AUPR: 0.9504
+
+Epoch 65/100
+train-loss= 2.290345634561342e-05
+train-AUC:0.9828 train-AUPR:0.9971
+test-loss= 3.080014646344474e-05
+Test AUC: 0.9599, Test AUPR: 0.9503
+
+Epoch 66/100
+train-loss= 2.2710255930278937e-05
+train-AUC:0.983 train-AUPR:0.9971
+test-loss= 3.0914577606750884e-05
+Test AUC: 0.9598, Test AUPR: 0.9505
+
+Epoch 67/100
+train-loss= 2.2511147765462018e-05
+train-AUC:0.9831 train-AUPR:0.9972
+test-loss= 3.103698445880488e-05
+Test AUC: 0.9598, Test AUPR: 0.9502
+
+Epoch 68/100
+train-loss= 2.231993275365341e-05
+train-AUC:0.9833 train-AUPR:0.9972
+test-loss= 3.105055980139983e-05
+Test AUC: 0.9600, Test AUPR: 0.9502
+
+Epoch 69/100
+train-loss= 2.213630519792742e-05
+train-AUC:0.9834 train-AUPR:0.9972
+test-loss= 3.196652887671125e-05
+Test AUC: 0.9593, Test AUPR: 0.9488
+
+Epoch 70/100
+train-loss= 2.1955693490425813e-05
+train-AUC:0.9836 train-AUPR:0.9973
+test-loss= 3.1244108519683915e-05
+Test AUC: 0.9599, Test AUPR: 0.9504
+
+Epoch 71/100
+train-loss= 2.1797186006126437e-05
+train-AUC:0.9837 train-AUPR:0.9973
+test-loss= 3.2104245034116014e-05
+Test AUC: 0.9598, Test AUPR: 0.9503
+
+Epoch 72/100
+train-loss= 2.1631134772480885e-05
+train-AUC:0.9839 train-AUPR:0.9973
+test-loss= 3.204148442114639e-05
+Test AUC: 0.9598, Test AUPR: 0.9501
+
+Epoch 73/100
+train-loss= 2.1478982406138972e-05
+train-AUC:0.984 train-AUPR:0.9973
+test-loss= 3.194634783792063e-05
+Test AUC: 0.9600, Test AUPR: 0.9511
+
+Epoch 74/100
+train-loss= 2.1321618553639927e-05
+train-AUC:0.9841 train-AUPR:0.9974
+test-loss= 3.245887291323282e-05
+Test AUC: 0.9598, Test AUPR: 0.9507
+
+Epoch 75/100
+train-loss= 2.1187192772137428e-05
+train-AUC:0.9843 train-AUPR:0.9974
+test-loss= 3.25291594964844e-05
+Test AUC: 0.9599, Test AUPR: 0.9509
+
+Epoch 76/100
+train-loss= 2.1054587159342304e-05
+train-AUC:0.9844 train-AUPR:0.9974
+test-loss= 3.2564148109273654e-05
+Test AUC: 0.9600, Test AUPR: 0.9507
+
+Epoch 77/100
+train-loss= 2.090497416272872e-05
+train-AUC:0.9845 train-AUPR:0.9974
+test-loss= 3.237667475974568e-05
+Test AUC: 0.9598, Test AUPR: 0.9511
+
+Epoch 78/100
+train-loss= 2.077406573088737e-05
+train-AUC:0.9846 train-AUPR:0.9975
+test-loss= 3.2676772499783254e-05
+Test AUC: 0.9598, Test AUPR: 0.9507
+
+Epoch 79/100
+train-loss= 2.0633922874710656e-05
+train-AUC:0.9848 train-AUPR:0.9975
+test-loss= 3.264325268603004e-05
+Test AUC: 0.9600, Test AUPR: 0.9510
+
+Epoch 80/100
+train-loss= 2.0494178842503985e-05
+train-AUC:0.9849 train-AUPR:0.9975
+test-loss= 3.26785584554253e-05
+Test AUC: 0.9601, Test AUPR: 0.9516
+
+Epoch 81/100
+train-loss= 2.0371846815067082e-05
+train-AUC:0.985 train-AUPR:0.9976
+test-loss= 3.2970867661105444e-05
+Test AUC: 0.9599, Test AUPR: 0.9512
+
+Epoch 82/100
+train-loss= 2.0238126597082852e-05
+train-AUC:0.9852 train-AUPR:0.9976
+test-loss= 3.295508262084567e-05
+Test AUC: 0.9603, Test AUPR: 0.9525
+
+Epoch 83/100
+train-loss= 2.0121318675742376e-05
+train-AUC:0.9853 train-AUPR:0.9976
+test-loss= 3.2763028698040734e-05
+Test AUC: 0.9601, Test AUPR: 0.9524
+
+Epoch 84/100
+train-loss= 2.0023998161874296e-05
+train-AUC:0.9854 train-AUPR:0.9976
+test-loss= 3.2453088704639604e-05
+Test AUC: 0.9601, Test AUPR: 0.9523
+
+Epoch 85/100
+train-loss= 1.989865633342368e-05
+train-AUC:0.9855 train-AUPR:0.9976
+test-loss= 3.2735155311732216e-05
+Test AUC: 0.9602, Test AUPR: 0.9529
+
+Epoch 86/100
+train-loss= 1.9805382779756914e-05
+train-AUC:0.9856 train-AUPR:0.9977
+test-loss= 3.239837919010288e-05
+Test AUC: 0.9604, Test AUPR: 0.9530
+
+Epoch 87/100
+train-loss= 1.9684562429873307e-05
+train-AUC:0.9857 train-AUPR:0.9977
+test-loss= 3.259467053313565e-05
+Test AUC: 0.9603, Test AUPR: 0.9531
+
+Epoch 88/100
+train-loss= 1.9581593070549354e-05
+train-AUC:0.9858 train-AUPR:0.9977
+test-loss= 3.2824479090277334e-05
+Test AUC: 0.9603, Test AUPR: 0.9528
+
+Epoch 89/100
+train-loss= 1.948279607806458e-05
+train-AUC:0.9859 train-AUPR:0.9977
+test-loss= 3.241437220190758e-05
+Test AUC: 0.9607, Test AUPR: 0.9542
+
+Epoch 90/100
+train-loss= 1.9367975770609738e-05
+train-AUC:0.986 train-AUPR:0.9977
+test-loss= 3.225225318335023e-05
+Test AUC: 0.9605, Test AUPR: 0.9539
+
+Epoch 91/100
+train-loss= 1.9271423586136214e-05
+train-AUC:0.9862 train-AUPR:0.9978
+test-loss= 3.233038289348978e-05
+Test AUC: 0.9607, Test AUPR: 0.9545
+
+Epoch 92/100
+train-loss= 1.9180758215284736e-05
+train-AUC:0.9863 train-AUPR:0.9978
+test-loss= 3.302121497248738e-05
+Test AUC: 0.9604, Test AUPR: 0.9543
+
+Epoch 93/100
+train-loss= 1.906623834993804e-05
+train-AUC:0.9864 train-AUPR:0.9978
+test-loss= 3.294488161656712e-05
+Test AUC: 0.9604, Test AUPR: 0.9542
+
+Epoch 94/100
+train-loss= 1.8980641667662033e-05
+train-AUC:0.9865 train-AUPR:0.9978
+test-loss= 3.3033607476920574e-05
+Test AUC: 0.9606, Test AUPR: 0.9546
+
+Epoch 95/100
+train-loss= 1.8889991435689685e-05
+train-AUC:0.9866 train-AUPR:0.9978
+test-loss= 3.2385765715903196e-05
+Test AUC: 0.9607, Test AUPR: 0.9546
+
+Epoch 96/100
+train-loss= 1.8807720552463675e-05
+train-AUC:0.9867 train-AUPR:0.9978
+test-loss= 3.29093392795395e-05
+Test AUC: 0.9601, Test AUPR: 0.9533
+
+Epoch 97/100
+train-loss= 1.8722577327578266e-05
+train-AUC:0.9868 train-AUPR:0.9979
+test-loss= 3.2581498135408985e-05
+Test AUC: 0.9606, Test AUPR: 0.9544
+
+Epoch 98/100
+train-loss= 1.8627333384150056e-05
+train-AUC:0.9869 train-AUPR:0.9979
+test-loss= 3.367364250607035e-05
+Test AUC: 0.9605, Test AUPR: 0.9544
+
+Epoch 99/100
+train-loss= 1.8559717436381292e-05
+train-AUC:0.9869 train-AUPR:0.9979
+test-loss= 3.318599082753114e-05
+Test AUC: 0.9608, Test AUPR: 0.9549
+
+Epoch 100/100
+train-loss= 1.8471853800791504e-05
+train-AUC:0.987 train-AUPR:0.9979
+test-loss= 3.3282513021174964e-05
+Test AUC: 0.9606, Test AUPR: 0.9546
+Best AUC: 0.9608, Best AUPR: 0.9549
+Train set size: 178650, Validation set size: 11464
+
+Epoch 1/100
+train-loss= 0.00012504672924076982
+train-AUC:0.7953 train-AUPR:0.946
+test-loss= 6.053631570234385e-05
+Test AUC: 0.5260, Test AUPR: 0.4828
+
+Epoch 2/100
+train-loss= 0.00011239300646970093
+train-AUC:0.9138 train-AUPR:0.9832
+test-loss= 5.756529140372586e-05
+Test AUC: 0.7919, Test AUPR: 0.7367
+
+Epoch 3/100
+train-loss= 0.00010502182566549075
+train-AUC:0.9304 train-AUPR:0.9862
+test-loss= 3.713907235914897e-05
+Test AUC: 0.9275, Test AUPR: 0.9098
+
+Epoch 4/100
+train-loss= 9.897716649933886e-05
+train-AUC:0.9367 train-AUPR:0.9869
+test-loss= 3.437270245931403e-05
+Test AUC: 0.9313, Test AUPR: 0.9074
+
+Epoch 5/100
+train-loss= 9.367809371056758e-05
+train-AUC:0.9413 train-AUPR:0.9875
+test-loss= 3.312363835871843e-05
+Test AUC: 0.9344, Test AUPR: 0.9083
+
+Epoch 6/100
+train-loss= 8.889227546699369e-05
+train-AUC:0.9455 train-AUPR:0.9884
+test-loss= 3.186196338356747e-05
+Test AUC: 0.9378, Test AUPR: 0.9117
+
+Epoch 7/100
+train-loss= 8.434043773375671e-05
+train-AUC:0.949 train-AUPR:0.9892
+test-loss= 3.0829041509967703e-05
+Test AUC: 0.9402, Test AUPR: 0.9144
+
+Epoch 8/100
+train-loss= 8.004050994833544e-05
+train-AUC:0.9522 train-AUPR:0.9898
+test-loss= 3.017789820067465e-05
+Test AUC: 0.9425, Test AUPR: 0.9199
+
+Epoch 9/100
+train-loss= 7.620669982695559e-05
+train-AUC:0.9551 train-AUPR:0.9907
+test-loss= 2.9636506674926928e-05
+Test AUC: 0.9432, Test AUPR: 0.9207
+
+Epoch 10/100
+train-loss= 7.26379358631671e-05
+train-AUC:0.957 train-AUPR:0.9912
+test-loss= 2.9313407282020693e-05
+Test AUC: 0.9437, Test AUPR: 0.9203
+
+Epoch 11/100
+train-loss= 6.926884095341159e-05
+train-AUC:0.9585 train-AUPR:0.9913
+test-loss= 2.906345408110875e-05
+Test AUC: 0.9457, Test AUPR: 0.9241
+
+Epoch 12/100
+train-loss= 6.603768917481972e-05
+train-AUC:0.9599 train-AUPR:0.9916
+test-loss= 2.864054394450457e-05
+Test AUC: 0.9465, Test AUPR: 0.9249
+
+Epoch 13/100
+train-loss= 6.287941887970568e-05
+train-AUC:0.9614 train-AUPR:0.992
+test-loss= 2.830369763247882e-05
+Test AUC: 0.9482, Test AUPR: 0.9279
+
+Epoch 14/100
+train-loss= 5.993255773512816e-05
+train-AUC:0.9626 train-AUPR:0.9923
+test-loss= 2.810733349940532e-05
+Test AUC: 0.9493, Test AUPR: 0.9310
+
+Epoch 15/100
+train-loss= 5.727527707423144e-05
+train-AUC:0.9638 train-AUPR:0.9925
+test-loss= 2.7736418848676608e-05
+Test AUC: 0.9503, Test AUPR: 0.9339
+
+Epoch 16/100
+train-loss= 5.49168712512939e-05
+train-AUC:0.9649 train-AUPR:0.9928
+test-loss= 2.7589104804473578e-05
+Test AUC: 0.9511, Test AUPR: 0.9350
+
+Epoch 17/100
+train-loss= 5.276690051897948e-05
+train-AUC:0.9659 train-AUPR:0.993
+test-loss= 2.7471091351306113e-05
+Test AUC: 0.9527, Test AUPR: 0.9388
+
+Epoch 18/100
+train-loss= 5.0783112807798345e-05
+train-AUC:0.9667 train-AUPR:0.9932
+test-loss= 2.7498044463528342e-05
+Test AUC: 0.9529, Test AUPR: 0.9388
+
+Epoch 19/100
+train-loss= 4.896750369727228e-05
+train-AUC:0.9674 train-AUPR:0.9934
+test-loss= 2.753964917109051e-05
+Test AUC: 0.9534, Test AUPR: 0.9400
+
+Epoch 20/100
+train-loss= 4.728869041607822e-05
+train-AUC:0.968 train-AUPR:0.9935
+test-loss= 2.7558470595906186e-05
+Test AUC: 0.9537, Test AUPR: 0.9394
+
+Epoch 21/100
+train-loss= 4.5753195026893093e-05
+train-AUC:0.9688 train-AUPR:0.9938
+test-loss= 2.7572672452780223e-05
+Test AUC: 0.9532, Test AUPR: 0.9377
+
+Epoch 22/100
+train-loss= 4.430028376644678e-05
+train-AUC:0.9695 train-AUPR:0.9939
+test-loss= 2.7695274278157588e-05
+Test AUC: 0.9537, Test AUPR: 0.9394
+
+Epoch 23/100
+train-loss= 4.295715481968711e-05
+train-AUC:0.9701 train-AUPR:0.9941
+test-loss= 2.7838298909246547e-05
+Test AUC: 0.9540, Test AUPR: 0.9404
+
+Epoch 24/100
+train-loss= 4.172675555539071e-05
+train-AUC:0.9706 train-AUPR:0.9942
+test-loss= 2.8028686460047775e-05
+Test AUC: 0.9539, Test AUPR: 0.9392
+
+Epoch 25/100
+train-loss= 4.0555622625711284e-05
+train-AUC:0.9711 train-AUPR:0.9944
+test-loss= 2.7971517681992312e-05
+Test AUC: 0.9542, Test AUPR: 0.9390
+
+Epoch 26/100
+train-loss= 3.947793753448068e-05
+train-AUC:0.9716 train-AUPR:0.9944
+test-loss= 2.799638327983236e-05
+Test AUC: 0.9550, Test AUPR: 0.9412
+
+Epoch 27/100
+train-loss= 3.848408004532266e-05
+train-AUC:0.972 train-AUPR:0.9946
+test-loss= 2.8096466986183013e-05
+Test AUC: 0.9553, Test AUPR: 0.9418
+
+Epoch 28/100
+train-loss= 3.7545119968743145e-05
+train-AUC:0.9724 train-AUPR:0.9946
+test-loss= 2.8247038384708422e-05
+Test AUC: 0.9554, Test AUPR: 0.9426
+
+Epoch 29/100
+train-loss= 3.666843790451486e-05
+train-AUC:0.9728 train-AUPR:0.9948
+test-loss= 2.8300253103766004e-05
+Test AUC: 0.9552, Test AUPR: 0.9411
+
+Epoch 30/100
+train-loss= 3.5852399938019126e-05
+train-AUC:0.9731 train-AUPR:0.9948
+test-loss= 2.8324570176656315e-05
+Test AUC: 0.9553, Test AUPR: 0.9411
+
+Epoch 31/100
+train-loss= 3.5070669507566636e-05
+train-AUC:0.9735 train-AUPR:0.9949
+test-loss= 2.8599253793904104e-05
+Test AUC: 0.9560, Test AUPR: 0.9431
+
+Epoch 32/100
+train-loss= 3.4352429200713455e-05
+train-AUC:0.9739 train-AUPR:0.9951
+test-loss= 2.8400321212250787e-05
+Test AUC: 0.9563, Test AUPR: 0.9439
+
+Epoch 33/100
+train-loss= 3.367226179861202e-05
+train-AUC:0.9742 train-AUPR:0.9952
+test-loss= 2.866133589970841e-05
+Test AUC: 0.9568, Test AUPR: 0.9447
+
+Epoch 34/100
+train-loss= 3.3052931087476814e-05
+train-AUC:0.9746 train-AUPR:0.9953
+test-loss= 2.9064813695083692e-05
+Test AUC: 0.9566, Test AUPR: 0.9450
+
+Epoch 35/100
+train-loss= 3.246472566160474e-05
+train-AUC:0.975 train-AUPR:0.9954
+test-loss= 2.9161070725007733e-05
+Test AUC: 0.9565, Test AUPR: 0.9447
+
+Epoch 36/100
+train-loss= 3.191085746566555e-05
+train-AUC:0.9752 train-AUPR:0.9955
+test-loss= 2.913984982849249e-05
+Test AUC: 0.9567, Test AUPR: 0.9451
+
+Epoch 37/100
+train-loss= 3.138144277171731e-05
+train-AUC:0.9756 train-AUPR:0.9956
+test-loss= 2.9566768616625087e-05
+Test AUC: 0.9565, Test AUPR: 0.9440
+
+Epoch 38/100
+train-loss= 3.0861235018574556e-05
+train-AUC:0.9759 train-AUPR:0.9957
+test-loss= 2.950608251981609e-05
+Test AUC: 0.9565, Test AUPR: 0.9441
+
+Epoch 39/100
+train-loss= 3.0403522226679e-05
+train-AUC:0.9762 train-AUPR:0.9958
+test-loss= 2.9336401135956417e-05
+Test AUC: 0.9568, Test AUPR: 0.9450
+
+Epoch 40/100
+train-loss= 2.9951124724439637e-05
+train-AUC:0.9764 train-AUPR:0.9958
+test-loss= 2.9751130191912122e-05
+Test AUC: 0.9568, Test AUPR: 0.9437
+
+Epoch 41/100
+train-loss= 2.952003008572621e-05
+train-AUC:0.9768 train-AUPR:0.9959
+test-loss= 2.9703499508835766e-05
+Test AUC: 0.9571, Test AUPR: 0.9453
+
+Epoch 42/100
+train-loss= 2.911134757750047e-05
+train-AUC:0.977 train-AUPR:0.996
+test-loss= 3.015378390004064e-05
+Test AUC: 0.9568, Test AUPR: 0.9445
+
+Epoch 43/100
+train-loss= 2.8726069192542035e-05
+train-AUC:0.9773 train-AUPR:0.9961
+test-loss= 3.019897611675276e-05
+Test AUC: 0.9569, Test AUPR: 0.9447
+
+Epoch 44/100
+train-loss= 2.8363539079574853e-05
+train-AUC:0.9776 train-AUPR:0.9961
+test-loss= 3.0326844821505335e-05
+Test AUC: 0.9567, Test AUPR: 0.9444
+
+Epoch 45/100
+train-loss= 2.8022242099538825e-05
+train-AUC:0.9779 train-AUPR:0.9962
+test-loss= 3.1086164529890926e-05
+Test AUC: 0.9559, Test AUPR: 0.9425
+
+Epoch 46/100
+train-loss= 2.7670062517472554e-05
+train-AUC:0.9781 train-AUPR:0.9962
+test-loss= 3.0860536200802224e-05
+Test AUC: 0.9568, Test AUPR: 0.9444
+
+Epoch 47/100
+train-loss= 2.735584853344727e-05
+train-AUC:0.9783 train-AUPR:0.9963
+test-loss= 3.0901477999064945e-05
+Test AUC: 0.9566, Test AUPR: 0.9438
+
+Epoch 48/100
+train-loss= 2.7042297824170453e-05
+train-AUC:0.9785 train-AUPR:0.9963
+test-loss= 3.0830112563424064e-05
+Test AUC: 0.9568, Test AUPR: 0.9444
+
+Epoch 49/100
+train-loss= 2.6736002641667714e-05
+train-AUC:0.9787 train-AUPR:0.9964
+test-loss= 3.064799188153359e-05
+Test AUC: 0.9574, Test AUPR: 0.9460
+
+Epoch 50/100
+train-loss= 2.64759853861761e-05
+train-AUC:0.9789 train-AUPR:0.9964
+test-loss= 3.061334382214916e-05
+Test AUC: 0.9577, Test AUPR: 0.9473
+
+Epoch 51/100
+train-loss= 2.6181235997042267e-05
+train-AUC:0.9792 train-AUPR:0.9965
+test-loss= 3.109976066964037e-05
+Test AUC: 0.9580, Test AUPR: 0.9477
+
+Epoch 52/100
+train-loss= 2.59155109253645e-05
+train-AUC:0.9794 train-AUPR:0.9965
+test-loss= 3.086639059979185e-05
+Test AUC: 0.9579, Test AUPR: 0.9477
+
+Epoch 53/100
+train-loss= 2.5665577998389526e-05
+train-AUC:0.9796 train-AUPR:0.9966
+test-loss= 3.1184610460325293e-05
+Test AUC: 0.9578, Test AUPR: 0.9477
+
+Epoch 54/100
+train-loss= 2.5398688025411824e-05
+train-AUC:0.9798 train-AUPR:0.9966
+test-loss= 3.065923534318108e-05
+Test AUC: 0.9577, Test AUPR: 0.9473
+
+Epoch 55/100
+train-loss= 2.515694531545631e-05
+train-AUC:0.98 train-AUPR:0.9967
+test-loss= 3.168651598862477e-05
+Test AUC: 0.9579, Test AUPR: 0.9473
+
+Epoch 56/100
+train-loss= 2.4916215575845708e-05
+train-AUC:0.9802 train-AUPR:0.9967
+test-loss= 3.194592669554216e-05
+Test AUC: 0.9574, Test AUPR: 0.9463
+
+Epoch 57/100
+train-loss= 2.4672640978105588e-05
+train-AUC:0.9804 train-AUPR:0.9967
+test-loss= 3.197433560857886e-05
+Test AUC: 0.9577, Test AUPR: 0.9470
+
+Epoch 58/100
+train-loss= 2.4464846141125487e-05
+train-AUC:0.9806 train-AUPR:0.9968
+test-loss= 3.215691122822385e-05
+Test AUC: 0.9577, Test AUPR: 0.9472
+
+Epoch 59/100
+train-loss= 2.4248562396623624e-05
+train-AUC:0.9808 train-AUPR:0.9968
+test-loss= 3.189640867069561e-05
+Test AUC: 0.9573, Test AUPR: 0.9460
+
+Epoch 60/100
+train-loss= 2.4058119926404594e-05
+train-AUC:0.981 train-AUPR:0.9968
+test-loss= 3.1969760234590515e-05
+Test AUC: 0.9579, Test AUPR: 0.9476
+
+Epoch 61/100
+train-loss= 2.3858580157565297e-05
+train-AUC:0.9811 train-AUPR:0.9969
+test-loss= 3.2172571485556675e-05
+Test AUC: 0.9578, Test AUPR: 0.9468
+
+Epoch 62/100
+train-loss= 2.367714582088779e-05
+train-AUC:0.9813 train-AUPR:0.9969
+test-loss= 3.211453962558978e-05
+Test AUC: 0.9582, Test AUPR: 0.9482
+
+Epoch 63/100
+train-loss= 2.347435010870798e-05
+train-AUC:0.9814 train-AUPR:0.9969
+test-loss= 3.1828368180129214e-05
+Test AUC: 0.9583, Test AUPR: 0.9484
+
+Epoch 64/100
+train-loss= 2.3301932371666943e-05
+train-AUC:0.9816 train-AUPR:0.997
+test-loss= 3.2229745462900765e-05
+Test AUC: 0.9584, Test AUPR: 0.9497
+
+Epoch 65/100
+train-loss= 2.313162310931518e-05
+train-AUC:0.9817 train-AUPR:0.997
+test-loss= 3.19633677092284e-05
+Test AUC: 0.9584, Test AUPR: 0.9496
+
+Epoch 66/100
+train-loss= 2.2978924867521638e-05
+train-AUC:0.9819 train-AUPR:0.997
+test-loss= 3.25815241318521e-05
+Test AUC: 0.9587, Test AUPR: 0.9500
+
+Epoch 67/100
+train-loss= 2.2823379557238817e-05
+train-AUC:0.982 train-AUPR:0.997
+test-loss= 3.252739173835254e-05
+Test AUC: 0.9585, Test AUPR: 0.9499
+
+Epoch 68/100
+train-loss= 2.2675001317634657e-05
+train-AUC:0.9822 train-AUPR:0.9971
+test-loss= 3.1921019503393124e-05
+Test AUC: 0.9588, Test AUPR: 0.9507
+
+Epoch 69/100
+train-loss= 2.251950430162741e-05
+train-AUC:0.9823 train-AUPR:0.9971
+test-loss= 3.186050238346438e-05
+Test AUC: 0.9593, Test AUPR: 0.9519
+
+Epoch 70/100
+train-loss= 2.2392735122933695e-05
+train-AUC:0.9825 train-AUPR:0.9971
+test-loss= 3.2577941821990775e-05
+Test AUC: 0.9587, Test AUPR: 0.9506
+
+Epoch 71/100
+train-loss= 2.22454701956667e-05
+train-AUC:0.9826 train-AUPR:0.9972
+test-loss= 3.241095106999357e-05
+Test AUC: 0.9590, Test AUPR: 0.9516
+
+Epoch 72/100
+train-loss= 2.2115358452552712e-05
+train-AUC:0.9827 train-AUPR:0.9972
+test-loss= 3.2607450384571266e-05
+Test AUC: 0.9589, Test AUPR: 0.9512
+
+Epoch 73/100
+train-loss= 2.197275788484419e-05
+train-AUC:0.9829 train-AUPR:0.9972
+test-loss= 3.276480425510553e-05
+Test AUC: 0.9590, Test AUPR: 0.9514
+
+Epoch 74/100
+train-loss= 2.183398524319595e-05
+train-AUC:0.983 train-AUPR:0.9972
+test-loss= 3.311385849681836e-05
+Test AUC: 0.9587, Test AUPR: 0.9511
+
+Epoch 75/100
+train-loss= 2.1709401317914594e-05
+train-AUC:0.9831 train-AUPR:0.9973
+test-loss= 3.2861056085740946e-05
+Test AUC: 0.9586, Test AUPR: 0.9507
+
+Epoch 76/100
+train-loss= 2.1577650905823195e-05
+train-AUC:0.9832 train-AUPR:0.9973
+test-loss= 3.270803322262974e-05
+Test AUC: 0.9589, Test AUPR: 0.9516
+
+Epoch 77/100
+train-loss= 2.146083952297592e-05
+train-AUC:0.9834 train-AUPR:0.9973
+test-loss= 3.32694992017513e-05
+Test AUC: 0.9582, Test AUPR: 0.9499
+
+Epoch 78/100
+train-loss= 2.13381941249115e-05
+train-AUC:0.9835 train-AUPR:0.9973
+test-loss= 3.3322661927922654e-05
+Test AUC: 0.9582, Test AUPR: 0.9495
+
+Epoch 79/100
+train-loss= 2.1220615580406904e-05
+train-AUC:0.9836 train-AUPR:0.9973
+test-loss= 3.352780246019197e-05
+Test AUC: 0.9581, Test AUPR: 0.9495
+
+Epoch 80/100
+train-loss= 2.1104946202868813e-05
+train-AUC:0.9837 train-AUPR:0.9974
+test-loss= 3.367986605455222e-05
+Test AUC: 0.9580, Test AUPR: 0.9499
+
+Epoch 81/100
+train-loss= 2.0991114384981887e-05
+train-AUC:0.9838 train-AUPR:0.9974
+test-loss= 3.399370031513206e-05
+Test AUC: 0.9577, Test AUPR: 0.9488
+
+Epoch 82/100
+train-loss= 2.088910607340087e-05
+train-AUC:0.9839 train-AUPR:0.9974
+test-loss= 3.39204267405665e-05
+Test AUC: 0.9581, Test AUPR: 0.9502
+
+Epoch 83/100
+train-loss= 2.0791760786821485e-05
+train-AUC:0.984 train-AUPR:0.9974
+test-loss= 3.440567634776183e-05
+Test AUC: 0.9579, Test AUPR: 0.9491
+
+Epoch 84/100
+train-loss= 2.07125316922684e-05
+train-AUC:0.9841 train-AUPR:0.9974
+test-loss= 3.4159235266314794e-05
+Test AUC: 0.9580, Test AUPR: 0.9495
+
+Epoch 85/100
+train-loss= 2.059069094856747e-05
+train-AUC:0.9842 train-AUPR:0.9974
+test-loss= 3.3716235078470904e-05
+Test AUC: 0.9583, Test AUPR: 0.9497
+
+Epoch 86/100
+train-loss= 2.0489041215726852e-05
+train-AUC:0.9844 train-AUPR:0.9975
+test-loss= 3.4124145267397396e-05
+Test AUC: 0.9580, Test AUPR: 0.9495
+
+Epoch 87/100
+train-loss= 2.0407400535262668e-05
+train-AUC:0.9844 train-AUPR:0.9975
+test-loss= 3.4711683079319576e-05
+Test AUC: 0.9580, Test AUPR: 0.9499
+
+Epoch 88/100
+train-loss= 2.029859144715011e-05
+train-AUC:0.9846 train-AUPR:0.9975
+test-loss= 3.4599017094500984e-05
+Test AUC: 0.9582, Test AUPR: 0.9500
+
+Epoch 89/100
+train-loss= 2.0206760841359485e-05
+train-AUC:0.9847 train-AUPR:0.9975
+test-loss= 3.4068346501894126e-05
+Test AUC: 0.9583, Test AUPR: 0.9510
+
+Epoch 90/100
+train-loss= 2.0136042299171874e-05
+train-AUC:0.9848 train-AUPR:0.9975
+test-loss= 3.440166249694478e-05
+Test AUC: 0.9580, Test AUPR: 0.9501
+
+Epoch 91/100
+train-loss= 2.0052281800285293e-05
+train-AUC:0.9849 train-AUPR:0.9976
+test-loss= 3.438505336943824e-05
+Test AUC: 0.9582, Test AUPR: 0.9503
+
+Epoch 92/100
+train-loss= 1.9947040024305505e-05
+train-AUC:0.985 train-AUPR:0.9976
+test-loss= 3.4484606748349335e-05
+Test AUC: 0.9583, Test AUPR: 0.9511
+
+Epoch 93/100
+train-loss= 1.985215887181271e-05
+train-AUC:0.9851 train-AUPR:0.9976
+test-loss= 3.488276307181886e-05
+Test AUC: 0.9583, Test AUPR: 0.9514
+
+Epoch 94/100
+train-loss= 1.9793272677370055e-05
+train-AUC:0.9852 train-AUPR:0.9976
+test-loss= 3.479608573118291e-05
+Test AUC: 0.9583, Test AUPR: 0.9510
+
+Epoch 95/100
+train-loss= 1.969218904685814e-05
+train-AUC:0.9853 train-AUPR:0.9976
+test-loss= 3.489137569342305e-05
+Test AUC: 0.9585, Test AUPR: 0.9517
+
+Epoch 96/100
+train-loss= 1.960363490321941e-05
+train-AUC:0.9854 train-AUPR:0.9976
+test-loss= 3.47794376090117e-05
+Test AUC: 0.9585, Test AUPR: 0.9516
+
+Epoch 97/100
+train-loss= 1.9531306093092096e-05
+train-AUC:0.9854 train-AUPR:0.9977
+test-loss= 3.50926557538897e-05
+Test AUC: 0.9585, Test AUPR: 0.9517
+
+Epoch 98/100
+train-loss= 1.9457439831782547e-05
+train-AUC:0.9856 train-AUPR:0.9977
+test-loss= 3.527910744320323e-05
+Test AUC: 0.9583, Test AUPR: 0.9510
+
+Epoch 99/100
+train-loss= 1.9394307828169724e-05
+train-AUC:0.9856 train-AUPR:0.9977
+test-loss= 3.497480087902524e-05
+Test AUC: 0.9586, Test AUPR: 0.9519
+
+Epoch 100/100
+train-loss= 1.930719796696398e-05
+train-AUC:0.9857 train-AUPR:0.9977
+test-loss= 3.518556704158477e-05
+Test AUC: 0.9585, Test AUPR: 0.9517
+Best AUC: 0.9593, Best AUPR: 0.9519

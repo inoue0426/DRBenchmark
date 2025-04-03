@@ -1,0 +1,12 @@
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:54: UserWarning: An issue occurred while importing 'pyg-lib'. Disabling its usage. Stacktrace: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/libpyg.so)
+  warnings.warn(f"An issue occurred while importing 'pyg-lib'. "
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:72: UserWarning: An issue occurred while importing 'torch-scatter'. Disabling its usage. Stacktrace: /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_scatter/_scatter_cuda.so: undefined symbol: _ZN2at23SavedTensorDefaultHooks11set_tracingEb
+  warnings.warn(f"An issue occurred while importing 'torch-scatter'. "
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:99: UserWarning: An issue occurred while importing 'torch-spline-conv'. Disabling its usage. Stacktrace: /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_spline_conv/_basis_cuda.so: undefined symbol: _ZN2at23SavedTensorDefaultHooks11set_tracingEb
+  warnings.warn(
+/data/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_geometric/typing.py:110: UserWarning: An issue occurred while importing 'torch-sparse'. Disabling its usage. Stacktrace: /gpfs/gsfs12/users/inouey2/conda/envs/genex/lib/python3.10/site-packages/torch_sparse/_spmm_cuda.so: undefined symbol: _ZN2at23SavedTensorDefaultHooks11set_tracingEb
+  warnings.warn(f"An issue occurred while importing 'torch-sparse'. "
+Loading data files...
+Processing drug data...
+0it [00:00, ?it/s]15it [00:00, 143.41it/s]30it [00:00, 105.68it/s]53it [00:00, 65.93it/s] 78it [00:00, 99.41it/s]104it [00:00, 131.53it/s]131it [00:01, 161.42it/s]158it [00:01, 187.71it/s]182it [00:01, 201.17it/s]213it [00:01, 227.77it/s]241it [00:01, 238.94it/s]267it [00:01, 232.19it/s]292it [00:01, 229.84it/s]316it [00:01, 232.04it/s]341it [00:01, 229.35it/s]365it [00:02, 221.16it/s]390it [00:02, 227.39it/s]414it [00:02, 208.51it/s]439it [00:02, 217.10it/s]460it [00:02, 186.79it/s]
+slurmstepd: error: *** JOB 52639351 ON cn4429 CANCELLED AT 2025-04-02T16:45:49 ***
