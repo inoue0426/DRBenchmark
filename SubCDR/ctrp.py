@@ -2,6 +2,7 @@ import argparse
 import os
 import random
 import time
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -10,7 +11,7 @@ import torch.utils.data as Data
 from molFrags import *
 from sklearn.model_selection import KFold
 from torch_dataset import *
-import warnings
+
 warnings.filterwarnings("ignore")
 
 from data_process import data_process
@@ -23,13 +24,15 @@ from utils import *
 
 tmp = "ctrp"
 
+
 class Args:
     def __init__(self):
         self.lr = 0.0001  # Learning rate
         self.bs = 5000  # Batch size
-        self.ep = 10 # Number of epochs
+        self.ep = 10  # Number of epochs
         self.o = f"./{tmp}_output_dir/"  # Output directory
         self.data = tmp
+
 
 # Create args object
 args = Args()
@@ -43,6 +46,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 drug_subfeat, cline_subfeat, drug_dim, drug_compo_elem, cline_compos_elem = (
     data_process(args)
 )
+
 
 def prepare_matrix_factorization(train_set):
     """Matrix factorization preparation and execution"""
@@ -58,6 +62,7 @@ def prepare_matrix_factorization(train_set):
     cline_glofeat = pd.DataFrame(cline_glofeat, index=list(CDR_known.columns))
 
     return drug_glofeat, cline_glofeat
+
 
 def prepare_data_loaders(
     train_set, validation_set, drug_glofeat, cline_glofeat, batch_sizes
@@ -112,6 +117,7 @@ def prepare_data_loaders(
         cc_valid,
     )
 
+
 def setup_model(drug_dim, glo_dim, device, args):
     """Initialize model and optimizer"""
     if args.data == "ctrp":
@@ -130,6 +136,7 @@ def setup_model(drug_dim, glo_dim, device, args):
 
     return model, optimizer, myloss
 
+
 def train_epoch(model, loaders, optimizer, myloss):
     """Train for one epoch"""
     model.train()
@@ -144,6 +151,7 @@ def train_epoch(model, loaders, optimizer, myloss):
         label_train,
     )
 
+
 def validate(model, loaders, myloss):
     """Perform validation"""
     drug_loader_valid, cline_loader_valid, glo_loader_valid, label_valid = loaders
@@ -156,6 +164,7 @@ def validate(model, loaders, myloss):
         label_valid,
     )
     return auc, aupr, y_true, y_pred
+
 
 def train_and_validate_fold(train_set, validation_set, args):
     """Main training and validation function for one fold"""
@@ -203,6 +212,7 @@ def train_and_validate_fold(train_set, validation_set, args):
     training_time = time.time() - start
     print(f"Best AUC: {best_auc:.4f}, Best AUPR: {best_aupr:.4f}")
     return best_pred, y_true
+
 
 def run_cross_validation(args):
     """Run k-fold cross validation"""
@@ -255,6 +265,7 @@ def run_cross_validation(args):
     pd.DataFrame(y_trues).to_csv(f"true_{tmp}.csv")
 
     return pd.DataFrame(best_preds), pd.DataFrame(y_trues)
+
 
 res, exprs, null_mask, pos_num = load_data(args)
 cells = {i: j for i, j in enumerate(res.index)}

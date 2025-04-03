@@ -2,6 +2,8 @@ import argparse
 import os
 import random
 import time
+import warnings
+
 import numpy as np
 import pandas as pd
 import torch
@@ -9,7 +11,7 @@ import torch.utils.data as Data
 from molFrags import *
 from sklearn.model_selection import KFold
 from torch_dataset import *
-import warnings
+
 warnings.filterwarnings("ignore")
 
 from data_process import data_process
@@ -22,6 +24,7 @@ from utils import *
 
 tmp = "gdsc1"
 
+
 class Args:
     def __init__(self):
         self.lr = 0.0001  # Learning rate
@@ -29,6 +32,7 @@ class Args:
         self.ep = 10  # Number of epochs
         self.o = f"./{tmp}_output_dir/"  # Output directory
         self.data = tmp
+
 
 # Create args object
 args = Args()
@@ -39,7 +43,10 @@ start_time = time.time()
 seed = 42
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-drug_subfeat, cline_subfeat, drug_dim, drug_compo_elem, cline_compos_elem = data_process(args)
+drug_subfeat, cline_subfeat, drug_dim, drug_compo_elem, cline_compos_elem = (
+    data_process(args)
+)
+
 
 def prepare_matrix_factorization(train_set):
     """Matrix factorization preparation and execution"""
@@ -56,23 +63,35 @@ def prepare_matrix_factorization(train_set):
 
     return drug_glofeat, cline_glofeat
 
-def prepare_data_loaders(train_set, validation_set, drug_glofeat, cline_glofeat, batch_sizes):
+
+def prepare_data_loaders(
+    train_set, validation_set, drug_glofeat, cline_glofeat, batch_sizes
+):
     """Prepare train and validation data loaders"""
     train_set = train_set.sample(frac=1, random_state=seed)
     validation_set = validation_set.sample(frac=1, random_state=seed)
 
-    drug_loader_train, cline_loader_train, glo_loader_train, _, _, label_train = BatchGenerate(
-        train_set,
-        drug_subfeat,
-        cline_subfeat,
-        drug_glofeat,
-        cline_glofeat,
-        drug_compo_elem,
-        cline_compos_elem,
-        bs=batch_sizes,
+    drug_loader_train, cline_loader_train, glo_loader_train, _, _, label_train = (
+        BatchGenerate(
+            train_set,
+            drug_subfeat,
+            cline_subfeat,
+            drug_glofeat,
+            cline_glofeat,
+            drug_compo_elem,
+            cline_compos_elem,
+            bs=batch_sizes,
+        )
     )
 
-    drug_loader_valid, cline_loader_valid, glo_loader_valid, dc_valid, cc_valid, label_valid = BatchGenerate(
+    (
+        drug_loader_valid,
+        cline_loader_valid,
+        glo_loader_valid,
+        dc_valid,
+        cc_valid,
+        label_valid,
+    ) = BatchGenerate(
         validation_set,
         drug_subfeat,
         cline_subfeat,
@@ -96,6 +115,7 @@ def prepare_data_loaders(train_set, validation_set, drug_glofeat, cline_glofeat,
         cc_valid,
     )
 
+
 def setup_model(drug_dim, glo_dim, device, args):
     """Initialize model and optimizer"""
     out = 82 if args.data != "ctrp" else 80
@@ -112,6 +132,7 @@ def setup_model(drug_dim, glo_dim, device, args):
 
     return model, optimizer, loss_fn
 
+
 def train_epoch(model, loaders, optimizer, loss_fn):
     """Train for one epoch"""
     model.train()
@@ -126,6 +147,7 @@ def train_epoch(model, loaders, optimizer, loss_fn):
         label_train,
     )
 
+
 def validate(model, loaders, loss_fn):
     """Perform validation"""
     drug_loader_valid, cline_loader_valid, glo_loader_valid, label_valid = loaders
@@ -139,9 +161,12 @@ def validate(model, loaders, loss_fn):
     )
     return auc, aupr, y_true, y_pred
 
+
 def train_and_validate_fold(train_set, validation_set, args):
     """Main training and validation function for one fold"""
-    print(f"Train set size: {len(train_set)}, Validation set size: {len(validation_set)}")
+    print(
+        f"Train set size: {len(train_set)}, Validation set size: {len(validation_set)}"
+    )
 
     # Matrix factorization
     drug_glofeat, cline_glofeat = prepare_matrix_factorization(train_set)
@@ -179,6 +204,7 @@ def train_and_validate_fold(train_set, validation_set, args):
     print(f"Best AUC: {best_auc:.4f}, Best AUPR: {best_aupr:.4f}")
     return best_pred, y_true
 
+
 def run_cross_validation(args):
     """Run k-fold cross validation"""
     print("\nStarting 5-fold cross validation...")
@@ -189,11 +215,19 @@ def run_cross_validation(args):
     for train_index, test_index in kfold.split(np.arange(pos_num)):
         sampler = Sampler(res, train_index, test_index, null_mask)
 
-        train_data = pd.DataFrame(sampler.train_data, index=res.index, columns=res.columns)
-        test_data = pd.DataFrame(sampler.test_data, index=res.index, columns=res.columns)
+        train_data = pd.DataFrame(
+            sampler.train_data, index=res.index, columns=res.columns
+        )
+        test_data = pd.DataFrame(
+            sampler.test_data, index=res.index, columns=res.columns
+        )
 
-        train_mask = pd.DataFrame(sampler.train_mask, index=res.index, columns=res.columns)
-        test_mask = pd.DataFrame(sampler.test_mask, index=res.index, columns=res.columns)
+        train_mask = pd.DataFrame(
+            sampler.train_mask, index=res.index, columns=res.columns
+        )
+        test_mask = pd.DataFrame(
+            sampler.test_mask, index=res.index, columns=res.columns
+        )
 
         train = pd.DataFrame(train_mask.values.nonzero()).T
         train[2] = train_data.values[train_mask.values.nonzero()].astype(int)
@@ -219,6 +253,7 @@ def run_cross_validation(args):
     pd.DataFrame(y_trues).to_csv(f"true_{tmp}.csv")
 
     return pd.DataFrame(best_preds), pd.DataFrame(y_trues)
+
 
 res, exprs, null_mask, pos_num = load_data(args)
 cells = {i: j for i, j in enumerate(res.index)}
