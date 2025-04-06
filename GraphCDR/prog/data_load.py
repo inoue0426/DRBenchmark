@@ -3,15 +3,16 @@ import os
 import hickle as hkl
 import pandas as pd
 
-def data_load(data='nci'):
-    if data == 'nci':
+
+def data_load(data="nci"):
+    if data == "nci":
         return _data_load()
-    elif data == 'gdsc1':
-        return _data_load('../../gdsc1_data/')
-    elif data == 'gdsc2':
-        return _data_load('../../gdsc2_data/')
-    elif data == 'ctrp':
-        return _data_load('../../ctrp_data/')
+    elif data == "gdsc1":
+        return _data_load("../../gdsc1_data/")
+    elif data == "gdsc2":
+        return _data_load("../../gdsc2_data/")
+    elif data == "ctrp":
+        return _data_load("../../ctrp_data/")
     else:
         NotImplementedError
 
@@ -46,10 +47,7 @@ def _data_load(PATH="../../nci_data/"):
             axis=1,
         )
 
-    cells = sorted(
-        set(exp.index)
-        & set(mutation.index) & set(methylation.index)
-    )
+    cells = sorted(set(exp.index) & set(mutation.index) & set(methylation.index))
 
     exp = exp.loc[cells]
     mutation = mutation.loc[cells]

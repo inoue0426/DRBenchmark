@@ -102,7 +102,9 @@ def process(
     methylation_success = True
     try:
         methylation_feature_df = methylation_feature.loc[cellid]
-        methylation = torch.from_numpy(np.array(methylation_feature_df, dtype="float32"))
+        methylation = torch.from_numpy(
+            np.array(methylation_feature_df, dtype="float32")
+        )
     except:
         print("No methylation data")
         methylation_success = False
@@ -128,7 +130,6 @@ def process(
         batch_size=nb_drugs,
         shuffle=False,
     )
-
 
     # Create masks from split data
     def prepare_data(data_subset):
