@@ -8,12 +8,13 @@ class Sampler(object):
     # 采样后生成测试集、训练集
     # 处理完后的训练集转换为torch.tensor格式
 
-    def __init__(self, adj_mat_original, train_index, test_index, null_mask):
+    def __init__(self, adj_mat_original, train_index, test_index, null_mask, seed):
         super(Sampler, self).__init__()
         self.adj_mat = to_coo_matrix(adj_mat_original)
         self.train_index = train_index
         self.test_index = test_index
         self.null_mask = null_mask
+        self.seed = seed
         self.train_pos = self.sample(train_index)
         self.test_pos = self.sample(test_index)
         self.train_neg, self.test_neg = self.sample_negative()
@@ -46,6 +47,7 @@ class Sampler(object):
 
         # 采样负测试集
         test_n = self.test_index.shape[0]
+        np.random.seed(self.seed)
         test_neg_index = np.random.choice(index, test_n, replace=False)
         test_row = all_row[test_neg_index]
         test_col = all_col[test_neg_index]

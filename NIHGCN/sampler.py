@@ -5,16 +5,17 @@ from myutils import mask, to_coo_matrix, to_tensor
 
 
 class RandomSampler(object):
-    # 对原始边进行采样
-    # 采样后生成测试集、训练集
-    # 处理完后的训练集转换为torch.tensor格式
+    # 元の辺をサンプリング
+    # サンプリング後にテストセットと訓練セットを生成
+    # 処理後の訓練セットをtorch.tensor形式に変換
 
-    def __init__(self, adj_mat_original, train_index, test_index, null_mask):
+    def __init__(self, adj_mat_original, train_index, test_index, null_mask, seed):
         super(RandomSampler, self).__init__()
         self.adj_mat = to_coo_matrix(adj_mat_original)
         self.train_index = train_index
         self.test_index = test_index
         self.null_mask = null_mask
+        self.seed = seed
         self.train_pos = self.sample(train_index)
         self.test_pos = self.sample(test_index)
         self.train_neg, self.test_neg = self.sample_negative()
@@ -36,8 +37,8 @@ class RandomSampler(object):
         return sample
 
     def sample_negative(self):
-        # identity 表示邻接矩阵是否为二部图
-        # 二部图：边的两个节点，是否属于同类结点集
+        # identityは隣接行列が二部グラフかどうかを示す
+        # 二部グラフ：辺の両端の頂点が同じ頂点集合に属していないグラフ
         pos_adj_mat = self.null_mask + self.adj_mat.toarray()
         neg_adj_mat = sp.coo_matrix(np.abs(pos_adj_mat - np.array(1)))
         all_row = neg_adj_mat.row
@@ -45,8 +46,9 @@ class RandomSampler(object):
         all_data = neg_adj_mat.data
         index = np.arange(all_data.shape[0])
 
-        # 采样负测试集
+        # 負のテストセットをサンプリング
         test_n = self.test_index.shape[0]
+        np.random.seed(self.seed)
         test_neg_index = np.random.choice(index, test_n, replace=False)
         test_row = all_row[test_neg_index]
         test_col = all_col[test_neg_index]
@@ -55,7 +57,7 @@ class RandomSampler(object):
             (test_data, (test_row, test_col)), shape=self.adj_mat.shape
         )
 
-        # 采样训练集
+        # 訓練セットをサンプリング
         train_neg_index = np.delete(index, test_neg_index)
         # train_n = self.train_index.shape[0]
         # train_neg_index = np.random.choice(train_neg_index, train_n, replace=False)
