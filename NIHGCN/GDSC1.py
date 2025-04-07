@@ -1,13 +1,14 @@
 import argparse
+
 import numpy as np
 import pandas as pd
 import torch
-from sklearn.model_selection import KFold
-
 from load_data import load_data
 from model import Optimizer, nihgcn
-from myutils import translate_result, roc_auc
+from myutils import roc_auc, translate_result
 from sampler import RandomSampler
+from sklearn.model_selection import KFold
+
 
 class Args:
     def __init__(self):
@@ -19,6 +20,7 @@ class Args:
         self.alpha = 0.25  # Scale for balance GCN and NI
         self.gamma = 8  # Scale for sigmoid
         self.epochs = 1000  # Number of epochs
+
 
 args = Args()
 
@@ -42,7 +44,7 @@ for train_index, test_index in kfold.split(np.arange(pos_num)):
         layer_size=args.layer_size,
         alpha=args.alpha,
         gamma=args.gamma,
-        device=args.device
+        device=args.device,
     ).to(args.device)
 
     # Initialize optimizer
@@ -56,13 +58,15 @@ for train_index, test_index in kfold.split(np.arange(pos_num)):
         lr=args.lr,
         wd=args.wd,
         epochs=args.epochs,
-        device=args.device
+        device=args.device,
     ).to(args.device)
 
     # Train and get predictions
     true_data, predict_data = opt()
     true_datas = pd.concat([true_datas, translate_result(true_data)], ignore_index=True)
-    predict_datas = pd.concat([predict_datas, translate_result(predict_data)], ignore_index=True)
+    predict_datas = pd.concat(
+        [predict_datas, translate_result(predict_data)], ignore_index=True
+    )
 
 # Save results
 true_datas.to_csv("true_gdsc1.csv")
