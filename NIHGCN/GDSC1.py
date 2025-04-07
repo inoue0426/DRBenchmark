@@ -34,9 +34,9 @@ kfold = KFold(n_splits=k, shuffle=True, random_state=42)
 true_datas = pd.DataFrame()
 predict_datas = pd.DataFrame()
 
-for train_index, test_index in kfold.split(np.arange(pos_num)):
+for i, (train_index, test_index) in enumerate(kfold.split(np.arange(pos_num))):
     # Initialize sampler and model
-    sampler = RandomSampler(res, train_index, test_index, null_mask)
+    sampler = RandomSampler(res, train_index, test_index, null_mask, i)
     model = nihgcn(
         adj_mat=sampler.train_data,
         cell_exprs=exprs,
