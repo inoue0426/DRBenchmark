@@ -130,7 +130,7 @@ def _load_nci(PATH):
     # 加载药物-指纹特征矩阵
     drug_feature = pd.read_csv(
         data_dir + "nih_drug_feature.csv", index_col=0, header=0
-    ).loc[sorted(SMILES.drugs)]
+    )
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     null_mask = (drugAct.isna()).astype(int).T
