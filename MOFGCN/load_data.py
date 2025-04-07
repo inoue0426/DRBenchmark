@@ -88,7 +88,7 @@ def _load_data(PATH, is_ctrp=False):
     pos_num = sp.coo_matrix(res).data.shape[0]
 
     # 加载药物-指纹特征矩阵
-    drug_feature = pd.read_csv(data_dir + "drug_feature.csv", index_col=0, header=0)
+    drug_feature = pd.read_csv(data_dir + "nih_drug_feature.csv", index_col=0, header=0)
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     null_mask = (drugAct.isna()).astype(int).T
@@ -144,7 +144,7 @@ def _load_nci(PATH):
 
     pos_num = sp.coo_matrix(res).data.shape[0]
     # 加载药物-指纹特征矩阵
-    drug_feature = pd.read_csv(data_dir + "drug_feature.csv", index_col=0, header=0)
+    drug_feature = pd.read_csv(data_dir + "nih_drug_feature.csv", index_col=0, header=0)
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     null_mask = (drugAct.isna()).astype(int).T
