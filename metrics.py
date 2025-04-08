@@ -60,6 +60,7 @@ def get_result(true, pred, data):
 
     return result_table
 
+
 def new_get_result(true_labels, pred_values, data):
     res = pd.DataFrame()
     pred_labels = np.round(pred_values)
