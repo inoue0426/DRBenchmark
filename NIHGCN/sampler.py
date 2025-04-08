@@ -73,14 +73,14 @@ class RandomSampler(object):
 class NewSampler(object):
     def __init__(self, original_adj_mat, null_mask, target_dim, target_index, seed):
         super().__init__()
+        self.seed = seed
+        self.set_seed()
         self.adj_mat = original_adj_mat
         self.null_mask = null_mask
         self.dim = target_dim
         self.target_index = target_index
         self.train_data, self.test_data = self.sample_train_test_data()
         self.train_mask, self.test_mask = self.sample_train_test_mask()
-        self.seed = seed
-        self.set_seed()
 
     def set_seed(self):
         np.random.seed(self.seed)  # NumPyのシードを設定
