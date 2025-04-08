@@ -10,12 +10,15 @@ class RandomSampler(object):
     # 処理後の訓練セットをtorch.tensor形式に変換
 
     def __init__(self, adj_mat_original, train_index, test_index, null_mask, seed):
-        super(RandomSampler, self).__init__()
+        # Initialize basic attributes
+        self.seed = seed
+        self.set_seed()
+        
         self.adj_mat = to_coo_matrix(adj_mat_original)
         self.train_index = train_index
         self.test_index = test_index
         self.null_mask = null_mask
-        self.seed = seed
+
         self.train_pos = self.sample(train_index)
         self.test_pos = self.sample(test_index)
         self.train_neg, self.test_neg = self.sample_negative()
@@ -24,6 +27,10 @@ class RandomSampler(object):
         self.train_data = to_tensor(self.train_pos)
         self.test_data = to_tensor(self.test_pos)
 
+    def set_seed(self):
+        np.random.seed(self.seed)  # NumPyのシードを設定
+        torch.manual_seed(self.seed)  # PyTorchのシードを設定
+        
     def sample(self, index):
         row = self.adj_mat.row
         col = self.adj_mat.col
@@ -48,7 +55,6 @@ class RandomSampler(object):
 
         # 負のテストセットをサンプリング
         test_n = self.test_index.shape[0]
-        np.random.seed(self.seed)
         test_neg_index = np.random.choice(index, test_n, replace=False)
         test_row = all_row[test_neg_index]
         test_col = all_col[test_neg_index]
