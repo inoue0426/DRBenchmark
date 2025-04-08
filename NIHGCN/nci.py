@@ -3,12 +3,11 @@ import argparse
 import numpy as np
 import pandas as pd
 import torch
-from sklearn.model_selection import KFold
-
 from load_data import load_data
 from model import Optimizer, nihgcn
 from myutils import roc_auc, translate_result
 from sampler import RandomSampler
+from sklearn.model_selection import KFold
 
 
 class Args:

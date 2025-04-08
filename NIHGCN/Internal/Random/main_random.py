@@ -1,12 +1,11 @@
 # coding: utf-8
 import argparse
 
-from sklearn.model_selection import KFold
-
 from load_data import load_data
 from model import Optimizer, nihgcn
 from myutils import *
 from sampler import RandomSampler
+from sklearn.model_selection import KFold
 
 parser = argparse.ArgumentParser(description="Run NIHGCN")
 parser.add_argument("-device", type=str, default="cuda:0", help="cuda:number or cpu")

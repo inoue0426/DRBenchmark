@@ -1,7 +1,6 @@
 import numpy as np
 import scipy.sparse as sp
 import torch
-
 from myutils import mask, to_coo_matrix, to_tensor
 
 
