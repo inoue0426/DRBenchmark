@@ -13,7 +13,7 @@ class RandomSampler(object):
         # Initialize basic attributes
         self.seed = seed
         self.set_seed()
-        
+
         self.adj_mat = to_coo_matrix(adj_mat_original)
         self.train_index = train_index
         self.test_index = test_index
@@ -30,7 +30,7 @@ class RandomSampler(object):
     def set_seed(self):
         np.random.seed(self.seed)  # NumPyのシードを設定
         torch.manual_seed(self.seed)  # PyTorchのシードを設定
-        
+
     def sample(self, index):
         row = self.adj_mat.row
         col = self.adj_mat.col
