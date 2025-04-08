@@ -3,9 +3,10 @@ import re
 
 import numpy as np
 import pandas as pd
-from myutils import *
 from rdkit import Chem
 from rdkit.Chem import AllChem
+
+from myutils import *
 
 
 def load_data(args):

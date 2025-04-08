@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.sparse as sp
 import torch
+
 from myutils import mask, to_coo_matrix, to_tensor
 
 
@@ -72,7 +73,7 @@ class RandomSampler(object):
 
 class NewSampler(object):
     def __init__(self, original_adj_mat, null_mask, target_dim, target_index):
-        super(NewSampler, self).__init__()
+        super().__init__()
         self.adj_mat = original_adj_mat
         self.null_mask = null_mask
         self.dim = target_dim
@@ -124,8 +125,8 @@ class NewSampler(object):
                 target_neg_test_index = target_neg_index
             neg_test_mask[self.target_index, target_neg_test_index] = 1
             neg_value[self.target_index, :] = 0
-        train_mask = (self.train_data.numpy() + neg_value).astype(Bool)
-        test_mask = (self.test_data.numpy() + neg_test_mask).astype(Bool)
+        train_mask = (self.train_data.numpy() + neg_value).astype(bool)
+        test_mask = (self.test_data.numpy() + neg_test_mask).astype(bool)
         train_mask = torch.from_numpy(train_mask)
         test_mask = torch.from_numpy(test_mask)
         return train_mask, test_mask
