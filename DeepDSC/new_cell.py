@@ -5,33 +5,28 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 import torch
+from load_data import load_data
+from sampler import NewSampler
 from sklearn.model_selection import KFold
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
-from DeepDSC.DeepDSC import (
-    AE,
-    DF,
-    GeneExpressionDataset,
-    calculate_morgan_fingerprints,
-    prepare_data,
-    prepare_drug_data,
-    prepare_train_val_test_data,
-    train_autoencoder,
-    train_df_model,
-)
-from load_data import load_data
-from sampler import NewSampler
+from DeepDSC.DeepDSC import (AE, DF, GeneExpressionDataset,
+                             calculate_morgan_fingerprints, prepare_data,
+                             prepare_drug_data, prepare_train_val_test_data,
+                             train_autoencoder, train_df_model)
 
 data = "nci"
-PATH = '../nci_data/'
+PATH = "../nci_data/"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 class Args:
     def __init__(self):
         self.device = device  # cuda:number or cpu
         self.data = "nci"  # Dataset{gdsc or ccle}
+
 
 args = Args()
 res, drug_feature, exprs, mut, cna, null_mask, pos_num = load_data(args)
@@ -45,6 +40,7 @@ target_dim = [
     0,  # Cell
     # 1  # Drug
 ]
+
 
 def main(PATH, train, val):
     print("Loading gene expression data...")
@@ -94,6 +90,7 @@ def main(PATH, train, val):
     print("DF model training completed.")
     return val_labels, best_val_out
 
+
 def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     sampler = NewSampler(res_mat, null_mask, target_dim, target_index, seed)
 
@@ -117,6 +114,7 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     val_labels, best_val_out = main(PATH, train, test)
     return val_labels, best_val_out
 
+
 n_kfold = 1
 true_data_s = pd.DataFrame()
 predict_data_s = pd.DataFrame()
@@ -130,9 +128,13 @@ for dim in target_dim:
                 continue
         epochs = []
         for fold in range(n_kfold):
-            val_labels, best_val_out = DeepDSC(res.values, null_mask.values, dim, target_index, seed)
+            val_labels, best_val_out = DeepDSC(
+                res.values, null_mask.values, dim, target_index, seed
+            )
 
-        true_data_s = pd.concat([true_data_s, pd.DataFrame(val_labels.cpu().numpy())], axis=1)
+        true_data_s = pd.concat(
+            [true_data_s, pd.DataFrame(val_labels.cpu().numpy())], axis=1
+        )
         predict_data_s = pd.concat(
             [predict_data_s, pd.DataFrame(best_val_out.cpu().numpy())], axis=1
         )

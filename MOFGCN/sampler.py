@@ -67,6 +67,7 @@ class Sampler(object):
         )
         return train, test
 
+
 class NewSampler(object):
     def __init__(self, original_adj_mat, null_mask, target_dim, target_index, seed):
         super().__init__()
