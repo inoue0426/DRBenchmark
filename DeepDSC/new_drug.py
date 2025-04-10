@@ -75,7 +75,7 @@ def main(PATH, train, val):
     train_data.columns = [0, 1]
     val_data = val[[0, 1]]
     val_data.columns = [0, 1]
-    
+
     print(
         f"Training data size: {len(train_data)}, Validation data size: {len(val_data)}"
     )
