@@ -5,28 +5,33 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 import torch
-from load_data import load_data
-from sampler import NewSampler
 from sklearn.model_selection import KFold
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
-from DeepDSC.DeepDSC import (AE, DF, GeneExpressionDataset,
-                             calculate_morgan_fingerprints, prepare_data,
-                             prepare_drug_data, prepare_train_val_test_data,
-                             train_autoencoder, train_df_model)
+from load_data import load_data
+from sampler import NewSampler
+from DeepDSC.DeepDSC import (
+    AE,
+    DF,
+    GeneExpressionDataset,
+    calculate_morgan_fingerprints,
+    prepare_data,
+    prepare_drug_data,
+    prepare_train_val_test_data,
+    train_autoencoder,
+    train_df_model
+)
 
 data = "gdsc2"
 PATH = "../gdsc2_data/"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
 class Args:
     def __init__(self):
         self.device = device  # cuda:number or cpu
         self.data = "gdsc2"  # Dataset{gdsc or ccle}
-
 
 args = Args()
 res, drug_feature, exprs, mut, cna, null_mask, pos_num = load_data(args)
@@ -37,13 +42,11 @@ cell_sum = np.sum(res, axis=1)
 drug_sum = np.sum(res, axis=0)
 
 target_dim = [
-    # 0,  # Cell
-    1  # Drug
+    0,  # Drug
+    # 1  # Cell
 ]
 
-
 def main(PATH, train, val):
-    print("Loading gene expression data...")
     normalized_gene_exp_tensor, gene_exp = prepare_data(
         data1=PATH + "/gene_exp_part1.csv.gz", data2=PATH + "gene_exp_part2.csv.gz"
     )
@@ -52,27 +55,24 @@ def main(PATH, train, val):
         normalized_gene_exp_dataset, batch_size=10000, shuffle=True
     )
 
-    # Train autoencoder
-    print("Training autoencoder...")
+    # オートエンコーダーのトレーニング
     autoencoder = AE(normalized_gene_exp_tensor.shape[1]).to(device)
     train_autoencoder(autoencoder, normalized_gene_exp_dataloader)
-    print("Autoencoder training completed.")
 
-    # Extract compressed features
-    print("Extracting compressed features...")
+    # 圧縮特徴の抽出
     compressed_features_tensor = autoencoder.encoder(normalized_gene_exp_tensor)
     compressed_features = pd.DataFrame(
         compressed_features_tensor.cpu().detach().numpy(), index=gene_exp.columns
     )
-    print(f"Compressed features shape: {compressed_features.shape}")
-    drug_response, nsc_sm = prepare_drug_data(is_nsc=True)
-    mfp = calculate_morgan_fingerprints(drug_response.T, nsc_sm)
+
+    # 薬物応答データの準備
+    drug_response, nsc_sm = prepare_drug_data(is_nsc=False, is_gdsc=True, is_1=False)
+    mfp = calculate_morgan_fingerprints(drug_response, nsc_sm)
     print(f"Morgan fingerprints shape: {mfp.shape}")
 
     train_labels = train[2]
     val_labels = val[2]
     train_data = train[[0, 1]]
-    train_data.columns = [0, 1]
     val_data = val[[0, 1]]
     val_data.columns = [0, 1]
 
@@ -92,7 +92,6 @@ def main(PATH, train, val):
     )
     print("DF model training completed.")
     return val_labels, best_val_out
-
 
 def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     sampler = NewSampler(res_mat, null_mask, target_dim, target_index, seed)
@@ -117,7 +116,6 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     val_labels, best_val_out = main(PATH, train, test)
     return val_labels, best_val_out
 
-
 if __name__ == "__main__":
     n_kfold = 1
     true_data_s = pd.DataFrame()
@@ -131,15 +129,13 @@ if __name__ == "__main__":
             else:
                 if cell_sum[target_index] < 10:
                     continue
-
+            epochs = []
             for fold in range(n_kfold):
                 val_labels, best_val_out = DeepDSC(
                     res.values, null_mask.T.values, dim, target_index, seed
                 )
 
-            true_data_s = pd.concat(
-                [true_data_s, pd.DataFrame(val_labels.cpu().numpy())], axis=1
-            )
+            true_data_s = pd.concat([true_data_s, pd.DataFrame(val_labels.cpu().numpy())], axis=1)
             predict_data_s = pd.concat(
                 [predict_data_s, pd.DataFrame(best_val_out.cpu().numpy())], axis=1
             )
