@@ -1,0 +1,13 @@
+  0%|          | 0/460 [00:00<?, ?it/s]/spin1/home/linux/inouey2/DRBenchmark/DeepDSC/new_cell_ctrp.py:126: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  if cell_sum[target_index] < 10:
+  0%|          | 0/460 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/spin1/home/linux/inouey2/DRBenchmark/DeepDSC/new_cell_ctrp.py", line 130, in <module>
+    val_labels, best_val_out = DeepDSC(
+  File "/spin1/home/linux/inouey2/DRBenchmark/DeepDSC/new_cell_ctrp.py", line 94, in DeepDSC
+    sampler = NewSampler(res_mat, null_mask, target_dim, target_index, seed)
+  File "/spin1/home/linux/inouey2/DRBenchmark/DeepDSC/sampler.py", line 81, in __init__
+    self.train_mask, self.test_mask = self.sample_train_test_mask()
+  File "/spin1/home/linux/inouey2/DRBenchmark/DeepDSC/sampler.py", line 109, in sample_train_test_mask
+    neg_value = neg_value - self.adj_mat - self.null_mask
+ValueError: operands could not be broadcast together with shapes (460,756) (756,460) 
