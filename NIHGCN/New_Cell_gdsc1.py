@@ -1,14 +1,16 @@
 import argparse
-import torch
+
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
+import torch
+from joblib import Parallel, delayed
 from load_data import load_data
 from model import Optimizer, nihgcn
 from myutils import *
 from sampler import NewSampler
 from sklearn.model_selection import KFold
-from joblib import Parallel, delayed
+from tqdm import tqdm
+
 
 class Args:
     def __init__(self):
@@ -20,6 +22,7 @@ class Args:
         self.alpha = 0.25  # the scale for balance gcn and ni
         self.gamma = 8  # the scale for sigmod
         self.epochs = 1000  # the epochs for model
+
 
 args = Args()
 
@@ -33,7 +36,18 @@ target_dim = [
     # 1  # Drug
 ]
 
-def nihgcn_new(cell_exprs, drug_finger, res_mat, null_mask, target_dim, target_index, evaluate_fun, args, seed):
+
+def nihgcn_new(
+    cell_exprs,
+    drug_finger,
+    res_mat,
+    null_mask,
+    target_dim,
+    target_index,
+    evaluate_fun,
+    args,
+    seed,
+):
     sampler = NewSampler(res_mat, null_mask, target_dim, target_index, seed)
 
     val_labels = sampler.test_data[sampler.test_mask]
@@ -66,8 +80,10 @@ def nihgcn_new(cell_exprs, drug_finger, res_mat, null_mask, target_dim, target_i
     true_data, predict_data = opt()
     return true_data, predict_data
 
+
 n_kfold = 1
 n_jobs = 50  # Number of parallel jobs
+
 
 def process_iteration(dim, target_index, seed, args):
     """Function to encapsulate each iteration"""
@@ -95,6 +111,7 @@ def process_iteration(dim, target_index, seed, args):
 
     return fold_results
 
+
 # Execute parallel processing
 true_data_s = pd.DataFrame()
 predict_data_s = pd.DataFrame()
@@ -108,7 +125,8 @@ for dim in target_dim:
 
     # Execute in parallel with progress bar
     results = Parallel(n_jobs=n_jobs, verbose=0, prefer="threads")(
-        delayed(process_iteration)(*task) for task in tqdm(tasks, desc=f"Processing dim {dim}")
+        delayed(process_iteration)(*task)
+        for task in tqdm(tasks, desc=f"Processing dim {dim}")
     )
 
     # Combine results
@@ -119,12 +137,12 @@ for dim in target_dim:
             true_data_s = pd.concat(
                 [true_data_s, translate_result(true_data)],
                 ignore_index=True,
-                copy=False  # Save memory
+                copy=False,  # Save memory
             )
             predict_data_s = pd.concat(
                 [predict_data_s, translate_result(predict_data)],
                 ignore_index=True,
-                copy=False
+                copy=False,
             )
 
 # Save results

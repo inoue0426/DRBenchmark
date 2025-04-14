@@ -1,15 +1,15 @@
 import argparse
+
 import numpy as np
 import pandas as pd
 import torch
 from joblib import Parallel, delayed
-from sklearn.model_selection import KFold
-from tqdm import tqdm
-
 from load_data import load_data
 from model import Optimizer, nihgcn
 from myutils import *
 from sampler import NewSampler
+from sklearn.model_selection import KFold
+from tqdm import tqdm
 
 
 class Args:
@@ -78,6 +78,7 @@ def nihgcn_new(
 n_kfold = 1
 n_jobs = 50  # Number of parallel jobs
 
+
 def process_iteration(dim, target_index, seed, args):
     """Function to encapsulate each iteration"""
     if dim:
@@ -118,7 +119,8 @@ def main():
 
         # Execute in parallel with progress bar
         results = Parallel(n_jobs=n_jobs, verbose=0, prefer="threads")(
-            delayed(process_iteration)(*task) for task in tqdm(tasks, desc=f"Processing dim {dim}")
+            delayed(process_iteration)(*task)
+            for task in tqdm(tasks, desc=f"Processing dim {dim}")
         )
 
         # Combine results
@@ -129,12 +131,12 @@ def main():
                 true_data_s = pd.concat(
                     [true_data_s, translate_result(true_data)],
                     ignore_index=True,
-                    copy=False  # Save memory
+                    copy=False,  # Save memory
                 )
                 predict_data_s = pd.concat(
                     [predict_data_s, translate_result(predict_data)],
                     ignore_index=True,
-                    copy=False
+                    copy=False,
                 )
 
     # Save results

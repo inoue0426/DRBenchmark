@@ -21,6 +21,7 @@ PATH = "../gdsc2_data/"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 class Args:
     def __init__(self):
         self.device = device  # cuda:number or cpu
@@ -67,12 +68,11 @@ def main(PATH, train, val):
     mfp = calculate_morgan_fingerprints(drug_response, nsc_sm)
     print(f"Morgan fingerprints shape: {mfp.shape}")
 
-
     train_labels = train[2]
     val_labels = val[2]
     train_data = train[[0, 1]]
     val_data = val[[0, 1]]
-    
+
     print(
         f"Training data size: {len(train_data)}, Validation data size: {len(val_data)}"
     )
@@ -93,7 +93,7 @@ def main(PATH, train, val):
 
 def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     sampler = NewSampler(res_mat, null_mask, target_dim, target_index, seed)
-    
+
     train_data = pd.DataFrame(sampler.train_data, index=res.index, columns=res.columns)
     test_data = pd.DataFrame(sampler.test_data, index=res.index, columns=res.columns)
 
@@ -106,12 +106,12 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     test = pd.DataFrame(test_mask.values.nonzero()).T
     test[2] = test_data.values[test_mask.values.nonzero()].astype(int)
 
-    val_labels = test[2] 
+    val_labels = test[2]
 
     if len(np.unique(val_labels)) < 2:
         print(f"Target {target_index} skipped: Validation set has only one class.")
-        return None, None 
-    
+        return None, None
+
     train[0] = [cells[i] for i in train[0]]
     train[1] = [drugs[i] for i in train[1]]
     test[0] = [cells[i] for i in test[0]]

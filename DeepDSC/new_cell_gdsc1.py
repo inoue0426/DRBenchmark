@@ -5,33 +5,28 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 import torch
+from load_data import load_data
+from sampler import NewSampler
 from sklearn.model_selection import KFold
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
-from load_data import load_data
-from sampler import NewSampler
-from DeepDSC.DeepDSC import (
-    AE,
-    DF,
-    GeneExpressionDataset,
-    calculate_morgan_fingerprints,
-    prepare_data,
-    prepare_drug_data,
-    prepare_train_val_test_data,
-    train_autoencoder,
-    train_df_model
-)
+from DeepDSC.DeepDSC import (AE, DF, GeneExpressionDataset,
+                             calculate_morgan_fingerprints, prepare_data,
+                             prepare_drug_data, prepare_train_val_test_data,
+                             train_autoencoder, train_df_model)
 
 data = "gdsc1"
 PATH = "../gdsc1_data/"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 class Args:
     def __init__(self):
         self.device = device  # cuda:number or cpu
         self.data = "gdsc1"  # Dataset{gdsc or ccle}
+
 
 args = Args()
 res, drug_feature, exprs, mut, cna, null_mask, pos_num = load_data(args)
@@ -45,6 +40,7 @@ target_dim = [
     # 0,  # Drug
     1  # Cell
 ]
+
 
 def main(PATH, train, val):
     normalized_gene_exp_tensor, gene_exp = prepare_data(
@@ -93,9 +89,10 @@ def main(PATH, train, val):
     print("DF model training completed.")
     return val_labels, best_val_out
 
+
 def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     sampler = NewSampler(res_mat, null_mask, target_dim, target_index, seed)
-    
+
     train_data = pd.DataFrame(sampler.train_data, index=res.index, columns=res.columns)
     test_data = pd.DataFrame(sampler.test_data, index=res.index, columns=res.columns)
 
@@ -108,12 +105,12 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     test = pd.DataFrame(test_mask.values.nonzero()).T
     test[2] = test_data.values[test_mask.values.nonzero()].astype(int)
 
-    val_labels = test[2] 
+    val_labels = test[2]
 
     if len(np.unique(val_labels)) < 2:
         print(f"Target {target_index} skipped: Validation set has only one class.")
-        return None, None 
-    
+        return None, None
+
     train[0] = [cells[i] for i in train[0]]
     train[1] = [drugs[i] for i in train[1]]
     test[0] = [cells[i] for i in test[0]]
@@ -121,6 +118,7 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
 
     val_labels, best_val_out = main(PATH, train, test)
     return val_labels, best_val_out
+
 
 if __name__ == "__main__":
     n_kfold = 1
@@ -137,9 +135,11 @@ if __name__ == "__main__":
             val_labels, best_val_out = DeepDSC(
                 res.values, null_mask.T.values, dim, target_index, seed
             )
-    
+
             if val_labels is not None:
-                true_datas = pd.concat([true_datas, pd.DataFrame(val_labels.cpu().numpy())], axis=1)
+                true_datas = pd.concat(
+                    [true_datas, pd.DataFrame(val_labels.cpu().numpy())], axis=1
+                )
                 predict_datas = pd.concat(
                     [predict_datas, pd.DataFrame(best_val_out.cpu().numpy())], axis=1
                 )
