@@ -118,30 +118,44 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     val_labels, best_val_out = main(PATH, train, test)
     return val_labels, best_val_out
 
-
 if __name__ == "__main__":
+    from joblib import Parallel, delayed
+
     n_kfold = 1
+
+    def process_target(dim, target_index, seed):
+        if dim:
+            if drug_sum[target_index] < 10:
+                return None
+        else:
+            if cell_sum[target_index] < 10:
+                return None
+
+        val_labels, best_val_out = DeepDSC(
+            res.values, null_mask.T.values, dim, target_index, seed
+        )
+
+        if val_labels is not None:
+            return (val_labels.cpu().numpy(), best_val_out.cpu().numpy())
+        return None
+
+    results = []
+    for dim in target_dim:
+        results.extend(
+            Parallel(n_jobs=10)(
+                delayed(process_target)(dim, target_index, seed)
+                for seed, target_index in enumerate(tqdm(np.arange(res.shape[dim])))
+            )
+        )
+
     true_datas = pd.DataFrame()
     predict_datas = pd.DataFrame()
-    for dim in target_dim:
-        for seed, target_index in enumerate(tqdm(np.arange(res.shape[dim]))):
-            if dim:
-                if drug_sum[target_index] < 10:
-                    continue
-            else:
-                if cell_sum[target_index] < 10:
-                    continue
-            val_labels, best_val_out = DeepDSC(
-                res.values, null_mask.T.values, dim, target_index, seed
-            )
 
-            if val_labels is not None:
-                true_datas = pd.concat(
-                    [true_datas, pd.DataFrame(val_labels.cpu().numpy())], axis=1
-                )
-                predict_datas = pd.concat(
-                    [predict_datas, pd.DataFrame(best_val_out.cpu().numpy())], axis=1
-                )
+    for result in results:
+        if result is not None:
+            val_labels, best_val_out = result
+            true_datas = pd.concat([true_datas, pd.DataFrame(val_labels)], axis=1)
+            predict_datas = pd.concat([predict_datas, pd.DataFrame(best_val_out)], axis=1)
 
     true_datas.to_csv(f"new_cell_true_{args.data}.csv")
     predict_datas.to_csv(f"new_cell_pred_{args.data}.csv")
