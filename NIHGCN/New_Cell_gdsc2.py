@@ -103,7 +103,7 @@ def process_iteration(dim, target_index, seed, args):
 
 def main():
     n_kfold = 1
-    n_jobs = 50  # 並列数
+    n_jobs = 2  # 並列数
 
     true_data_s = pd.DataFrame()
     predict_data_s = pd.DataFrame()
