@@ -82,7 +82,7 @@ def nihgcn_new(
 
 
 n_kfold = 1
-n_jobs = 2  # Number of parallel jobs
+n_jobs = 5  # Number of parallel jobs
 
 
 def process_iteration(dim, target_index, seed, args):

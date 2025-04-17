@@ -103,7 +103,7 @@ def process_iteration(dim, target_index, seed, args):
 
 def main():
     n_kfold = 1
-    n_jobs = 2  # 並列数
+    n_jobs = 5  # 並列数
 
     true_data_s = pd.DataFrame()
     predict_data_s = pd.DataFrame()
@@ -142,5 +142,3 @@ def main():
     predict_data_s.to_csv(f"new_cell_pred_{args.data}.csv")
 
 
-if __name__ == "__main__":
-    main()

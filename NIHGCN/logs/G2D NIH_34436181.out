@@ -1,0 +1,55 @@
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+load gdsc2
+Processing dim 0:   0%|          | 0/910 [00:00<?, ?it/s]joblib.externals.loky.process_executor._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/_utils.py", line 72, in __call__
+    return self.func(**kwargs)
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 598, in __call__
+    return [func(*args, **kwargs)
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 598, in <listcomp>
+    return [func(*args, **kwargs)
+  File "/users/4/inoue019/DRBenchmark/NIHGCN/New_Cell_gdsc2.py", line 87, in process_iteration
+    for fold in range(n_kfold):
+NameError: name 'n_kfold' is not defined
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/users/4/inoue019/DRBenchmark/NIHGCN/New_Cell_gdsc2.py", line 146, in <module>
+    main()
+  File "/users/4/inoue019/DRBenchmark/NIHGCN/New_Cell_gdsc2.py", line 119, in main
+    results = Parallel(n_jobs=n_jobs, verbose=0, prefer="threads")(
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 2007, in __call__
+    return output if self.return_generator else list(output)
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 1650, in _get_outputs
+    yield from self._retrieve()
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 1754, in _retrieve
+    self._raise_error_fast()
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 1789, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 745, in get_result
+    return self._return_or_raise()
+  File "/scratch.global/inoue019/conda-envs/myenv/lib/python3.10/site-packages/joblib/parallel.py", line 763, in _return_or_raise
+    raise self._result
+NameError: name 'n_kfold' is not defined
+Processing dim 0:  11%|█         | 99/910 [00:00<00:02, 395.34it/s]

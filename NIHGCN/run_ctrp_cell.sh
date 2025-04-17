@@ -1,15 +1,16 @@
 #!/bin/bash
 
-#SBATCH --mem=50gb
-#SBATCH --requeue
 #SBATCH --job-name='CtrC NIH'
-#SBATCH --partition gpu
+#SBATCH --mem=64G
+#SBATCH --partition=a100-4 
 #SBATCH --gres=gpu:a100:1
-#SBATCH --nodes=1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=inoue019@umn.edu
-#SBATCH --time=10-00:00:00
+#SBATCH --time=24:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --output=logs/%x_%j.out
 
-source /data/$USER/conda/etc/profile.d/conda.sh && source /data/$USER/conda/etc/profile.d/mamba.sh
+module load conda
+conda activate /scratch.global/$USER/myenvfile.d/mamba.sh
 conda activate genex
 python New_Cell_ctrp.py
