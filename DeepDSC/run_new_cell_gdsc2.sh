@@ -2,7 +2,7 @@
 
 #SBATCH --mem=50gb
 #SBATCH --requeue
-#SBATCH --job-name='C DeepDSC'
+#SBATCH --job-name='G2C DeepDSC'
 #SBATCH --partition gpu
 #SBATCH --gres=gpu:a100:1
 #SBATCH --nodes=1

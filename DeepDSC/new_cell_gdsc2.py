@@ -135,7 +135,7 @@ for dim in target_dim:
         epochs = []
         for fold in range(n_kfold):
             val_labels, best_val_out = DeepDSC(
-                res.values, null_mask.values, dim, target_index, seed
+                res.values, null_mask.T.values, dim, target_index, seed
             )
 
         true_data_s = pd.concat(

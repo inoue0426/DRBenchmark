@@ -62,7 +62,7 @@ def main(PATH, train, val):
     )
 
     # 薬物応答データの準備
-    drug_response, nsc_sm = prepare_drug_data(is_nsc=False, is_gdsc=True, is_1=False)
+    drug_response, nsc_sm = prepare_drug_data(is_nsc=False, is_gdsc=True, is_1=True)
     mfp = calculate_morgan_fingerprints(drug_response, nsc_sm)
     print(f"Morgan fingerprints shape: {mfp.shape}")
 
@@ -70,7 +70,6 @@ def main(PATH, train, val):
     val_labels = val[2]
     train_data = train[[0, 1]]
     val_data = val[[0, 1]]
-    val_data.columns = [0, 1]
 
     print(
         f"Training data size: {len(train_data)}, Validation data size: {len(val_data)}"
@@ -144,5 +143,5 @@ if __name__ == "__main__":
                     [predict_datas, pd.DataFrame(best_val_out.cpu().numpy())], axis=1
                 )
 
-    true_data_s.to_csv(f"new_cell_true_{args.data}.csv")
-    predict_data_s.to_csv(f"new_cell_pred_{args.data}.csv")
+    true_datas.to_csv(f"new_cell_true_{args.data}.csv")
+    predict_datas.to_csv(f"new_cell_pred_{args.data}.csv")

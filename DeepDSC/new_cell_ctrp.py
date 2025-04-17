@@ -113,7 +113,6 @@ def DeepDSC(res_mat, null_mask, target_dim, target_index, seed):
     val_labels, best_val_out = main(PATH, train, test)
     return val_labels, best_val_out
 
-
 n_kfold = 1
 true_data_s = pd.DataFrame()
 predict_data_s = pd.DataFrame()
