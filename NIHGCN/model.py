@@ -8,19 +8,20 @@ from myutils import *
 class ConstructAdjMatrix(nn.Module, ABC):
     def __init__(self, original_adj_mat, device="cpu"):
         super(ConstructAdjMatrix, self).__init__()
-        self.adj = original_adj_mat.float().to(device)
+        self.adj = original_adj_mat.float()
         self.device = device
 
     def forward(self):
-        d_x = torch.diag(torch.pow(torch.sum(self.adj, dim=1) + 1, -0.5))
-        d_y = torch.diag(torch.pow(torch.sum(self.adj, dim=0) + 1, -0.5))
+        adj = self.adj.to(self.device) 
+        d_x = torch.diag(torch.pow(torch.sum(adj, dim=1) + 1, -0.5))
+        d_y = torch.diag(torch.pow(torch.sum(adj, dim=0) + 1, -0.5))
 
-        agg_cell_lp = torch.mm(torch.mm(d_x, self.adj), d_y)
-        agg_drug_lp = torch.mm(torch.mm(d_y, self.adj.T), d_x)
+        agg_cell_lp = torch.mm(torch.mm(d_x, adj), d_y)
+        agg_drug_lp = torch.mm(torch.mm(d_y, adj.T), d_x)
 
-        d_c = torch.pow(torch.sum(self.adj, dim=1) + 1, -1)
+        d_c = torch.pow(torch.sum(adj, dim=1) + 1, -1)
         self_cell_lp = torch.diag(torch.add(d_c, 1))
-        d_d = torch.pow(torch.sum(self.adj, dim=0) + 1, -1)
+        d_d = torch.pow(torch.sum(adj, dim=0) + 1, -1)
         self_drug_lp = torch.diag(torch.add(d_d, 1))
         return agg_cell_lp, agg_drug_lp, self_cell_lp, self_drug_lp
 
@@ -68,8 +69,8 @@ class GEncoder(nn.Module, ABC):
         self.lm_drug = nn.Linear(layer_size[0], layer_size[1], bias=True)
 
     def forward(self):
-        cell_fc = self.lc(self.fc_cell(self.cell_feat))
-        drug_fc = self.ld(self.fc_drug(self.drug_feat))
+        cell_fc = self.lc(self.fc_cell(self.cell_feat.detach()))
+        drug_fc = self.ld(self.fc_drug(self.drug_feat.detach()))
 
         cell_gcn = torch.mm(self.self_c_lp, cell_fc) + torch.mm(self.agg_c_lp, drug_fc)
         drug_gcn = torch.mm(self.self_d_lp, drug_fc) + torch.mm(self.agg_d_lp, cell_fc)
@@ -94,6 +95,10 @@ class GDecoder(nn.Module, ABC):
     def forward(self, cell_emb, drug_emb):
         Corr = torch_corr_x_y(cell_emb, drug_emb)
         output = scale_sigmoid(Corr, alpha=self.gamma)
+
+        del Corr
+        torch.cuda.empty_cache()
+        
         return output
 
 
@@ -122,6 +127,10 @@ class nihgcn(nn.Module, ABC):
     def forward(self):
         cell_emb, drug_emb = self.encoder()
         output = self.decoder(cell_emb, drug_emb)
+
+        del cell_emb, drug_emb
+        torch.cuda.empty_cache()
+        
         return output
 
 
@@ -177,4 +186,4 @@ class Optimizer(nn.Module, ABC):
                     "auc:%.4f" % auc,
                 )
         print("Fit finished.")
-        return true_data, best_predict
+        return true_data.cpu(), best_predict.cpu()
