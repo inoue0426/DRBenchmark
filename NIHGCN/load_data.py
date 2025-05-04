@@ -20,7 +20,7 @@ def load_data(args):
         return _load_data(PATH)
     elif args.data == "ctrp":
         PATH = "ctrp_data/"
-        return _load_data(PATH, is_ctrp=True)
+        return _load_data(PATH)
     elif args.data == "nci":
         print("load nci")
         PATH = "nci_data/"
@@ -35,45 +35,42 @@ def _get_base_data(PATH):
     drugAct = pd.read_csv(PATH + "drugAct.csv", index_col=0)
 
     # Load and concatenate gene expression data
-    exprs = pd.concat(
-        [
-            pd.read_csv(PATH + "gene_exp_part1.csv.gz", index_col=0),
-            pd.read_csv(PATH + "gene_exp_part2.csv.gz", index_col=0),
-        ]
-    ).T.dropna()
+    gene_exp_files = sorted(
+        glob.glob(PATH + "gene_exp_part*.csv.gz")
+    )
+    exprs = pd.concat([
+        pd.read_csv(f, index_col=0).T for f in gene_exp_files
+    ], axis=1)
+
+    # Fill missing values with 0
+    exprs = exprs.fillna(0)
 
     return drugAct, exprs
 
 
-def _load_data(PATH, is_ctrp=False):
+def _load_data(PATH):
     data_dir = dir_path(k=1) + PATH
     # 加载细胞系-药物矩阵
 
     drugAct, exprs = _get_base_data(data_dir)
-    cells = sorted(
-        set(drugAct.columns)
-        & set(exprs.index)
-        & set(pd.read_csv(data_dir + "mut.csv", index_col=0).T.index)
-    )
-
     SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
-    exprs = exprs.loc[cells]
-    drugAct = drugAct.loc[sorted(SMILES.drugs), cells]
-    exprs = np.array(exprs, dtype=np.float32)
 
-    if is_ctrp:
-        drugAct = drugAct.apply(lambda x: (x - np.nanmean(x)) / np.nanstd(x))
+    cells = sorted(set(drugAct.columns) & set(exprs.index))
+    drugs = sorted(set(drugAct.index) & set(SMILES['Drug']))
+    exprs = exprs.loc[cells]
+    SMILES = SMILES[SMILES['Drug'].isin(drugs)]
+    drugAct = drugAct.loc[sorted(drugs), cells]
 
     # Convert drug activity to binary response matrix
-    res = (drugAct > 0).astype(int)
-    res = np.array(res, dtype=np.float32).T
+    # res = np.array(drugAct, dtype=np.float32).T
+    res = drugAct
 
     pos_num = sp.coo_matrix(res).data.shape[0]
 
     # 加载药物-指纹特征矩阵
     drug_feature = pd.read_csv(
         data_dir + "nih_drug_feature.csv", index_col=0, header=0
-    ).loc[sorted(SMILES.drugs)]
+    ).loc[sorted(SMILES['Drug'])]
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     null_mask = (drugAct.isna()).astype(int).T
@@ -86,50 +83,27 @@ def _load_nci(PATH):
     # 加载细胞系-药物矩阵
 
     drugAct, exprs = _get_base_data(data_dir)
-    drugAct.columns = exprs.index
-    cells = sorted(
-        set(drugAct.columns)
-        & set(exprs.index)
-        & set(pd.read_csv(data_dir + "mut.csv", index_col=0).T.index)
-    )
+    mut = pd.read_csv(data_dir + "mut.csv", index_col=0).T
+    cells = sorted(set(drugAct.columns) & set(exprs.index) & set(mut.index))
 
-    # Load mechanism of action (moa) data
-    moa = pd.read_csv("../data/nsc_cid_smiles_class_name.csv", index_col=0)
-
-    # Filter drugs that have SMILES information
-    drugAct = drugAct[drugAct.index.isin(moa.NSC)]
-
-    # Load drug synonyms and filter based on availability in other datasets
-    tmp = pd.read_csv("../data/drugSynonym.csv")
-    tmp = tmp[
-        (~tmp.nci60.isna() & ~tmp.ctrp.isna())
-        | (~tmp.nci60.isna() & ~tmp.gdsc1.isna())
-        | (~tmp.nci60.isna() & ~tmp.gdsc2.isna())
-    ]
-    tmp = [int(i) for i in set(tmp["nci60"].str.split("|").explode())]
-
-    # Select drugs not classified as 'Other' in MOA and included in other datasets
-    drugAct = drugAct.loc[
-        sorted(
-            set(drugAct.index)
-            & (set(moa[moa["MECHANISM"] != "Other"]["NSC"]) | set(tmp))
-        )
-    ]
-
-    # SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
+    # Filter and align data
     exprs = exprs.loc[cells]
-    drugAct = drugAct.loc[:, cells]
     exprs = np.array(exprs, dtype=np.float32)
 
-    # Convert drug activity to binary response matrix
-    res = (drugAct > 0).astype(int)
-    res = np.array(res, dtype=np.float32).T
-
-    pos_num = sp.coo_matrix(res).data.shape[0]
+    drugAct = drugAct.loc[:, cells]
 
     # 加载药物-指纹特征矩阵
     drug_feature = pd.read_csv(data_dir + "nih_drug_feature.csv", index_col=0, header=0)
+
+    drugs = sorted(set(drugAct.index) & set(drug_feature.index))
+
+    drug_feature = drug_feature.loc[drugs]
     drug_feature = np.array(drug_feature, dtype=np.float32)
+
+    # Convert drug activity to binary response matrix
+    res = drugAct.loc[drugs]
+    # res = np.array(res, dtype=np.float32).T
+    pos_num = sp.coo_matrix(res).data.shape[0]
 
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
