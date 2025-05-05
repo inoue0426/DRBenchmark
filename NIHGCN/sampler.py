@@ -4,6 +4,35 @@ import torch
 from myutils import mask, to_coo_matrix, to_tensor
 
 
+class BalancedSampler(object):
+    def __init__(self, edge_train, label_train, edge_test, label_test, adj_shape):
+        """
+        edge_train/test: np.ndarray of shape (N, 2)
+        label_train/test: np.ndarray of shape (N,), values 0 or 1
+        adj_shape: tuple, (num_rows, num_cols)
+        """
+        self.adj_shape = adj_shape
+
+        # 分割されたデータからcoo_matrixを作成
+        self.train_pos = self.edge_list_to_coo(edge_train[label_train == 1])
+        self.train_neg = self.edge_list_to_coo(edge_train[label_train == 0])
+        self.test_pos = self.edge_list_to_coo(edge_test[label_test == 1])
+        self.test_neg = self.edge_list_to_coo(edge_test[label_test == 0])
+
+        # トレーニング・テスト用マスクを作成
+        self.train_mask = mask(self.train_pos, self.train_neg, dtype=int)
+        self.test_mask = mask(self.test_pos, self.test_neg, dtype=bool)
+
+        # モデル用入力（正例だけ）
+        self.train_data = to_tensor(self.train_pos)
+        self.test_data = to_tensor(self.test_pos)
+
+    def edge_list_to_coo(self, edge_list):
+        data = np.ones(edge_list.shape[0])
+        return sp.coo_matrix((data, (edge_list[:, 0], edge_list[:, 1])), shape=self.adj_shape)
+
+
+
 class RandomSampler(object):
     # 元の辺をサンプリング
     # サンプリング後にテストセットと訓練セットを生成

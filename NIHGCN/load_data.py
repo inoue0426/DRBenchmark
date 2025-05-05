@@ -58,14 +58,12 @@ def _load_data(PATH):
     cells = sorted(set(drugAct.columns) & set(exprs.index))
     drugs = sorted(set(drugAct.index) & set(SMILES['Drug']))
     exprs = exprs.loc[cells]
+    exprs = np.array(exprs, dtype=np.float32)
     SMILES = SMILES[SMILES['Drug'].isin(drugs)]
     drugAct = drugAct.loc[sorted(drugs), cells]
 
     # Convert drug activity to binary response matrix
-    # res = np.array(drugAct, dtype=np.float32).T
-    res = drugAct
-
-    pos_num = sp.coo_matrix(res).data.shape[0]
+    res = np.array(drugAct, dtype=np.float32).T
 
     # 加载药物-指纹特征矩阵
     drug_feature = pd.read_csv(
@@ -75,7 +73,7 @@ def _load_data(PATH):
 
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
-    return res, drug_feature, exprs, null_mask, pos_num
+    return res, drug_feature, exprs, null_mask
 
 
 def _load_nci(PATH):
@@ -101,10 +99,10 @@ def _load_nci(PATH):
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
     # Convert drug activity to binary response matrix
-    res = drugAct.loc[drugs]
-    # res = np.array(res, dtype=np.float32).T
-    pos_num = sp.coo_matrix(res).data.shape[0]
+    drugAct = drugAct.loc[drugs]
+    res = drugAct
+    res = np.array(res, dtype=np.float32).T
 
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
-    return res, drug_feature, exprs, null_mask, pos_num
+    return res, drug_feature, exprs, null_mask

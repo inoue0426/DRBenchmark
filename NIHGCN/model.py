@@ -12,7 +12,7 @@ class ConstructAdjMatrix(nn.Module, ABC):
         self.device = device
 
     def forward(self):
-        adj = self.adj.to(self.device) 
+        adj = self.adj.to(self.device)
         d_x = torch.diag(torch.pow(torch.sum(adj, dim=1) + 1, -0.5))
         d_y = torch.diag(torch.pow(torch.sum(adj, dim=0) + 1, -0.5))
 
@@ -98,7 +98,7 @@ class GDecoder(nn.Module, ABC):
 
         del Corr
         torch.cuda.empty_cache()
-        
+
         return output
 
 
@@ -130,7 +130,7 @@ class nihgcn(nn.Module, ABC):
 
         del cell_emb, drug_emb
         torch.cuda.empty_cache()
-        
+
         return output
 
 
