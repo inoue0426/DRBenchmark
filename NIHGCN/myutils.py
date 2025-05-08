@@ -165,6 +165,10 @@ def cross_entropy_loss(
     masked = masked.to(torch.bool)
     true_data = torch.masked_select(true_data, masked)
     predict_data = torch.masked_select(predict_data, masked)
+
+    true_data = true_data.to(dtype=torch.float32)
+    predict_data = predict_data.to(dtype=torch.float32)
+
     loss_fun = nn.BCELoss()
     loss = loss_fun(predict_data, true_data)
     return loss
