@@ -27,16 +27,27 @@ class ConstructAdjMatrix(nn.Module, ABC):
 
 
 class LoadFeature(nn.Module, ABC):
+    """
+    LoadFeature class is used to load the feature of the cell and drug.
+    This class ensures arrays are writable for parallel processing by copying if needed.
+    """
     def __init__(self, cell_exprs, drug_finger, device="cpu"):
-        super(LoadFeature, self).__init__()
-        cell_exprs = torch.from_numpy(cell_exprs).to(device)
-        self.cell_feat = torch_z_normalized(cell_exprs, dim=1).float().to(device)
-        self.drug_feat = torch.from_numpy(drug_finger).float().to(device)
+        super().__init__()
+        self.device = device
+        self.cell_feat = self._prepare_feature(cell_exprs, normalize=True)
+        self.drug_feat = self._prepare_feature(drug_finger)
+
+    def _prepare_feature(self, array, normalize=False):
+        array = np.asarray(array, dtype=np.float32, order="C")
+        if not array.flags.writeable:
+            array = array.copy()
+        tensor = torch.from_numpy(array).to(self.device)
+        if normalize:
+            tensor = torch_z_normalized(tensor, dim=1)
+        return tensor.float()
 
     def forward(self):
-        cell_feat = self.cell_feat
-        drug_feat = self.drug_feat
-        return cell_feat, drug_feat
+        return self.cell_feat, self.drug_feat
 
 
 class GEncoder(nn.Module, ABC):
