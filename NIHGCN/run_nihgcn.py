@@ -32,10 +32,6 @@ def run_single_model(cell_exprs, drug_finger, res, null_mask, target_dim, target
     sampler = NewSampler(res.values, null_mask, target_dim, target_index)
     val_labels = sampler.test_data[sampler.test_mask]
 
-    if len(np.unique(val_labels)) < 2:
-        print(f"Target {target_index} skipped: Validation set has only one class.")
-        return None
-
     model = nihgcn(
         adj_mat=sampler.train_data,
         cell_exprs=cell_exprs,
@@ -62,11 +58,6 @@ def run_single_model(cell_exprs, drug_finger, res, null_mask, target_dim, target
 
 
 def process_iteration(i, target_dim, args, res, exprs, drug_finger, null_mask, cell_sum, drug_sum):
-    if target_dim == 0 and cell_sum.iloc[i] < 10:
-        return None
-    if target_dim == 1 and drug_sum.iloc[i] < 10:
-        return None
-
     return run_single_model(
         cell_exprs=exprs,
         drug_finger=drug_finger,
@@ -108,12 +99,41 @@ def main():
     cell_sum = np.sum(res, axis=1)
     drug_sum = np.sum(res, axis=0)
 
+    # フィルタ処理
+    passed_targets = []
+    skipped_targets = []
+
+    for target_index in range(samples):
+        label_vec = res.iloc[target_index] if target_dim == 0 else res.iloc[:, target_index]
+        passed, reason, pos, neg, total = filter_target(label_vec)
+
+        if passed:
+            passed_targets.append(target_index)
+        else:
+            skipped_targets.append((target_index, reason, pos, neg, total))
+
+    # スキップ対象を表示
+    print(f"\n🚫 Skipped Targets: {len(skipped_targets)}")
+    for idx, reason, pos, neg, total in skipped_targets:
+        print(f"Target {idx}: skipped because {reason} (total={total}, pos={pos}, neg={neg})")
+
+    # モデル実行
     results = Parallel(n_jobs=args.n_jobs)(
         delayed(process_iteration)(i, target_dim, args, res, exprs, drug_finger, null_mask, cell_sum, drug_sum)
-        for i in tqdm(range(samples), desc=f"NIHGCN ({cli_args.data} - {cli_args.target})")
+        for i in tqdm(passed_targets, desc=f"NIHGCN ({cli_args.data} - {cli_args.target})")
     )
 
-    save_results(results, f"true_{cli_args.data}_{cli_args.target}.csv", f"pred_{cli_args.data}_{cli_args.target}.csv")
+    # 結果の保存
+    true_datas = pd.DataFrame()
+    predict_datas = pd.DataFrame()
+    for r in results:
+        if r is not None:
+            true_vec, pred_vec = r
+            true_datas = pd.concat([true_datas, pd.DataFrame([true_vec])], ignore_index=True)
+            predict_datas = pd.concat([predict_datas, pd.DataFrame([pred_vec])], ignore_index=True)
+
+    true_datas.to_csv(f"true_{cli_args.data}_{cli_args.target}.csv", index=False)
+    predict_datas.to_csv(f"pred_{cli_args.data}_{cli_args.target}.csv", index=False)
     print("Done!")
 
 
