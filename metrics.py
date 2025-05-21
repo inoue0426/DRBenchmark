@@ -10,8 +10,8 @@ from sklearn.metrics import (accuracy_score, average_precision_score,
 def get_result(true, pred, data):
     res = pd.DataFrame()
     for i in range(5):
-        true_labels = true.loc[i].dropna()
-        pred_values = pred.loc[i].dropna()
+        true_labels = true.iloc[i].dropna()
+        pred_values = pred.iloc[i].dropna()
         pred_labels = np.round(pred_values)
 
         # 主要メトリクスの計算
