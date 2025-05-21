@@ -13,20 +13,18 @@ def load_data(args):
     if args.data == "gdsc1":
         print("load gdsc1")
         PATH = "gdsc1_data/"
-        return _load_data(PATH)
     elif args.data == "gdsc2":
         print("load gdsc2")
         PATH = "gdsc2_data/"
-        return _load_data(PATH)
     elif args.data == "ctrp":
         PATH = "ctrp_data/"
-        return _load_data(PATH, is_ctrp=True)
     elif args.data == "nci":
         print("load nci")
         PATH = "nci_data/"
-        return _load_nci(PATH)
     else:
         raise NotImplementedError
+
+    return _load_common(PATH, is_nci=(args.data == "nci"))
 
 
 def _get_base_data(PATH):
@@ -35,13 +33,17 @@ def _get_base_data(PATH):
     drugAct = pd.read_csv(PATH + "drugAct.csv", index_col=0)
 
     # Load and concatenate gene expression data
-    exprs = pd.concat(
-        [
-            pd.read_csv(PATH + "gene_exp_part1.csv.gz", index_col=0),
-            pd.read_csv(PATH + "gene_exp_part2.csv.gz", index_col=0),
-        ]
-    ).T.dropna()
-    mut = pd.read_csv(PATH + "mut.csv", index_col=0).T.dropna()
+    gene_exp_files = sorted(
+        glob.glob(PATH + "gene_exp_part*.csv.gz")
+    )
+    exprs = pd.concat([
+        pd.read_csv(f, index_col=0).T for f in gene_exp_files
+    ], axis=1)
+
+    # Fill missing values with 0
+    exprs = exprs.fillna(0)
+
+    mut = pd.read_csv(PATH + "mut.csv", index_col=0).fillna(0).T
     if "nci_data/" in PATH:
         cna = pd.read_csv(PATH + "cop.csv", index_col=0).fillna(0).T
     else:
@@ -56,97 +58,62 @@ def _get_base_data(PATH):
             .T
         )
 
+
     return drugAct, exprs, mut, cna
 
-
-def _load_data(PATH, is_ctrp=False):
+def _load_common(PATH, is_nci=False):
     data_dir = dir_path(k=1) + PATH
-    # 加载细胞系-药物矩阵
-
     drugAct, exprs, mut, cna = _get_base_data(data_dir)
 
-    cells = sorted(
-        set(drugAct.columns) & set(exprs.index) & set(mut.index) & set(cna.index)
-    )
+    print(f"response matrix (res) shape: {drugAct.shape}")  # ← 追加
+    print(f"exprs shape: {exprs.shape}")  # ← 追加
+    print(f"mut shape: {mut.shape}")      # ← 追加
+    print(f"cna shape: {cna.shape}")      # ← 追加
+    
+    if is_nci:
+        mut = pd.read_csv(data_dir + "mut.csv", index_col=0).T
+        cells = sorted(set(drugAct.columns) & set(exprs.index) & set(mut.index) & set(cna.index))
+    else:
+        SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
+        cells = sorted(set(drugAct.columns) & set(exprs.index) & set(mut.index) & set(cna.index))
 
-    SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
+    print(len(cells))
+    
+    # Filter and align data
     exprs = exprs.loc[cells]
-    drugAct = drugAct.loc[sorted(SMILES.drugs), cells]
     exprs = np.array(exprs, dtype=np.float32)
     mut = mut.loc[cells]
     mut = np.array(mut, dtype=np.float32)
     cna = cna.loc[cells]
     cna = np.array(cna, dtype=np.float32)
 
-    if is_ctrp:
-        drugAct = drugAct.apply(lambda x: (x - np.nanmean(x)) / np.nanstd(x))
-
-    # Convert drug activity to binary response matrix
-    res = (drugAct > 0).astype(int)
-    res = np.array(res, dtype=np.float32).T
-
-    pos_num = sp.coo_matrix(res).data.shape[0]
+    print(f"exprs shape: {exprs.shape}")  # ← 追加
+    print(f"mut shape: {mut.shape}")      # ← 追加
+    print(f"cna shape: {cna.shape}")      # ← 追加
 
     # 加载药物-指纹特征矩阵
     drug_feature = pd.read_csv(data_dir + "nih_drug_feature.csv", index_col=0, header=0)
+
+    if is_nci:
+        drugs = sorted(set(drugAct.index) & set(drug_feature.index))
+    else:
+        drugs = sorted(set(drugAct.index) & set(SMILES['Drug']))
+        SMILES = SMILES[SMILES['Drug'].isin(drugs)]
+
+    drug_feature = drug_feature.loc[drugs]
     drug_feature = np.array(drug_feature, dtype=np.float32)
 
-    null_mask = (drugAct.isna()).astype(int).T
-    null_mask = np.array(null_mask, dtype=np.float32)
-    return res, drug_feature, exprs, mut, cna, null_mask, pos_num
-
-
-def _load_nci(PATH):
-    data_dir = dir_path(k=1) + PATH
-    # 加载细胞系-药物矩阵
-
-    drugAct, exprs, mut, cna = _get_base_data(data_dir)
-    drugAct.columns = exprs.index
-    cells = sorted(
-        set(drugAct.columns) & set(exprs.index) & set(mut.index) & set(cna.index)
-    )
-
-    # Load mechanism of action (moa) data
-    moa = pd.read_csv("../data/nsc_cid_smiles_class_name.csv", index_col=0)
-
-    # Filter drugs that have SMILES information
-    drugAct = drugAct[drugAct.index.isin(moa.NSC)]
-
-    # Load drug synonyms and filter based on availability in other datasets
-    tmp = pd.read_csv("../data/drugSynonym.csv")
-    tmp = tmp[
-        (~tmp.nci60.isna() & ~tmp.ctrp.isna())
-        | (~tmp.nci60.isna() & ~tmp.gdsc1.isna())
-        | (~tmp.nci60.isna() & ~tmp.gdsc2.isna())
-    ]
-    tmp = [int(i) for i in set(tmp["nci60"].str.split("|").explode())]
-
-    # Select drugs not classified as 'Other' in MOA and included in other datasets
-    drugAct = drugAct.loc[
-        sorted(
-            set(drugAct.index)
-            & (set(moa[moa["MECHANISM"] != "Other"]["NSC"]) | set(tmp))
-        )
-    ]
-
-    # SMILES = pd.read_csv(data_dir + "drug2smiles.csv", index_col=0)
-    exprs = exprs.loc[cells]
-    drugAct = drugAct.loc[:, cells]
-    exprs = np.array(exprs, dtype=np.float32)
-    mut = mut.loc[cells]
-    mut = np.array(mut, dtype=np.float32)
-    cna = cna.loc[cells]
-    cna = np.array(cna, dtype=np.float32)
+    print(f"drug_feature shape: {drug_feature.shape}")  # ← 追加
 
     # Convert drug activity to binary response matrix
-    res = (drugAct > 0).astype(int)
-    res = np.array(res, dtype=np.float32).T
+    drugAct = drugAct.loc[drugs, cells]
+    res = drugAct.T
 
-    pos_num = sp.coo_matrix(res).data.shape[0]
-    # 加载药物-指纹特征矩阵
-    drug_feature = pd.read_csv(data_dir + "nih_drug_feature.csv", index_col=0, header=0)
-    drug_feature = np.array(drug_feature, dtype=np.float32)
+    print(f"response matrix (res) shape: {res.shape}")  # ← 追加
 
     null_mask = (drugAct.isna()).astype(int).T
     null_mask = np.array(null_mask, dtype=np.float32)
-    return res, drug_feature, exprs, mut, cna, null_mask, pos_num
+
+    print(f"null_mask shape: {null_mask.shape}")  # ← 追加
+
+    return res, drug_feature, exprs, mut, cna, null_mask
