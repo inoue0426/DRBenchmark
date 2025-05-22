@@ -24,27 +24,11 @@ def get_result(true, pred, data):
                 true_labels, pred_labels, pos_label=0, zero_division=0
             ),
             "F1": f1_score(true_labels, pred_labels, zero_division=0),
-            "F2": fbeta_score(true_labels, pred_labels, beta=2, zero_division=0),
             # 不均衡データ向け
             "Balanced ACC": balanced_accuracy_score(true_labels, pred_labels),
-            "G-Mean": np.sqrt(
-                recall_score(true_labels, pred_labels, zero_division=0)
-                * recall_score(true_labels, pred_labels, pos_label=0, zero_division=0)
-            ),
             # 確率ベース
             "AUROC": roc_auc_score(true_labels, pred_values),
             "AUPR": average_precision_score(true_labels, pred_values),
-            "LogLoss": log_loss(true_labels, pred_values),
-            "Brier": brier_score_loss(true_labels, pred_values),
-            # 一致度指標
-            "MCC": matthews_corrcoef(true_labels, pred_labels),
-            "Kappa": cohen_kappa_score(true_labels, pred_labels),
-            # コスト考慮型
-            "Youden J": roc_auc_score(true_labels, pred_values) * 2 - 1,
-            "Cost Ratio": (
-                precision_score(true_labels, pred_labels, zero_division=0)
-                / (1 - recall_score(true_labels, pred_labels, zero_division=0))
-            ),
         }
         res = pd.concat([res, pd.DataFrame([metrics])])
 
