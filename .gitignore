@@ -8,6 +8,7 @@ __pycache__/
 hooks/
 
 slurm*
+**/logs/
 
 # Distribution / packaging
 .Python
