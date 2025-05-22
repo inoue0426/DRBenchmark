@@ -10,6 +10,30 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import roc_auc_score
 
+# --- フィルター判定用関数 ---
+def filter_target(label_vec, min_total=10, min_pos_ratio=0.02, min_neg_ratio=0.02):
+    valid_idx = ~np.isnan(label_vec)
+    label_vec = label_vec[valid_idx]
+
+    pos_count = (label_vec == 1).sum()
+    neg_count = (label_vec == 0).sum()
+    total = pos_count + neg_count
+
+    if total == 0:
+        return False, "no_valid_data", pos_count, neg_count, total
+    if total < min_total:
+        return False, "few_total_samples", pos_count, neg_count, total
+
+    pos_ratio = pos_count / total
+    if pos_ratio < min_pos_ratio:
+        return False, "low_positive_ratio", pos_count, neg_count, total
+
+    neg_ratio = neg_count / total
+    if neg_ratio < min_neg_ratio:
+        return False, "low_negative_ratio", pos_count, neg_count, total
+
+    return True, "passed", pos_count, neg_count, total
+
 
 def get_fingerprint(x):
     """
@@ -112,8 +136,8 @@ def cross_entropy_loss(
     :return: cross entropy loss
     """
     masked = masked.to(torch.bool)
-    true_data = torch.masked_select(true_data, masked)
-    predict_data = torch.masked_select(predict_data, masked)
+    true_data = torch.masked_select(true_data, masked).float()
+    predict_data = torch.masked_select(predict_data, masked).float()
     loss_fun = nn.BCELoss()
     loss = loss_fun(predict_data, true_data)
     return loss

@@ -33,68 +33,52 @@ class BalancedSampler(object):
 
 
 
-class NewSampler(object):
-    def __init__(self, original_adj_mat, null_mask, target_dim, target_index, seed):
-        super().__init__()
-        self.seed = seed
-        self.set_seed()
+class NewSampler:
+    def __init__(self, original_adj_mat, null_mask, target_dim, target_index):
         self.adj_mat = original_adj_mat
         self.null_mask = null_mask
         self.dim = target_dim
         self.target_index = target_index
-        self.train_data, self.test_data = self.sample_train_test_data()
-        self.train_mask, self.test_mask = self.sample_train_test_mask()
+        self.train_data, self.test_data = self._sample_train_test_data()
+        self.train_mask, self.test_mask = self._sample_train_test_mask()
 
-    def set_seed(self):
-        np.random.seed(self.seed)  # NumPyのシードを設定
-        torch.manual_seed(self.seed)  # PyTorchのシードを設定
+    def _get_target_indices(self, matrix, value):
+        if self.dim == 0:  # dim=0 → 行（cell）
+            return np.where(matrix[self.target_index, :] == value)[0]
+        return np.where(matrix[:, self.target_index] == value)[0]
 
-    def sample_target_test_index(self):
-        if self.dim:
-            target_pos_index = np.where(self.adj_mat[:, self.target_index] == 1)[0]
-        else:
-            target_pos_index = np.where(self.adj_mat[self.target_index, :] == 1)[0]
-        return target_pos_index
+    def _sample_target_test_index(self):
+        return self._get_target_indices(self.adj_mat, 1)
 
-    def sample_train_test_data(self):
+    def _sample_train_test_data(self):
         test_data = np.zeros(self.adj_mat.shape, dtype=np.float32)
-        test_index = self.sample_target_test_index()
-        if self.dim:
-            test_data[test_index, self.target_index] = 1
-        else:
-            test_data[self.target_index, test_index] = 1
-        train_data = self.adj_mat - test_data
-        train_data = torch.from_numpy(train_data)
-        test_data = torch.from_numpy(test_data)
-        return train_data, test_data
+        test_index = self._sample_target_test_index()
 
-    def sample_train_test_mask(self):
-        test_index = self.sample_target_test_index()
-        neg_value = np.ones(self.adj_mat.shape, dtype=np.float32)
-        neg_value = neg_value - self.adj_mat - self.null_mask
+        if self.dim == 0:  # Cell（行）をターゲット
+            test_data[self.target_index, test_index] = 1
+        else:  # Drug（列）をターゲット
+            test_data[test_index, self.target_index] = 1
+
+        train_data = self.adj_mat - test_data
+        # Null Maskを適用
+        train_data[self.null_mask == 1] = 0
+        return torch.from_numpy(train_data), torch.from_numpy(test_data)
+
+    def _sample_train_test_mask(self):
+        neg_value = np.ones(self.adj_mat.shape, dtype=np.float32) - self.adj_mat - self.null_mask
         neg_test_mask = np.zeros(self.adj_mat.shape, dtype=np.float32)
-        if self.dim:
-            target_neg_index = np.where(neg_value[:, self.target_index] == 1)[0]
-            if test_index.shape[0] < target_neg_index.shape[0]:
-                target_neg_test_index = np.random.choice(
-                    target_neg_index, test_index.shape[0], replace=False
-                )
-            else:
-                target_neg_test_index = target_neg_index
-            neg_test_mask[target_neg_test_index, self.target_index] = 1
-            neg_value[:, self.target_index] = 0
-        else:
-            target_neg_index = np.where(neg_value[self.target_index, :] == 1)[0]
-            if test_index.shape[0] < target_neg_index.shape[0]:
-                target_neg_test_index = np.random.choice(
-                    target_neg_index, test_index.shape[0], replace=False
-                )
-            else:
-                target_neg_test_index = target_neg_index
-            neg_test_mask[self.target_index, target_neg_test_index] = 1
+
+        target_neg_index = self._get_target_indices(neg_value, 1)
+
+        if self.dim == 0:  # Cell（行）をターゲット
+            neg_test_mask[self.target_index, target_neg_index] = 1
             neg_value[self.target_index, :] = 0
+        else:  # Drug（列）をターゲット
+            neg_test_mask[target_neg_index, self.target_index] = 1
+            neg_value[:, self.target_index] = 0
+
         train_mask = (self.train_data.numpy() + neg_value).astype(bool)
         test_mask = (self.test_data.numpy() + neg_test_mask).astype(bool)
-        train_mask = torch.from_numpy(train_mask)
-        test_mask = torch.from_numpy(test_mask)
-        return train_mask, test_mask
+        # Null Maskを適用
+        train_mask[self.null_mask == 1] = False
+        return torch.from_numpy(train_mask), torch.from_numpy(test_mask)
